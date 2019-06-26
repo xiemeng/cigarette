@@ -1,8 +1,5 @@
 <template>
 	<div>
-		<top></top>
-		<left></left>
-		<div class="main">
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
 					<el-breadcrumb-item>排行榜</el-breadcrumb-item>
@@ -73,7 +70,6 @@
 
 				
 			</div>
-		</div>
 	</div>
 </template>
 

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import CssClear from '@/page/toll/cssClear'
 import notFound from '@/page/default/404'
+import Layout from '@/page/components/index'
 Vue.use(Router)
 
 //用户管理
@@ -10,7 +11,6 @@ import banner from '@/page/home/banner'
 
 //设备管理
 import column from '@/page/column/column'
-import columnAdd from '@/page/column/columnAdd'
 
 //留言管理
 import message from '@/page/message/message'
@@ -25,22 +25,6 @@ import zhuanjiashenheList from '@/page/user/zhuanjiashenheList'
 import meetingList from '@/page/meeting/meetingList'
 import meetingAdd from '@/page/meeting/meetingAdd'
 
-
-//内容管理
-import contentList from '@/page/content/contentList'
-import contentAdd from '@/page/content/contentAdd'
-
-
-//组织架构
-import organList from '@/page/organ/organList'
-import organAdd from '@/page/organ/organAdd'
-
-
-//权限管理
-import roleList from '@/page/role/roleList'
-import roleAdd from '@/page/role/roleAdd'
-import numberList from '@/page/role/numberList'
-import numberAdd from '@/page/role/numberAdd'
 
 
 
@@ -86,7 +70,7 @@ export default new Router({
     {
       path: '/home/home',
       name: 'home',
-      component: home,
+      component: Layout,
       meta: {
         title: '用户管理',
         index: 0
@@ -95,177 +79,136 @@ export default new Router({
     {
       path: '/home/banner',
       name: 'banner',
-      component: banner,
+      component: Layout,
       meta: {
         title: '用户管理',
         index: 1
-      }
+      },
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/home/banner'),
+          meta: { title: 'Form', icon: 'form' }
+        }
+      ]
     },
-     // 栏目管理==============================
+     // s设备管理==============================
     
     {
       path: '/column/column',
       name: 'column',
-      component: column,
+      component: Layout,
       meta: {
         title: '栏目管理-三级栏目列表',
         index: 1
-      }
-    },
-    {
-      path: '/column/columnAdd',
-      name: 'columnAdd',
-      component: columnAdd,
-      meta: {
-        title: '三级栏目列表 - 新增/编辑',
-        index: 1
-      }
+      },
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/column/column'),
+          meta: { title: 'Form', icon: 'form' }
+        }
+      ]
     },
     
-     // 留言管理==============================
+     // 烟型管理==============================
     
     
     {
       path: '/message/message',
       name: 'message',
-      component: message,
+      component: Layout,
       meta: {
         title: '留言列表',
         index: 1
-      }
+      },
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/message/message'),
+          meta: { title: 'Form', icon: 'form' }
+        }
+      ]
     },
     
-     // 用户管理==============================
+     // 数据分析==============================
     {
       path: '/user/shenheList',
       name: 'shenheList',
-      component: shenheList,
+      component: Layout,
       meta: {
         title: '热力图',
         index: 1
-      }
+      },
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/user/shenheList'),
+          meta: { title: 'Form', icon: 'form' }
+        }
+      ]
     },
     {
       path: '/user/danweiList',
       name: 'danweiList',
-      component: danweiList,
-      meta: {
-        title: '排行榜',
-        index: 1
-      }
+      component: Layout,
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/user/danweiList')
+        }
+      ]
     },
     {
       path: '/user/zhuanjiashenheList',
       name: 'zhuanjiashenheList',
-      component: zhuanjiashenheList,
-      meta: {
-        title: '时间表',
-        index: 1
-      }
+      component: Layout,
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/user/zhuanjiashenheList')
+        }
+      ]
     },
     
-     // 会议管理==============================
+     // ==============================
     {
       path: '/meeting/meetingList',
       name: 'meetingList',
-      component: meetingList,
+      component: Layout,
       meta: {
-        title: '会议列表',
+        title: '内容管理',
         index: 1
-      }
+      },
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/meeting/meetingList')
+        }
+      ]
     },
     {
       path: '/meeting/meetingAdd',
       name: 'meetingAdd',
-      component: meetingAdd,
+      component: Layout,
       meta: {
         title: '角色管理',
         index: 1
-      }
-    },
-    
-     // 内容管理==============================
-     {
-      path: '/content/contentList',
-      name: 'contentList',
-      component: contentList,
-      meta: {
-        title: '内容列表',
-        index: 1
-      }
-    },
-    {
-      path: '/content/contentAdd',
-      name: 'contentAdd',
-      component: contentAdd,
-      meta: {
-        title: '新增内容',
-        index: 1
-      }
-    },
-     
-      // 组织架构==============================
-     {
-      path: '/organ/organList',
-      name: 'organList',
-      component: organList,
-      meta: {
-        title: '关于协会 - 组织架构',
-        index: 1
-      }
-    },
-    {
-      path: '/organ/organAdd',
-      name: 'organAdd',
-      component: organAdd,
-      meta: {
-        title: '新增信息',
-        index: 1
-      }
-    },
-     
-      // 权限管理==============================
-    {
-      path: '/role/roleList',
-      name: 'roleList',
-      component: roleList,
-      meta: {
-        title: '角色列表',
-        index: 1
-      }
-    },
-    {
-      path: '/role/roleAdd',
-      name: 'roleAdd',
-      component: roleAdd,
-      meta: {
-        title: '新增角色',
-        index: 1
-      }
-    },
-    {
-      path: '/role/numberList',
-      name: 'numberList',
-      component: numberList,
-      meta: {
-        title: '账号列表',
-        index: 1
-      }
-    },
-    {
-      path: '/role/numberAdd',
-      name: 'numberAdd',
-      component: numberAdd,
-      meta: {
-        title: '新增账号',
-        index: 1
-      }
+      },
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/meeting/meetingAdd')
+        }
+      ]
     }
-    
-     
-
-
-
-
   ]
 })
