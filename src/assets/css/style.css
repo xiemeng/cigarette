@@ -1,0 +1,25 @@
+html,body,#app{height: 100%;}
+.scorll::-webkit-scrollbar { width: 0 !important }
+.scorll{ -ms-overflow-style: none; }
+.scorll{ overflow: -moz-scrollbars-none; }
+.el-menu-item-group__title{padding: 0;}
+.el-menu-item{padding-left: 55px !important;}
+
+
+.box{width: 100%;min-width: 1024px;margin: 0 auto; height: 100%;}
+.main{padding-top: 56px;padding-left: 200px;}
+
+.c-white{color: white;}
+.c-black{color: black;}
+.c-blue{color: #0099ff;}
+
+.white{background: white;}
+.black{background: black;}
+.blue{background: #0099ff;}
+
+.bg-f0{background: #f0f0f0;}
+
+
+
+.b-f0{border: 1px solid #f0f0f0;;}
+.b-b-f0{border-bottom: 1px solid #f0f0f0;;}
