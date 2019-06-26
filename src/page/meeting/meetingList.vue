@@ -5,7 +5,7 @@
 		<div class="main">
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<el-breadcrumb-item>会议列表</el-breadcrumb-item>
+					<el-breadcrumb-item>用户管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
 				<div class="w-100 p-15">

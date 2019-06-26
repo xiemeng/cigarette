@@ -6,7 +6,7 @@
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
 					<el-button size="mini" class="right" type="primary" @click="toLink('columnAdd')">+ 新增栏目</el-button>
-					<el-breadcrumb-item>三级栏目列表</el-breadcrumb-item>
+					<el-breadcrumb-item>设备管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
 				<div class="w-100 p-15">

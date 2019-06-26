@@ -5,7 +5,7 @@
 		<div class="main">
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<el-breadcrumb-item>审核列表</el-breadcrumb-item>
+					<el-breadcrumb-item>热力图</el-breadcrumb-item>
 				</el-breadcrumb>
 				
 				<div class="w-100 p-15">

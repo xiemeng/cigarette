@@ -12,91 +12,55 @@
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-s-home"></i>
-          <span>首页</span>
+          <span>用户管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/home/banner">轮播图管理</el-menu-item>
-          <el-menu-item index="/home/video">视频配置</el-menu-item>
+          <el-menu-item index="/home/banner">用户管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       
       <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-menu"></i>
-          <span>栏目管理</span>
+          <span>设备管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/column/column">三级栏目列表</el-menu-item>
+          <el-menu-item index="/column/column">设备管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       
       <el-submenu index="3">
         <template slot="title">
           <i class="el-icon-s-comment"></i>
-          <span>留言管理</span>
+          <span>烟型管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/message/message">留言列表</el-menu-item>
+          <el-menu-item index="/message/message">烟型管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       
       <el-submenu index="4">
         <template slot="title">
           <i class="el-icon-s-custom"></i>
-          <span>用户管理</span>
+          <span>数据分析</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/user/shenheList">审核列表</el-menu-item>
-          <el-menu-item index="/user/danweiList">单位列表</el-menu-item>
-          <el-menu-item index="/user/zhuanjiashenheList">专家审核列表</el-menu-item>
-          <el-menu-item index="/user/zhuanjiaList">专家列表</el-menu-item>
-          <el-menu-item index="/user/userList">普通用户列表</el-menu-item>
+          <el-menu-item index="/user/shenheList">热力图</el-menu-item>
+          <el-menu-item index="/user/danweiList">排行榜</el-menu-item>
+          <el-menu-item index="/user/zhuanjiashenheList">时间表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       
       <el-submenu index="5">
         <template slot="title">
           <i class="el-icon-s-order"></i>
-          <span>会议管理</span>
+          <span>管理员设置</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/meeting/meetingList">会议列表</el-menu-item>
+          <el-menu-item index="/meeting/meetingList">用户管理</el-menu-item>
+					<el-menu-item index="/meeting/meetingAdd">角色管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      
-		
-		<el-submenu index="6">
-        <template slot="title">
-          <i class="el-icon-s-order"></i>
-          <span>内容管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="/content/contentList">内容列表</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      
-      <el-submenu index="7">
-        <template slot="title">
-          <i class="el-icon-s-management"></i>
-          <span>组织架构</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="/organ/organList">组织架构</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      
-      <el-submenu index="8">
-        <template slot="title">
-          <i class="el-icon-s-tools"></i>
-          <span>权限管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="/role/numberList">账号列表</el-menu-item>
-          <el-menu-item index="/role/roleList">角色账号</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      
-
     </el-menu>
 			
 			
@@ -127,6 +91,7 @@ export default {
     },
   
       toNav(key){
+				console.log(key)
       	switch(key){
       		
       		//首页管理==============================
@@ -205,7 +170,6 @@ export default {
 		        path: '../organ/organList'
 		      });
       		break;
-      		
       		//权限管理==============================
       		case '/role/roleList':
       		this.$router.push({
@@ -217,8 +181,6 @@ export default {
 		        path: '../role/numberList'
 		      });
       		break;
-      		
-      		
       	}
       }
   }

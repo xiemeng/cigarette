@@ -4,14 +4,11 @@ import CssClear from '@/page/toll/cssClear'
 import notFound from '@/page/default/404'
 Vue.use(Router)
 
-//首页管理
+//用户管理
 import home from '@/page/home/home'
 import banner from '@/page/home/banner'
-import video from '@/page/home/video'
-import updataImg from '@/page/home/updataImg'
-import updataVideo from '@/page/home/updataVideo'
 
-//栏目管理
+//设备管理
 import column from '@/page/column/column'
 import columnAdd from '@/page/column/columnAdd'
 
@@ -22,11 +19,7 @@ import message from '@/page/message/message'
 //用户管理
 import shenheList from '@/page/user/shenheList'
 import danweiList from '@/page/user/danweiList'
-import danweiX from '@/page/user/danweiX'
-import zhuanjiaList from '@/page/user/zhuanjiaList'
-import zhuanjiaX from '@/page/user/zhuanjiaX'
 import zhuanjiashenheList from '@/page/user/zhuanjiashenheList'
-import userList from '@/page/user/userList'
 
 //会议管理
 import meetingList from '@/page/meeting/meetingList'
@@ -95,7 +88,7 @@ export default new Router({
       name: 'home',
       component: home,
       meta: {
-        title: '首页',
+        title: '用户管理',
         index: 0
       }
     },
@@ -104,39 +97,10 @@ export default new Router({
       name: 'banner',
       component: banner,
       meta: {
-        title: '轮播图管理',
+        title: '用户管理',
         index: 1
       }
     },
-    {
-      path: '/home/video',
-      name: 'video',
-      component: video,
-      meta: {
-        title: '视频配置',
-        index: 1
-      }
-    },
-    {
-      path: '/home/updataImg',
-      name: 'updataImg',
-      component: updataImg,
-      meta: {
-        title: '上传图片',
-        index: 1
-      }
-    },
-    {
-      path: '/home/updataVideo',
-      name: 'updataVideo',
-      component: updataVideo,
-      meta: {
-        title: '上传视频',
-        index: 1
-      }
-    },
-    
-    
      // 栏目管理==============================
     
     {
@@ -177,7 +141,7 @@ export default new Router({
       name: 'shenheList',
       component: shenheList,
       meta: {
-        title: '审核列表',
+        title: '热力图',
         index: 1
       }
     },
@@ -186,34 +150,7 @@ export default new Router({
       name: 'danweiList',
       component: danweiList,
       meta: {
-        title: '单位列表',
-        index: 1
-      }
-    },
-    {
-      path: '/user/danweiX',
-      name: 'danweiX',
-      component: danweiX,
-      meta: {
-        title: '单位详情',
-        index: 1
-      }
-    },
-    {
-      path: '/user/zhuanjiaList',
-      name: 'zhuanjiaList',
-      component: zhuanjiaList,
-      meta: {
-        title: '专家列表',
-        index: 1
-      }
-    },
-    {
-      path: '/user/zhuanjiaX',
-      name: 'zhuanjiaX',
-      component: zhuanjiaX,
-      meta: {
-        title: '专家详情',
+        title: '排行榜',
         index: 1
       }
     },
@@ -222,16 +159,7 @@ export default new Router({
       name: 'zhuanjiashenheList',
       component: zhuanjiashenheList,
       meta: {
-        title: '专家审核列表',
-        index: 1
-      }
-    },
-    {
-      path: '/user/userList',
-      name: 'userList',
-      component: userList,
-      meta: {
-        title: '普通用户列表',
+        title: '时间表',
         index: 1
       }
     },
@@ -251,7 +179,7 @@ export default new Router({
       name: 'meetingAdd',
       component: meetingAdd,
       meta: {
-        title: '新增会议',
+        title: '角色管理',
         index: 1
       }
     },
