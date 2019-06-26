@@ -55,7 +55,7 @@ export default new Router({
           path: '/',
           name: 'Form',
           component: () => import('@/page/home/home'),
-          meta: { title: 'Form', icon: 'form' }
+          meta: { title: '用户管理', icon: 'form' }
         }
       ]
     },
@@ -72,7 +72,7 @@ export default new Router({
           path: '/',
           name: 'Form',
           component: () => import('@/page/home/banner'),
-          meta: { title: 'Form', icon: 'form' }
+          meta: { title: '用户管理', icon: 'form' }
         }
       ]
     },
@@ -83,7 +83,7 @@ export default new Router({
       name: 'column',
       component: Layout,
       meta: {
-        title: '栏目管理-三级栏目列表',
+        title: '设备管理',
         index: 1
       },
       children: [
@@ -91,7 +91,7 @@ export default new Router({
           path: '/',
           name: 'Form',
           component: () => import('@/page/column/column'),
-          meta: { title: 'Form', icon: 'form' }
+          meta: { title: '设备管理', icon: 'form' }
         }
       ]
     },
@@ -112,7 +112,7 @@ export default new Router({
           path: '/',
           name: 'Form',
           component: () => import('@/page/message/message'),
-          meta: { title: 'Form', icon: 'form' }
+          meta: { title: '烟型管理', icon: 'form' }
         }
       ]
     },
@@ -131,7 +131,7 @@ export default new Router({
           path: '/',
           name: 'Form',
           component: () => import('@/page/user/shenheList'),
-          meta: { title: 'Form', icon: 'form' }
+          meta: { title: '热力图', icon: 'form' }
         }
       ]
     },
@@ -143,7 +143,8 @@ export default new Router({
         {
           path: '/',
           name: 'Form',
-          component: () => import('@/page/user/danweiList')
+          component: () => import('@/page/user/danweiList'),
+          meta: { title: '排行榜', icon: 'form' }
         }
       ]
     },
@@ -155,7 +156,8 @@ export default new Router({
         {
           path: '/',
           name: 'Form',
-          component: () => import('@/page/user/zhuanjiashenheList')
+          component: () => import('@/page/user/zhuanjiashenheList'),
+          meta: { title: '时间表', icon: 'form' }
         }
       ]
     },
@@ -173,7 +175,8 @@ export default new Router({
         {
           path: '/',
           name: 'Form',
-          component: () => import('@/page/meeting/meetingList')
+          component: () => import('@/page/meeting/meetingList'),
+          meta: { title: '用户管理', icon: 'form' }
         }
       ]
     },
@@ -189,7 +192,8 @@ export default new Router({
         {
           path: '/',
           name: 'Form',
-          component: () => import('@/page/meeting/meetingAdd')
+          component: () => import('@/page/meeting/meetingAdd'),
+          meta: { title: '角色管理', icon: 'form' }
         }
       ]
     }
