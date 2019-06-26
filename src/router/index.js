@@ -5,32 +5,7 @@ import notFound from '@/page/default/404'
 import Layout from '@/page/components/index'
 Vue.use(Router)
 
-//用户管理
-import home from '@/page/home/home'
-import banner from '@/page/home/banner'
-
-//设备管理
-import column from '@/page/column/column'
-
-//留言管理
-import message from '@/page/message/message'
-
-
-//用户管理
-import shenheList from '@/page/user/shenheList'
-import danweiList from '@/page/user/danweiList'
-import zhuanjiashenheList from '@/page/user/zhuanjiashenheList'
-
-//会议管理
-import meetingList from '@/page/meeting/meetingList'
-import meetingAdd from '@/page/meeting/meetingAdd'
-
-
-
-
 import login from '@/page/login/login'
-
-
 
 export default new Router({
   // mode:'history',
@@ -74,7 +49,15 @@ export default new Router({
       meta: {
         title: '用户管理',
         index: 0
-      }
+      },
+      children: [
+        {
+          path: '/',
+          name: 'Form',
+          component: () => import('@/page/home/home'),
+          meta: { title: 'Form', icon: 'form' }
+        }
+      ]
     },
     {
       path: '/home/banner',
@@ -121,7 +104,7 @@ export default new Router({
       name: 'message',
       component: Layout,
       meta: {
-        title: '留言列表',
+        title: '烟型管理',
         index: 1
       },
       children: [
@@ -177,13 +160,13 @@ export default new Router({
       ]
     },
     
-     // ==============================
+     //  管理员设置==============================
     {
       path: '/meeting/meetingList',
       name: 'meetingList',
       component: Layout,
       meta: {
-        title: '内容管理',
+        title: '用户管理',
         index: 1
       },
       children: [
