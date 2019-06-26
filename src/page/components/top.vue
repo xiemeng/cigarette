@@ -1,6 +1,6 @@
 <template>
 	<header class="blue c-white fix top-0 left-0 w-100 z-99" style="height: 56px;">
-		<div class="left p-t-15 p-l-30">深圳市真空协会后台管理</div>
+		<div class="left p-t-15 p-l-30">冰棍科技</div>
 		<div class="right p-t-15 p-r-30">
 			 <el-dropdown @command="handleCommand">
 		      <span class="el-dropdown-link c-white">
