@@ -191,7 +191,7 @@ export default {
 .conent{
   display: flex;
 }
-#container{height:500px;width:500px;}
+#container{height:470px;width:747px;}
 .mainTop{
   text-align: right;
 }
@@ -201,7 +201,7 @@ export default {
   padding-left: 8px;
   
   .header{
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #999;
     line-height: 70px;
   }
   .listWrap{

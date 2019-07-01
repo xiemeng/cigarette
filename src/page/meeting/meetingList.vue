@@ -2,7 +2,7 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<el-button class="right" size="mini" plain @click="addUser">新增</el-button>
+					<el-button class="right elbut" size="mini" plain @click="addUser">新增</el-button>
 					<el-breadcrumb-item>用户管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
@@ -28,7 +28,7 @@
 					</el-row>
 				</div>
 				
-				<el-table :data="tableData" class="w-100 p-15">
+				<el-table :data="tableData" class="w-100 p-15" stripe>
 					<el-table-column label="头像" width="180">
 						<template slot-scope="scope">
 							留言内容
@@ -51,7 +51,7 @@
 					</el-table-column>
 					<el-table-column label="操作">
 						<template slot-scope="scope">
-							<el-button size="mini" plain @click="addUser(scope.$index, scope.row)">编辑</el-button>
+							<el-button class="elbut" size="mini" plain @click="addUser(scope.$index, scope.row)">编辑</el-button>
 							<el-button size="mini" plain type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
@@ -122,7 +122,7 @@
 			},
 			addUser(){
 				this.$router.push({
-					path: 'meetingList/addUser'
+					path: '/meeting/meetingList/addUser'
 				});
 			}
 		}

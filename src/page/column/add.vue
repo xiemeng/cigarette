@@ -29,7 +29,16 @@
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">设备照片：</em>
-						<img src="../../assets/imgs/rightimg.png" />
+						<!-- <img src="../../assets/imgs/rightimg.png" /> -->
+						<el-upload
+						  class="avatar-uploader"
+						  action="https://jsonplaceholder.typicode.com/posts/"
+						  :show-file-list="false"
+						  :on-success="handleAvatarSuccess"
+						  :before-upload="beforeAvatarUpload">
+						  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+						  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+						</el-upload>
 					</li>
 				</ul>
 				<div class="footer">
@@ -49,6 +58,7 @@
 		},
 		data() {
 			return {
+				imageUrl: '',
 				name:'',
 				options: [{
 						value: 1,
@@ -64,32 +74,71 @@
 		created() {},
 		mounted() {},
 		methods: {
-			
+			handleAvatarSuccess(res, file) {
+				this.imageUrl = URL.createObjectURL(file.raw);
+			  },
+			  beforeAvatarUpload(file) {
+				const isJPG = file.type === 'image/jpeg';
+				const isLt2M = file.size / 1024 / 1024 < 2;
+
+				if (!isJPG) {
+				  this.$message.error('上传头像图片只能是 JPG 格式!');
+				}
+				if (!isLt2M) {
+				  this.$message.error('上传头像图片大小不能超过 2MB!');
+				}
+				return isJPG && isLt2M;
+			  }
 		}
 	};
 </script>
-<style lang="less" scoped>
+<style lang="less">
 	.columAdd{
 		padding-bottom:50px;
-	}
-	.wrap{
-		max-width: 500px;
-		li{
-			margin-top: 40px;
-			em{
-				margin-right: 30px;
+		.wrap{
+				max-width: 500px;
+				li{
+					margin-top: 40px;
+					em{
+						margin-right: 30px;
+					}
+				}
 			}
+			.typeBtn{
+				background: #bbb;
+				display: inline-block;
+				padding: 5px 15px;
+				margin-bottom: 10px;
+				margin-right: 10px;
+				border: 1px solid #bbb;
+			}
+			.footer{
+				text-align: center;
+			}
+			// 图片样式
+			.avatar-uploader .el-upload {
+				border: 1px dashed #999;
+				border-radius: 6px;
+				cursor: pointer;
+				position: relative;
+				overflow: hidden;
+			  }
+		.avatar-uploader .el-upload:hover {
+		  border-color: #409EFF;
+		}
+		.avatar-uploader-icon {
+		  font-size: 28px;
+		  color: #8c939d;
+		  width: 178px;
+		  height: 178px;
+		  line-height: 178px;
+		  text-align: center;
+		}
+		.avatar {
+		  width: 178px;
+		  height: 178px;
+		  display: block;
 		}
 	}
-	.typeBtn{
-		background: #bbb;
-		display: inline-block;
-		padding: 5px 15px;
-		margin-bottom: 10px;
-		margin-right: 10px;
-		border: 1px solid #bbb;
-	}
-	.footer{
-		text-align: center;
-	}
+	
 </style>

@@ -2,7 +2,7 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-button class="right" size="mini" plain >新增</el-button>
+				<el-button class="right" size="mini" plain >导出数据</el-button>
 				<el-breadcrumb-item>用户管理</el-breadcrumb-item>
 			</el-breadcrumb>
 
@@ -27,7 +27,10 @@
 				</el-row>
 			</div>
 
-			<el-table :data="tableData" class="w-100 p-15">
+			<el-table 
+				:data="tableData" stripe  
+				:default-sort = "{prop: 'date', order: 'descending'}" 
+				class="w-100 p-15">
 				<el-table-column label="头像">
 					<template slot-scope="scope">
 						<img src="../../assets/imgs/rightimg.png" />
@@ -48,7 +51,7 @@
 						性别
 					</template>
 				</el-table-column>
-				<el-table-column label="设备激活日期">
+				<el-table-column label="设备激活日期" sortable>
 					<template slot-scope="scope">
 						设备激活日期
 					</template>
@@ -63,7 +66,7 @@
 						{{ scope.row.name }}
 					</template>
 				</el-table-column>
-				<el-table-column label="最后一次使用设备">
+				<el-table-column label="最后一次使用设备" sortable>
 					<template slot-scope="scope">
 						{{ scope.row.name }}
 					</template>
@@ -89,8 +92,12 @@
 		name: "column",
 		data() {
 			return {
-				sex: '', // 性别
-				options: [{
+				sex: 3, // 性别
+				options: [
+					{
+						value: 3,
+						label: '全部'
+					},{
 						value: 1,
 						label: '男'
 					},

@@ -41,7 +41,7 @@ export default {
 	        });
 	        return
     	}
-    	this.toLink('../home/home')
+    	this.toLink('/home/banner')
     	 this.$message({
           message: '登录成功！',
           type: 'success'

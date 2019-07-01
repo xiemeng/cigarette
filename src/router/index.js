@@ -8,7 +8,6 @@ Vue.use(Router)
 import login from '@/page/login/login'
 
 export default new Router({
-  // mode:'history',
   routes: [
     // 缺省==============================
     {
@@ -53,7 +52,7 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'homeIndex',
           component: () => import('@/page/home/home'),
           meta: { title: '用户管理', icon: 'form' }
         }
@@ -70,7 +69,7 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'homeNanner',
           component: () => import('@/page/home/banner'),
           meta: { title: '用户管理', icon: 'form' }
         }
@@ -87,7 +86,7 @@ export default new Router({
 		  children: [
 		    {
 		      path: '/',
-		      name: 'Form',
+		      name: 'userDetail',
 		      component: () => import('@/page/home/userDetail'),
 		      meta: { title: '用户详情', icon: 'form' }
 		    }
@@ -106,19 +105,19 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'columnIndex',
           component: () => import('@/page/column/column'),
           meta: { title: '设备管理', icon: 'form' }
         },
 				{
 				  path: 'add',
-				  name: 'Form',
+				  name: 'columnAdd',
 				  component: () => import('@/page/column/add'),
 				  meta: { title: '设备管理', icon: 'form' }
 				},
 				{
 				  path: 'detail',
-				  name: 'Form',
+				  name: 'columnDetail',
 				  component: () => import('@/page/column/detail'),
 				  meta: { title: '设备管理', icon: 'form' }
 				}
@@ -126,8 +125,6 @@ export default new Router({
     },
     
      // 烟型管理==============================
-    
-    
     {
       path: '/message/message',
       name: 'message',
@@ -139,13 +136,12 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'messageIndex',
           component: () => import('@/page/message/message'),
           meta: { title: '烟型管理', icon: 'form' }
         }
       ]
     },
-    
      // 数据分析==============================
     {
       path: '/user/shenheList',
@@ -158,7 +154,7 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'userList',
           component: () => import('@/page/user/shenheList'),
           meta: { title: '热力图', icon: 'form' }
         }
@@ -171,10 +167,16 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'danweiList',
           component: () => import('@/page/user/danweiList'),
           meta: { title: '排行榜', icon: 'form' }
-        }
+        },
+				{
+				  path: 'detail',
+				  name: 'danDetail',
+				  component: () => import('@/page/user/detail'),
+				  meta: { title: '排行榜', icon: 'form' }
+				}
       ]
     },
     {
@@ -184,7 +186,7 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'zhuanjiashenheList',
           component: () => import('@/page/user/zhuanjiashenheList'),
           meta: { title: '时间表', icon: 'form' }
         }
@@ -203,13 +205,13 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'meetingList',
           component: () => import('@/page/meeting/meetingList'),
           meta: { title: '用户管理', icon: 'form' }
         },
         {
           path: 'addUser',
-          name: 'Form',
+          name: 'meetingAddUser',
           component: () => import('@/page/meeting/addUser'),
           meta: { title: '用户管理', icon: 'form' }
         }
@@ -226,13 +228,13 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'Form',
+          name: 'meetingAdd',
           component: () => import('@/page/meeting/meetingAdd'),
           meta: { title: '角色管理', icon: 'form' }
         },
         {
           path: 'addUser',
-          name: 'Form',
+          name: 'meetingAdd2',
           component: () => import('@/page/meeting/addUser'),
           meta: { title: '角色管理', icon: 'form' }
         }

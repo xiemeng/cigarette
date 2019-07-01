@@ -15,7 +15,8 @@
 					</el-switch>
 				</div>
 				
-				<el-table :data="tableData" class="w-100 p-15">
+				<el-table :data="tableData" class="w-100 p-15" stripe 
+					:default-sort = "{prop: 'date', order: 'descending'}">
 					<el-table-column label="排名" width="180">
 						<template slot-scope="scope">
 							排名
@@ -31,12 +32,12 @@
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="当月吸烟口数" width="180">
+					<el-table-column label="当月吸烟口数" width="180" sortable>
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="当月活跃天数" width="180">
+					<el-table-column label="当月活跃天数" width="180" sortable>
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
@@ -48,7 +49,7 @@
 					</el-table-column>
 					<el-table-column label="操作">
 						<template slot-scope="scope">
-							<el-button size="mini" plain @click="handleDelete(scope.$index, scope.row)">详情</el-button>
+							<el-button class="elbut" size="mini" plain @click="godanDetail(scope.$index, scope.row)">详情</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -103,6 +104,9 @@
 				this.$router.push({
 					path: i
 				});
+			},
+			godanDetail(){
+				this.toLink('/user/danweiList/detail') 
 			}
 		}
 	};

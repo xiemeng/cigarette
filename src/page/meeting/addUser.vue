@@ -2,7 +2,7 @@
 	<div class="columAdd">
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-breadcrumb-item>角色管理》新增</el-breadcrumb-item>
+				<el-breadcrumb-item>用户管理》新增</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="w-100 p-15">
 				<ul class="wrap">
@@ -28,12 +28,16 @@
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">角色：</em>
-                        <div>
-                           <el-select v-model="sex" placeholder="请选择">
-								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-								</el-option>
-							</el-select>
-                        </div>
+						<div>
+							<div v-for="(item,index) in userNum" class="userList">
+							    <el-select v-model="sex" placeholder="请选择">
+									<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+									</el-option>
+								</el-select>
+								<span v-if="index == 0" class="addNum" @click="addUserNum">+</span>
+								<span v-if="index != 0" class="addNum" @click="reduceNum">-</span>
+							</div>
+						</div>
                         
 					</li>
 				</ul>
@@ -55,6 +59,7 @@
 		data() {
 			return {
 				name:'',
+				userNum:1,//
 				options: [{
 						value: 1,
 						label: '男'
@@ -69,20 +74,41 @@
 		created() {},
 		mounted() {},
 		methods: {
-			
+			addUserNum(){
+				this.userNum++;
+			},
+			reduceNum(){
+				this.userNum--;
+			}
 		}
 	};
 </script>
 <style lang="less" scoped>
+	.el-input,.el-select{
+		width: 200px;
+	}
 	.columAdd{
 		padding-bottom:50px;
 	}
 	.wrap{
 		max-width: 500px;
+		margin-left: 30%;
 		li{
 			margin-top: 40px;
 			em{
 				margin-right: 30px;
+				min-width: 5em;
+			}
+			.addNum{
+				width: 50px;
+				display: inline-block;
+				border: 1px solid #bbb;
+				padding: 6px 0;
+				text-align: center;
+				margin-left: 60px;
+			}
+			.userList{
+				margin-bottom:18px;
 			}
 		}
 	}
@@ -95,7 +121,7 @@
 		border: 1px solid #bbb;
 	}
 	.footer{
-		text-align: center;
+		text-align: center;margin-top: 60px;
 	}
 	.headImg{
 		border-radius: 50%;

@@ -25,7 +25,7 @@ export default {
   methods: {
   	  handleCommand(command) {
         if(command == 'a'){
-        	this.toLink('../')
+        	this.toLink('/')
         }
      },
     toLink(i) {

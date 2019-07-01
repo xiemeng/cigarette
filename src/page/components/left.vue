@@ -84,87 +84,80 @@ export default {
   	this.url = href.split('/#')[1];
   },
   methods: {
-  	 toLink(i) {
-			 console.log(i)
-      this.$router.push({
-        path: i
-      });
-    },
-  
+			 toLink(i) {
+				this.$router.push({
+					path: i
+				});
+			},
       toNav(key){
-				console.log(key)
-      	switch(key){
-      		
-      		//首页管理==============================
-      		case '/home/banner':
-      		this.$router.push({
-		        path: '/home/banner'
-		      });
-      		break;
-      		
-      		case '/home/video':
-      		this.$router.push({
-		        path: '../home/video'
-		      });
-      		break;
-      		
-      		//栏目管理==============================
-      		case '/column/column':
-      		this.$router.push({
-		        path: '/column/column'
-		      });
-      		break;
-      		
-      		//烟型管理==============================
-      		case '/message/message':
-      		this.$router.push({
-		        path: '/message/message'
-		      });
-      		break;
-
-      		//用户管理==============================
-      		
-      		case '/user/shenheList':
-      		this.$router.push({
-		        path: '/user/shenheList'
-		      });
-      		break;
-      		case '/user/danweiList':
-      		this.$router.push({
-		        path: '/user/danweiList'
-		      });
-      		break;
-      		case '/user/zhuanjiaList':
-      		this.$router.push({
-		        path: '/user/zhuanjiaList'
-		      });
-      		break;
-      		case '/user/zhuanjiashenheList':
-      		this.$router.push({
-		        path: '/user/zhuanjiashenheList'
-		      });
-      		break;
-      		case '/user/userList':
-      		this.$router.push({
-		        path: '/user/userList'
-		      });
-      		break;
-      		
-      		
-      		//管理员设置==============================
-      		case '/meeting/meetingList':
-      		this.$router.push({
-		        path: '/meeting/meetingList'
-          });
-          break;
-          case '/meeting/meetingAdd':
-      		this.$router.push({
-		        path: '/meeting/meetingAdd'
-		      });
-      		break;
-      		
-      		
-      	}
+					 console.log(key)
+					this.$router.push({
+						path: key
+					});
+//       	switch(key){
+//       		
+//       		//首页管理==============================
+//       		case '/home/banner':
+//       		this.$router.push({
+// 		        path: '/home/banner'
+// 		      });
+//       		break;
+//       		//栏目管理==============================
+//       		case '/column/column':
+//       		this.$router.push({
+// 		        path: '/column/column'
+// 		      });
+//       		break;
+//       		
+//       		//烟型管理==============================
+//       		case '/message/message':
+//       		this.$router.push({
+// 		        path: '/message/message'
+// 		      });
+//       		break;
+// 
+//       		//用户管理==============================
+//       		
+//       		case '/user/shenheList':
+//       		this.$router.push({
+// 		        path: '/user/shenheList'
+// 		      });
+//       		break;
+//       		case '/user/danweiList':
+//       		this.$router.push({
+// 		        path: '/user/danweiList'
+// 		      });
+//       		break;
+//       		case '/user/zhuanjiaList':
+//       		this.$router.push({
+// 		        path: '/user/zhuanjiaList'
+// 		      });
+//       		break;
+//       		case '/user/zhuanjiashenheList':
+//       		this.$router.push({
+// 		        path: '/user/zhuanjiashenheList'
+// 		      });
+//       		break;
+//       		case '/user/userList':
+//       		this.$router.push({
+// 		        path: '/user/userList'
+// 		      });
+//       		break;
+//       		
+//       		
+//       		//管理员设置==============================
+//       		case '/meeting/meetingList':
+//       		this.$router.push({
+// 		        path: '/meeting/meetingList'
+//           });
+//           break;
+//           case '/meeting/meetingAdd':
+//       		this.$router.push({
+// 		        path: '/meeting/meetingAdd'
+// 		      });
+//       		break;
+//       	}
+// 				return
       }
   }
 };

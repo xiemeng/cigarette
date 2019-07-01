@@ -7,7 +7,7 @@
 					<el-breadcrumb-item>烟型管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
-				<el-table :data="tableData" class="w-100 p-15">
+				<el-table :data="tableData" class="w-100 p-15" stripe>
 					<el-table-column label="序号" width="180">
 						<template slot-scope="scope">
 							{{scope.$index}}

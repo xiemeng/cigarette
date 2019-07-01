@@ -3,11 +3,11 @@
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
 					<el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button>
-					<el-button class="elbut right" size="mini" @click="goAdd('add')">新增</el-button>
+					<el-button class="elbut elbut2 right" size="mini" @click="goAdd('add')">新增</el-button>
 					<el-breadcrumb-item>设备管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
-				<el-table :data="tableData" class="w-100 p-15">
+				<el-table :data="tableData" class="w-100 p-15" stripe>
 					<el-table-column label="设备型号">
 						<template slot-scope="scope">
 							栏目名称
@@ -33,7 +33,7 @@
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="当月使用人/全部激活比">
+					<el-table-column label="当月使用人/全部激活比" width="200">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
@@ -48,10 +48,10 @@
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="操作">
+					<el-table-column label="操作" width="240">
 						<template slot-scope="scope">
-							<el-button size="mini" plain @click="goDetail(scope.$index, scope.row)">详情</el-button>
-							<el-button size="mini" plain @click="goAdd(scope.$index, scope.row)">编辑</el-button>
+							<el-button class="elbut" size="mini" plain @click="goDetail(scope.$index, scope.row)">详情</el-button>
+							<el-button class="elbut" size="mini" plain @click="goAdd(scope.$index, scope.row)">编辑</el-button>
 							<el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
@@ -127,10 +127,14 @@
 	};
 </script>
 <style scoped>
-	.elbut{
+	.elbut2{
 		margin-right:20px;
 	}
 	.el-button+.el-button{
 		margin-left: 5px;
+	}
+	img{
+		width: 82px;height: 52px;
+		object-fit: cover;
 	}
 </style>

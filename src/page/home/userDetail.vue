@@ -104,7 +104,7 @@
 			vertical-align: top;
 			font-size: 14px;
 			padding-right: 30px;
-			width: 200px;
+			width: 150px;
 			display: inline-block;
 		}
 		span:nth-child(2){
