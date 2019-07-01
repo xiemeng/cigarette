@@ -23,3 +23,40 @@ html,body,#app{height: 100%;}
 
 .b-f0{border: 1px solid #f0f0f0;;}
 .b-b-f0{border-bottom: 1px solid #f0f0f0;;}
+
+/* 给日历加标签 红：使用天 蓝：当天 黄：当天未使用 */
+.wh_content_all{
+	background-color: #fff !important;
+	border: 1px solid #999;
+}
+.wh_top_changge li{
+	color: #000000 !important;
+}
+.wh_jiantou1{
+	border-top: 2px solid #000000 !important;
+	border-left: 2px solid #000000 !important;
+}
+.wh_jiantou2{
+	border-top: 2px solid #000000 !important;
+    border-right: 2px solid #000000 !important;
+}
+.wh_content_item, .wh_content_item_tag{
+	color: #000000 !important;
+}
+.red{
+	background-color: #D92B2B;
+}
+.blue{
+	background-color: #0078D7;
+}
+.yellow{
+	background-color: #EADC0E;
+}
+/* 按钮样式 */
+.elbut {
+	color: #fff;
+	background-color: #FFC14E;
+}
+.el-table{
+	font-size:12px ;
+}

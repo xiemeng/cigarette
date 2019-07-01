@@ -2,62 +2,103 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-button size="mini" class="right" type="primary" @click="toLink('updataImg')">+ 新增轮播图</el-button>
+				<el-button size="mini" class="right" type="primary" @click="toLink('columnAdd')">导出数据</el-button>
 				<el-breadcrumb-item>用户管理</el-breadcrumb-item>
-				
 			</el-breadcrumb>
 
+			<div class="w-100 p-15">
+				<el-row :gutter="20">
+					<el-col :span="6">
+						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">微信名：</em>
+							<el-input placeholder="请输入" v-model="form.name"></el-input>
+						</div>
+					</el-col>
+					<el-col :span="6">
+						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">性别：</em>
+							<el-select v-model="sex" placeholder="请选择">
+								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+								</el-option>
+							</el-select>
+						</div>
+					</el-col>
+					<el-col :span="6">
+						<el-button>查询</el-button>
+					</el-col>
+				</el-row>
+			</div>
+
 			<el-table :data="tableData" class="w-100 p-15">
-				<el-table-column label="图片">
+				<el-table-column label="头像">
 					<template slot-scope="scope">
-						<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561267546143&di=b2a443ec089d4310863a479a6d4a3321&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c8545787c0bb0000012e7ed665f8.jpg" width="120px;" />
+						<img src="../../assets/imgs/rightimg.png" />
 					</template>
 				</el-table-column>
-				<el-table-column label="描述">
+				<el-table-column label="微信名">
+					<template slot-scope="scope">
+						微信名
+					</template>
+				</el-table-column>
+				<el-table-column label="年龄">
+					<template slot-scope="scope">
+						年龄
+					</template>
+				</el-table-column>
+				<el-table-column label="性别">
+					<template slot-scope="scope">
+						性别
+					</template>
+				</el-table-column>
+				<el-table-column label="设备激活日期">
+					<template slot-scope="scope">
+						设备激活日期
+					</template>
+				</el-table-column>
+				<el-table-column label="设备数">
+					<template slot-scope="scope">
+						设备激活日期
+					</template>
+				</el-table-column>
+				<el-table-column label="设备型号">
 					<template slot-scope="scope">
 						{{ scope.row.name }}
 					</template>
 				</el-table-column>
-				<el-table-column label="上架状态">
-					<template slot-scope="scope">
-						{{ scope.row.name }}
-					</template>
-				</el-table-column>
-				<el-table-column label="时间">
+				<el-table-column label="最后一次使用设备">
 					<template slot-scope="scope">
 						{{ scope.row.name }}
 					</template>
 				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
-						<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-						<el-button size="mini" plain type="danger" @click="handleDelete(scope.$index, scope.row)">上架</el-button>
+						<el-button class="elbut" size="mini" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
 			<div class="text-center p-t-30">
-			<el-pagination
-				background
-				layout="prev, pager, next"
-				:total="1000">
-			</el-pagination>
+				<el-pagination background layout="prev, pager, next" :total="1000">
+				</el-pagination>
 			</div>
+
 
 		</div>
 	</div>
 </template>
 
 <script>
-	import top from '../components/top.vue'
-	import left from '../components/left.vue'
 	export default {
-		name: "banner",
-		components: {
-			top,
-			left
-		},
+		name: "column",
 		data() {
 			return {
+				sex: '', // 性别
+				options: [{
+						value: 1,
+						label: '男'
+					},
+					{
+						value: 2,
+						label: '女'
+					},
+				],
 				tableData: [{
 					date: '2016-05-02',
 					name: '王小虎',
@@ -74,7 +115,13 @@
 					date: '2016-05-03',
 					name: '王小虎',
 					address: '上海市普陀区金沙江路 1516 弄'
-				}]
+				}],
+
+
+				form: {
+					name: ''
+				}
+
 			};
 		},
 		created() {},
@@ -84,10 +131,15 @@
 				this.$router.push({
 					path: i
 				});
+			},
+			handleEdit(index,row) {
+				this.$router.push({
+					path: '/home/userDetail'
+				});
 			}
 		}
 	};
 </script>
 <style scoped>
-
+	
 </style>

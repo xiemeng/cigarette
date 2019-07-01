@@ -2,62 +2,57 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<el-button size="mini" class="right" type="primary" @click="toLink('columnAdd')">+ 新增栏目</el-button>
+					<el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button>
+					<el-button class="elbut right" size="mini" @click="goAdd('add')">新增</el-button>
 					<el-breadcrumb-item>设备管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
-				<div class="w-100 p-15">
-					<el-row :gutter="20">
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">栏目名称：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">一级栏目：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">二级栏目：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<el-button>查询</el-button>
-					  </el-col>
-					</el-row>
-				</div>
-				
 				<el-table :data="tableData" class="w-100 p-15">
-					<el-table-column label="栏目名称">
+					<el-table-column label="设备型号">
 						<template slot-scope="scope">
 							栏目名称
 						</template>
 					</el-table-column>
-					<el-table-column label="所属一级栏目">
+					<el-table-column label="设备照片">
+						<template slot-scope="scope">
+							<img src="../../assets/imgs/rightimg.png" />
+						</template>
+					</el-table-column>
+					<el-table-column label="烟弹类型">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="所属二级栏目">
+					<el-table-column label="支持烟型">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="栏目类型">
+					<el-table-column label="上市日期">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="上架状态">
+					<el-table-column label="当月使用人/全部激活比">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="创建时间">
+					<el-table-column label="当月吸烟支数">
+						<template slot-scope="scope">
+							{{ scope.row.name }}
+						</template>
+					</el-table-column>
+					<el-table-column label="当月平均每支口数">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
 					<el-table-column label="操作">
 						<template slot-scope="scope">
-							<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-							<el-button size="mini" plain type="danger" @click="handleDelete(scope.$index, scope.row)">下架</el-button>
+							<el-button size="mini" plain @click="goDetail(scope.$index, scope.row)">详情</el-button>
+							<el-button size="mini" plain @click="goAdd(scope.$index, scope.row)">编辑</el-button>
+							<el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -117,10 +112,25 @@
 				this.$router.push({
 					path: i
 				});
+			},
+			goDetail() {  // 去详情
+				this.$router.push({
+					path: '/column/column/detail'
+				});
+			},
+			goAdd() {  // 去添加
+				this.$router.push({
+					path: '/column/column/add'
+				});
 			}
 		}
 	};
 </script>
 <style scoped>
-
+	.elbut{
+		margin-right:20px;
+	}
+	.el-button+.el-button{
+		margin-left: 5px;
+	}
 </style>

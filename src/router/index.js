@@ -76,6 +76,23 @@ export default new Router({
         }
       ]
     },
+		{
+		  path: '/home/userDetail',
+		  name: 'userDetail',
+		  component: Layout,
+		  meta: {
+		    title: '用户管理',
+		    index: 1
+		  },
+		  children: [
+		    {
+		      path: '/',
+		      name: 'Form',
+		      component: () => import('@/page/home/userDetail'),
+		      meta: { title: '用户详情', icon: 'form' }
+		    }
+		  ]
+		},
      // s设备管理==============================
     
     {
@@ -92,7 +109,19 @@ export default new Router({
           name: 'Form',
           component: () => import('@/page/column/column'),
           meta: { title: '设备管理', icon: 'form' }
-        }
+        },
+				{
+				  path: 'add',
+				  name: 'Form',
+				  component: () => import('@/page/column/add'),
+				  meta: { title: '设备管理', icon: 'form' }
+				},
+				{
+				  path: 'detail',
+				  name: 'Form',
+				  component: () => import('@/page/column/detail'),
+				  meta: { title: '设备管理', icon: 'form' }
+				}
       ]
     },
     

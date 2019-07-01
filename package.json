@@ -15,6 +15,7 @@
   "dependencies": {
     "animate.css": "^3.7.0",
     "axios": "^0.18.0",
+    "echarts": "^4.2.1",
     "element-ui": "^2.9.2",
     "iview": "^3.4.2",
     "lib-flexible": "^0.3.2",
@@ -22,6 +23,7 @@
     "qs": "^6.7.0",
     "vant": "^1.6.19",
     "vue": "^2.5.2",
+    "vue-calendar-component": "^2.8.2",
     "vue-js-cookie": "^2.1.0",
     "vue-router": "^3.0.1",
     "vue-wechat-title": "^2.0.5",

@@ -85,6 +85,7 @@ export default {
   },
   methods: {
   	 toLink(i) {
+			 console.log(i)
       this.$router.push({
         path: i
       });
@@ -97,7 +98,7 @@ export default {
       		//首页管理==============================
       		case '/home/banner':
       		this.$router.push({
-		        path: '../home/banner'
+		        path: '/home/banner'
 		      });
       		break;
       		
@@ -110,14 +111,14 @@ export default {
       		//栏目管理==============================
       		case '/column/column':
       		this.$router.push({
-		        path: '../column/column'
+		        path: '/column/column'
 		      });
       		break;
       		
-      		//留言管理==============================
+      		//烟型管理==============================
       		case '/message/message':
       		this.$router.push({
-		        path: '../message/message'
+		        path: '/message/message'
 		      });
       		break;
 
@@ -125,27 +126,27 @@ export default {
       		
       		case '/user/shenheList':
       		this.$router.push({
-		        path: '../user/shenheList'
+		        path: '/user/shenheList'
 		      });
       		break;
       		case '/user/danweiList':
       		this.$router.push({
-		        path: '../user/danweiList'
+		        path: '/user/danweiList'
 		      });
       		break;
       		case '/user/zhuanjiaList':
       		this.$router.push({
-		        path: '../user/zhuanjiaList'
+		        path: '/user/zhuanjiaList'
 		      });
       		break;
       		case '/user/zhuanjiashenheList':
       		this.$router.push({
-		        path: '../user/zhuanjiashenheList'
+		        path: '/user/zhuanjiashenheList'
 		      });
       		break;
       		case '/user/userList':
       		this.$router.push({
-		        path: '../user/userList'
+		        path: '/user/userList'
 		      });
       		break;
       		
@@ -153,34 +154,11 @@ export default {
       		//会议管理==============================
       		case '/meeting/meetingList':
       		this.$router.push({
-		        path: '../meeting/meetingList'
+		        path: '/meeting/meetingList'
 		      });
       		break;
       		
-      		//内容管理==============================
-      		case '/content/contentList':
-      		this.$router.push({
-		        path: '../content/contentList'
-		      });
-      		break;
       		
-      		//组织架构==============================
-      		case '/organ/organList':
-      		this.$router.push({
-		        path: '../organ/organList'
-		      });
-      		break;
-      		//权限管理==============================
-      		case '/role/roleList':
-      		this.$router.push({
-		        path: '../role/roleList'
-		      });
-      		break;
-      		case '/role/numberList':
-      		this.$router.push({
-		        path: '../role/numberList'
-		      });
-      		break;
       	}
       }
   }

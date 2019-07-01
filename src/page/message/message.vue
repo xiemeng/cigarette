@@ -2,59 +2,26 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
+					<el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button>
+					<el-button class="elbut right" size="mini" @click="goAdd('add')">新增</el-button>
 					<el-breadcrumb-item>烟型管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
-				<div class="w-100 p-15">
-					<el-row :gutter="20">
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">留言内容：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">留言人：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">被留言人：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<el-button>查询</el-button>
-					  </el-col>
-					</el-row>
-				</div>
-				
 				<el-table :data="tableData" class="w-100 p-15">
-					<el-table-column label="留言内容" width="180">
+					<el-table-column label="序号" width="180">
 						<template slot-scope="scope">
-							留言内容
+							{{scope.$index}}
 						</template>
 					</el-table-column>
-					<el-table-column label="留言人" width="180">
-						<template slot-scope="scope">
-							{{ scope.row.name }}
-						</template>
-					</el-table-column>
-					<el-table-column label="被留言人" width="180">
+					<el-table-column label="烟型" width="180">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="回复内容" width="180">
-						<template slot-scope="scope">
-							{{ scope.row.name }}
-						</template>
-					</el-table-column>
-					<el-table-column label="留言时间" width="180">
-						<template slot-scope="scope">
-							{{ scope.row.name }}
-						</template>
-					</el-table-column>
-					<el-table-column label="回复时间" width="180">
-						<template slot-scope="scope">
-							{{ scope.row.name }}
-						</template>
-					</el-table-column>
+				
 					<el-table-column label="操作">
 						<template slot-scope="scope">
+							<el-button size="mini" plain class="elbut" @click="goAdd(scope.$index, scope.row)">编辑</el-button>
 							<el-button size="mini" plain type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
@@ -115,10 +82,30 @@
 				this.$router.push({
 					path: i
 				});
+			},
+			goAdd (tips) {  // 编辑新增
+				const text = tips == 'add'?'新增':'编辑';
+				this.$prompt('烟型', text, {
+					  confirmButtonText: '确定',
+					  cancelButtonText: '取消',
+					  
+					}).then(({ value }) => {
+					  this.$message({
+						type: 'success',
+						message: '你的烟型是: ' + value
+					  });
+					}).catch(() => {
+					  this.$message({
+						type: 'info',
+						message: '取消输入'
+					  });       
+				})
 			}
 		}
-	};
+	}
 </script>
 <style scoped>
-
+	.elbut{
+		margin-right: 20px;
+	}
 </style>
