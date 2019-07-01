@@ -2,26 +2,19 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<el-button class="right" size="mini" plain @click="addUser">新增</el-button>
 					<el-breadcrumb-item>用户管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
 				<div class="w-100 p-15">
 					<el-row :gutter="20">
 					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">用户名：</em><el-input placeholder="请输入" v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">账户名：</em><el-input placeholder="请输入" v-model="form.name"></el-input></div>
-					  </el-col>
-					 <el-col :span="6">
-						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">性别：</em>
+						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">角色：</em>
 							<el-select v-model="sex" placeholder="请选择">
 								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 								</el-option>
 							</el-select>
 						</div>
-					</el-col>
+					  </el-col>
 					  <el-col :span="6">
 					  	<el-button>查询</el-button>
 					  </el-col>
@@ -29,22 +22,17 @@
 				</div>
 				
 				<el-table :data="tableData" class="w-100 p-15">
-					<el-table-column label="头像" width="180">
+					<el-table-column label="角色" width="180">
 						<template slot-scope="scope">
 							留言内容
 						</template>
 					</el-table-column>
-					<el-table-column label="账户号" width="180">
+					<el-table-column label="角色描述" width="180">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="用户名" width="180">
-						<template slot-scope="scope">
-							{{ scope.row.name }}
-						</template>
-					</el-table-column>
-					<el-table-column label="角色名称" width="180">
+					<el-table-column label="拥有权限" width="180">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
@@ -122,7 +110,7 @@
 			},
 			addUser(){
 				this.$router.push({
-					path: 'meetingList/addUser'
+					path: 'meetingAdd/addUser'
 				});
 			}
 		}

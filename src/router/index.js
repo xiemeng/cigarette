@@ -206,6 +206,12 @@ export default new Router({
           name: 'Form',
           component: () => import('@/page/meeting/meetingList'),
           meta: { title: '用户管理', icon: 'form' }
+        },
+        {
+          path: 'addUser',
+          name: 'Form',
+          component: () => import('@/page/meeting/addUser'),
+          meta: { title: '用户管理', icon: 'form' }
         }
       ]
     },
@@ -222,6 +228,12 @@ export default new Router({
           path: '/',
           name: 'Form',
           component: () => import('@/page/meeting/meetingAdd'),
+          meta: { title: '角色管理', icon: 'form' }
+        },
+        {
+          path: 'addUser',
+          name: 'Form',
+          component: () => import('@/page/meeting/addUser'),
           meta: { title: '角色管理', icon: 'form' }
         }
       ]

@@ -151,10 +151,15 @@ export default {
       		break;
       		
       		
-      		//会议管理==============================
+      		//管理员设置==============================
       		case '/meeting/meetingList':
       		this.$router.push({
 		        path: '/meeting/meetingList'
+          });
+          break;
+          case '/meeting/meetingAdd':
+      		this.$router.push({
+		        path: '/meeting/meetingAdd'
 		      });
       		break;
       		

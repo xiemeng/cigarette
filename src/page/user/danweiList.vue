@@ -2,53 +2,46 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
+					<el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button>
 					<el-breadcrumb-item>排行榜</el-breadcrumb-item>
 				</el-breadcrumb>
 				
-				<div class="w-100 p-15">
-					<el-row :gutter="20">
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">留言内容：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">留言人：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">被留言人：</em><el-input v-model="form.name"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<el-button>查询</el-button>
-					  </el-col>
-					</el-row>
+				<div class="w-100 p-15 mainTop">
+					是否在APP显示
+					<el-switch
+					v-model="isApp"
+					active-color="#13ce66"
+					inactive-color="#ccc">
+					</el-switch>
 				</div>
 				
 				<el-table :data="tableData" class="w-100 p-15">
-					<el-table-column label="留言内容" width="180">
+					<el-table-column label="排名" width="180">
 						<template slot-scope="scope">
-							留言内容
+							排名
 						</template>
 					</el-table-column>
-					<el-table-column label="留言人" width="180">
-						<template slot-scope="scope">
-							{{ scope.row.name }}
-						</template>
-					</el-table-column>
-					<el-table-column label="被留言人" width="180">
+					<el-table-column label="昵称" width="180">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="回复内容" width="180">
+					<el-table-column label="设备" width="180">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="留言时间" width="180">
+					<el-table-column label="当月吸烟口数" width="180">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
 					</el-table-column>
-					<el-table-column label="回复时间" width="180">
+					<el-table-column label="当月活跃天数" width="180">
+						<template slot-scope="scope">
+							{{ scope.row.name }}
+						</template>
+					</el-table-column>
+					<el-table-column label="设备激活日期" width="180">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
 						</template>
@@ -56,7 +49,6 @@
 					<el-table-column label="操作">
 						<template slot-scope="scope">
 							<el-button size="mini" plain @click="handleDelete(scope.$index, scope.row)">详情</el-button>
-							<el-button size="mini" plain type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -74,16 +66,11 @@
 </template>
 
 <script>
-	import top from '../components/top.vue'
-	import left from '../components/left.vue'
 	export default {
 		name: "message",
-		components: {
-			top,
-			left
-		},
 		data() {
 			return {
+				isApp:false,// 是否在APP显示
 				tableData: [{
 					date: '2016-05-02',
 					name: '王小虎',
@@ -120,6 +107,8 @@
 		}
 	};
 </script>
-<style scoped>
-
+<style lang="less" scoped>
+.mainTop{
+  text-align: right;
+}
 </style>

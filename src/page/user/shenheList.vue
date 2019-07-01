@@ -2,10 +2,32 @@
   <div>
     <div class="w-100 h-100 p-15">
       <el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
+        <el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button>
         <el-breadcrumb-item>热力图</el-breadcrumb-item>
       </el-breadcrumb>
-      <div class="w-100 p-15">
+      <div class="w-100 p-15 mainTop">
+        是否在APP显示
+        <el-switch
+          v-model="isApp"
+          active-color="#13ce66"
+          inactive-color="#ccc">
+        </el-switch>
+
+      </div>
+      <div class="w-100 p-15 conent">
         <div id="container"></div>
+        <div>
+          <div class="aside">
+            <div class="header list">
+              <span>地区</span><span>烟友数量</span><span>占比</span>
+            </div>
+            <ul class="listWrap">
+              <li class="list" v-for="item in 10">
+                <span>广东深圳</span><span>900个人</span><span>90%</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -17,7 +39,9 @@ export default {
   name: "message",
   components: {},
   data() {
-    return {};
+    return {
+      isApp:false,// 是否在APP显示
+    };
   },
   created() {},
   mounted() {
@@ -163,6 +187,33 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
+.conent{
+  display: flex;
+}
 #container{height:500px;width:500px;}
+.mainTop{
+  text-align: right;
+}
+.aside{
+  border: 1px solid #ccc;
+  width: 384px;margin-left:21px;
+  padding-left: 8px;
+  
+  .header{
+    border-bottom: 1px solid #333;
+    line-height: 70px;
+  }
+  .listWrap{
+    line-height: 50px;height: 360px;
+    overflow: auto;
+  }
+  .list{
+    display: flex;
+    span{
+      flex: 1;
+      text-align: center;
+    }
+  }
+}
 </style>

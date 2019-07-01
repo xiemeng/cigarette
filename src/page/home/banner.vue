@@ -2,7 +2,7 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-button size="mini" class="right" type="primary" @click="toLink('columnAdd')">导出数据</el-button>
+				<el-button class="right" size="mini" plain >新增</el-button>
 				<el-breadcrumb-item>用户管理</el-breadcrumb-item>
 			</el-breadcrumb>
 
