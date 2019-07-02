@@ -111,7 +111,7 @@
 			},
 			addUser(){
 				this.$router.push({
-					path: '/meeting/meetingAdd/addUser'
+					path: '/meeting/meetingAdd/addList'
 				});
 			}
 		}

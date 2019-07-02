@@ -233,9 +233,9 @@ export default new Router({
           meta: { title: '角色管理', icon: 'form' }
         },
         {
-          path: 'addUser',
+          path: 'addList',
           name: 'meetingAdd2',
-          component: () => import('@/page/meeting/addUser'),
+          component: () => import('@/page/meeting/addList'),
           meta: { title: '角色管理', icon: 'form' }
         }
       ]
