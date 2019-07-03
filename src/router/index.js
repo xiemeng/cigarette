@@ -43,7 +43,7 @@ export default new Router({
     },
     {
       path: '/home/home',
-      name: 'home',
+      // name: 'home',
       component: Layout,
       meta: {
         title: '用户管理',
@@ -60,7 +60,7 @@ export default new Router({
     },
     {
       path: '/home/banner',
-      name: 'banner',
+      // name: 'banner',
       component: Layout,
       meta: {
         title: '用户管理',
@@ -77,7 +77,7 @@ export default new Router({
     },
 		{
 		  path: '/home/userDetail',
-		  name: 'userDetail',
+		  // name: 'userDetail',
 		  component: Layout,
 		  meta: {
 		    title: '用户管理',
@@ -96,7 +96,7 @@ export default new Router({
     
     {
       path: '/column/column',
-      name: 'column',
+      // name: 'column',
       component: Layout,
       meta: {
         title: '设备管理',
@@ -127,7 +127,7 @@ export default new Router({
      // 烟型管理==============================
     {
       path: '/message/message',
-      name: 'message',
+      // name: 'message',
       component: Layout,
       meta: {
         title: '烟型管理',
@@ -145,7 +145,7 @@ export default new Router({
      // 数据分析==============================
     {
       path: '/user/shenheList',
-      name: 'shenheList',
+      // name: 'shenheList',
       component: Layout,
       meta: {
         title: '热力图',
@@ -162,7 +162,7 @@ export default new Router({
     },
     {
       path: '/user/danweiList',
-      name: 'danweiList',
+      // name: 'danweiList',
       component: Layout,
       children: [
         {
@@ -181,7 +181,7 @@ export default new Router({
     },
     {
       path: '/user/zhuanjiashenheList',
-      name: 'zhuanjiashenheList',
+      // name: 'zhuanjiashenheList',
       component: Layout,
       children: [
         {
@@ -196,7 +196,7 @@ export default new Router({
      //  管理员设置==============================
     {
       path: '/meeting/meetingList',
-      name: 'meetingList',
+      // name: 'meetingList',
       component: Layout,
       meta: {
         title: '用户管理',
@@ -219,7 +219,7 @@ export default new Router({
     },
     {
       path: '/meeting/meetingAdd',
-      name: 'meetingAdd',
+      // name: 'meetingAdd',
       component: Layout,
       meta: {
         title: '角色管理',

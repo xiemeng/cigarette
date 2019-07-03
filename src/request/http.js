@@ -14,13 +14,6 @@ axios.interceptors.request.use(
     config.headers = {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
-    //判断token，配合vuex更新登录状态
-    // if(token){
-    //   config.params = {
-    // 'token':token,
-    // 'id':id
-    //}
-    // }
     return config
   },
   error => {
@@ -185,7 +178,22 @@ export function post(url, data = {}) {
     axios.post('/api' + url+'?'+qs.stringify(data))
       .then(response => {
 				if(response.status == 200 && response.data.code == 200){
-					resolve(response.data)
+					resolve(response.data.data)
+				}else{  // 错误弹窗提示
+					
+				}
+        
+      }, err => {
+        reject(err)
+      })
+  })
+}
+export function postNormal(url, ID,data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.post('/api' + url+ '?' + qs.stringify(ID),qs.stringify(data))
+      .then(response => {
+				if(response.status == 200 && response.data.code == 200){
+					resolve(response.data.data)
 				}else{  // 错误弹窗提示
 					
 				}

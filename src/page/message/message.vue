@@ -40,16 +40,15 @@
 </template>
 
 <script>
-	import top from '../components/top.vue'
-	import left from '../components/left.vue'
+	import {postNormal} from "@/request/http";
 	export default {
 		name: "message",
 		components: {
-			top,
-			left
+			
 		},
 		data() {
 			return {
+				enter:{},//
 				tableData: [{
 					date: '2016-05-02',
 					name: '王小虎',
@@ -76,8 +75,23 @@
 			};
 		},
 		created() {},
-		mounted() {},
+		mounted() {
+			this.enter = JSON.parse(localStorage.getItem("enter"));
+			this.init()
+		},
 		methods: {
+			init(){
+				postNormal('/admin/ectype/find_page',{'sessionId':this.enter.sessionId},{
+					param:{
+					  "pageIndex": 1,
+					  "pageSize": 10
+					}
+				}).then((res)=>{
+					console.log(res)
+					// 登录信息存储到VUEX 再存储到本地
+					
+				})
+			},
 			toLink(i) {
 				this.$router.push({
 					path: i

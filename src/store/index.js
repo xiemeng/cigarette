@@ -17,4 +17,5 @@ const store = new Vuex.Store({
   actions,
   mutations
 })
+window.$store = store;
 export default store;

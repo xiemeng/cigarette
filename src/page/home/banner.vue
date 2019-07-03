@@ -88,11 +88,12 @@
 </template>
 
 <script>
-	import {post} from "@/request/http";
+	import {postNormal} from "@/request/http";
 	export default {
 		name: "column",
 		data() {
 			return {
+				enter:{},// 登录信息
 				sex: 3, // 性别
 				options: [
 					{
@@ -134,9 +135,31 @@
 		},
 		created() {},
 		mounted() {
-			
+			this.enter = JSON.parse(localStorage.getItem("enter"));
+			this.init()
 		},
 		methods: {
+			init(){
+				postNormal('/admin/user/find_page',{'sessionId':this.enter.sessionId},{
+					param:{
+					  "loginNameLike": this.enter.loginName,
+					  "pageIndex": 1,
+					  "pageSize": 10,
+					  "roleId": this.enter.roleId,
+					  "userNameLike":  this.enter.userName
+					}
+				}).then((res)=>{
+					console.log(res)
+					// 登录信息存储到VUEX 再存储到本地
+					const enter = JSON.stringify(res.bussData)
+					localStorage.setItem("enter", enter);
+					this.toLink('/home/banner')
+					this.$message({
+						message: '登录成功！',
+						type: 'success'
+					});
+				})
+			},
 			toLink(i) {
 				this.$router.push({
 					path: i

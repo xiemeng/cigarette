@@ -4,7 +4,7 @@
 		<div class="right p-t-15 p-r-30">
 			 <el-dropdown @command="handleCommand">
 		      <span class="el-dropdown-link c-white">
-		        <i class="el-icon-user-solid"></i>管理员<i class="el-icon-arrow-down el-icon--right"></i>
+		        <i class="el-icon-user-solid"></i>{{loginName}}<i class="el-icon-arrow-down el-icon--right"></i>
 		      </span>
 		      <el-dropdown-menu slot="dropdown">
 		        <el-dropdown-item icon="el-icon-switch-button" command="a">注销账号</el-dropdown-item>
@@ -22,9 +22,17 @@ export default {
   },
   created() {},
   mounted() {},
+	computed:{
+		loginName(){
+			const enter = JSON.parse(localStorage.getItem("enter"));
+			console.log(enter)
+			return enter.roleName;
+		}
+	},
   methods: {
   	  handleCommand(command) {
         if(command == 'a'){
+					localStorage.removeItem("enter");
         	this.toLink('/')
         }
      },

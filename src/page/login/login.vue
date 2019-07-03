@@ -20,7 +20,9 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+	  
+  },
   methods: {
     toLink(i) {
       this.$router.push({
@@ -35,17 +37,20 @@ export default {
 	        });
 	        return
     	}
-			post('/admin/user/login',{
-				loginName:this.username,
-				password:this.password
-			}).then((res)=>{
-				console.log(res)
-				this.toLink('/home/banner')
-				this.$message({
-				    message: '登录成功！',
-				    type: 'success'
-				});
-			})
+		post('/admin/user/login',{
+			loginName:this.username,
+			password:this.password
+		}).then((res)=>{
+			console.log(res)
+			// 登录信息存储到VUEX 再存储到本地
+			const enter = JSON.stringify(res.bussData)
+			localStorage.setItem("enter", enter);
+			this.toLink('/home/banner')
+			this.$message({
+				message: '登录成功！',
+				type: 'success'
+			});
+		})
     	
     }
   }
