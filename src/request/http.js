@@ -1,4 +1,4 @@
-
+import {M_BASE_URL} from './baseUrl.js'
 import Vue from 'vue'
 import axios from 'axios'
 import qs from 'qs'
@@ -182,9 +182,14 @@ export function get(url, params = {}) {
 }
 export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
-    axios.post('/api/' + url, qs.stringify(data))
+    axios.post('/api' + url+'?'+qs.stringify(data))
       .then(response => {
-        resolve(response)
+				if(response.status == 200 && response.data.code == 200){
+					resolve(response.data)
+				}else{  // 错误弹窗提示
+					
+				}
+        
       }, err => {
         reject(err)
       })

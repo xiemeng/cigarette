@@ -18,7 +18,7 @@ module.exports = {
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
     proxyTable: {
       '/api': {
-        target: 'http://122.224.174.179:9990/',
+        target: 'https://ecigarette.icebartech.com/api/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

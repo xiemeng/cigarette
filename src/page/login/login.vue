@@ -10,11 +10,12 @@
 </template>
 
 <script>
+import {post} from "@/request/http";
 export default {
   name: "login",
   data() {
     return {
-    	username:'admin',
+    	username:'dengyh',
     	password:'123456'
     };
   },
@@ -34,18 +35,18 @@ export default {
 	        });
 	        return
     	}
-    	if(this.username != "admin" || this.password != "123456"){
-    		 this.$message({
-	          message: '账户明或密码有误！',
-	          type: 'error'
-	        });
-	        return
-    	}
-    	this.toLink('/home/banner')
-    	 this.$message({
-          message: '登录成功！',
-          type: 'success'
-        });
+			post('/admin/user/login',{
+				loginName:this.username,
+				password:this.password
+			}).then((res)=>{
+				console.log(res)
+				this.toLink('/home/banner')
+				this.$message({
+				    message: '登录成功！',
+				    type: 'success'
+				});
+			})
+    	
     }
   }
 };

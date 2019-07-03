@@ -88,6 +88,7 @@
 </template>
 
 <script>
+	import {post} from "@/request/http";
 	export default {
 		name: "column",
 		data() {
@@ -132,7 +133,9 @@
 			};
 		},
 		created() {},
-		mounted() {},
+		mounted() {
+			
+		},
 		methods: {
 			toLink(i) {
 				this.$router.push({
