@@ -10,7 +10,7 @@
 				<el-row :gutter="20">
 					<el-col :span="6">
 						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">微信名：</em>
-							<el-input placeholder="请输入" v-model="form.name"></el-input>
+							<el-input placeholder="请输入" v-model="weixinName"></el-input>
 						</div>
 					</el-col>
 					<el-col :span="6">
@@ -78,8 +78,6 @@
 				</el-table-column>
 			</el-table>
 			<div class="text-center p-t-30">
-				<!-- <el-pagination background layout="prev, pager, next" :total="1000">
-				</el-pagination> -->
 				<el-pagination 
 					@size-change="handleSizeChange" @current-change="handleCurrentChange" 
 					:current-page="data.currentPage" :page-sizes="[10, 20, 30, 40]" 
@@ -107,10 +105,11 @@
 					currentPage:1,
 				},
 				enter:{},// 登录信息
-				sex: 3, // 性别
+				weixinName:'',// 微信名字
+				sex: 0, // 性别
 				options: [
 					{
-						value: 3,
+						value: 0,
 						label: '全部'
 					},{
 						value: 1,
@@ -136,11 +135,10 @@
 		methods: {
 			init(){
 				const param = {
-					  "loginNameLike": this.enter.loginName,
+					  "nicknameLike": this.weixinName,
+					  "sex":this.sex,
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
-					  "roleId": this.enter.roleId,
-					  "userNameLike":  this.enter.userName
 					}
 				bannerPage(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
