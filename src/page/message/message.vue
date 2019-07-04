@@ -40,7 +40,7 @@
 </template>
 
 <script>
-	import {postNormal} from "@/request/http";
+	// import {postNormal} from "@/request/http";
 	export default {
 		name: "message",
 		components: {
@@ -81,16 +81,16 @@
 		},
 		methods: {
 			init(){
-				postNormal('/admin/ectype/find_page',{'sessionId':this.enter.sessionId},{
-					param:{
-					  "pageIndex": 1,
-					  "pageSize": 10
-					}
-				}).then((res)=>{
-					console.log(res)
-					// 登录信息存储到VUEX 再存储到本地
-					
-				})
+				// postNormal('/admin/ectype/find_page',{'sessionId':this.enter.sessionId},{
+				// 	param:{
+				// 	  "pageIndex": 1,
+				// 	  "pageSize": 10
+				// 	}
+				// }).then((res)=>{
+				// 	console.log(res)
+				// 	// 登录信息存储到VUEX 再存储到本地
+				// 	
+				// })
 			},
 			toLink(i) {
 				this.$router.push({

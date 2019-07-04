@@ -4,23 +4,13 @@ import axios from 'axios'
 import qs from 'qs'
 import Toast from 'vant/lib/toast'
 import 'vant/lib/toast/style'
+// 创建axios实例
+const service = axios.create({
+  baseURL: process.env.BASE_API, // api的base_url:process.env.BASE_API
+  timeout: 20000 // 请求超时时间
+})
 
-
-axios.defaults.timeout = 5000
-axios.interceptors.request.use(
-  config => {
-    // const token = getCookie() //重要数据存入cookie，调用js-cookie的方法
-    config.data = JSON.stringify(config.data)
-    config.headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-    return config
-  },
-  error => {
-    return Promise.reject(err)
-  }
-)
-axios.interceptors.response.use(
+service.interceptors.response.use(
   response => {
     switch (response.status) {
       case 100:
@@ -160,47 +150,16 @@ axios.interceptors.response.use(
       return Promise.reject(error)
   }
 )
-export function get(url, params = {}) {
-  return new Promise((resolve, reject) => {
-    axios.get('/api/' + url, {
-      params: params
-    })
-      .then(response => {
-        resolve(response)
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
-}
-export function post(url, data = {}) {
-  return new Promise((resolve, reject) => {
-    axios.post('/api' + url+'?'+qs.stringify(data))
-      .then(response => {
-				if(response.status == 200 && response.data.code == 200){
-					resolve(response.data.data)
-				}else{  // 错误弹窗提示
-					
-				}
-        
-      }, err => {
-        reject(err)
-      })
-  })
-}
-export function postNormal(url, ID,data = {}) {
-  return new Promise((resolve, reject) => {
-    axios.post('/api' + url+ '?' + qs.stringify(ID),qs.stringify(data))
-      .then(response => {
-				if(response.status == 200 && response.data.code == 200){
-					resolve(response.data.data)
-				}else{  // 错误弹窗提示
-					
-				}
-        
-      }, err => {
-        reject(err)
-      })
-  })
-}
+// 响应拦截器
+service.interceptors.response.use(function (response) {
+	if(response.status == 200 && response.data.code == 200){
+		return response.data.data;
+	}
+    // 对响应数据做点什么
+    
+  }, function (error) {
+    // 对响应错误做点什么
+    return Promise.reject(error);
+  });
+export default service
 

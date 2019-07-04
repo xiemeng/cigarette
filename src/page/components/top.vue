@@ -25,7 +25,6 @@ export default {
 	computed:{
 		loginName(){
 			const enter = JSON.parse(localStorage.getItem("enter"));
-			console.log(enter)
 			return enter.roleName;
 		}
 	},

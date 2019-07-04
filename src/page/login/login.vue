@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {post} from "@/request/http";
+import {login} from "@/api/login";
 export default {
   name: "login",
   data() {
@@ -37,10 +37,11 @@ export default {
 	        });
 	        return
     	}
-		post('/admin/user/login',{
+		const data = {
 			loginName:this.username,
 			password:this.password
-		}).then((res)=>{
+		}
+		login(data).then((res)=>{
 			console.log(res)
 			// 登录信息存储到VUEX 再存储到本地
 			const enter = JSON.stringify(res.bussData)
@@ -51,6 +52,20 @@ export default {
 				type: 'success'
 			});
 		})
+		// post('/admin/user/login',{
+		// 	loginName:this.username,
+		// 	password:this.password
+		// }).then((res)=>{
+		// 	console.log(res)
+		// 	// 登录信息存储到VUEX 再存储到本地
+		// 	const enter = JSON.stringify(res.bussData)
+		// 	localStorage.setItem("enter", enter);
+		// 	this.toLink('/home/banner')
+		// 	this.$message({
+		// 		message: '登录成功！',
+		// 		type: 'success'
+		// 	});
+		// })
     	
     }
   }

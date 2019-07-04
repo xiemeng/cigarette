@@ -33,7 +33,7 @@
 				class="w-100 p-15">
 				<el-table-column label="头像">
 					<template slot-scope="scope">
-						<img src="../../assets/imgs/rightimg.png" />
+						<img :src="scope.row.avatorUrl " />
 					</template>
 				</el-table-column>
 				<el-table-column label="微信名">
@@ -78,8 +78,15 @@
 				</el-table-column>
 			</el-table>
 			<div class="text-center p-t-30">
-				<el-pagination background layout="prev, pager, next" :total="1000">
-				</el-pagination>
+				<!-- <el-pagination background layout="prev, pager, next" :total="1000">
+				</el-pagination> -->
+				<el-pagination 
+					@size-change="handleSizeChange" @current-change="handleCurrentChange" 
+					:current-page="data.currentPage" :page-sizes="[10, 20, 30, 40]" 
+					:page-size="data.pageSize" layout="total,slot, sizes, prev, pager, next, jumper" 
+					:total="total">
+                        <span>第{{data.currentPage}} / {{totalsPage}}页</span>
+                </el-pagination>
 			</div>
 
 
@@ -88,11 +95,17 @@
 </template>
 
 <script>
-	import {postNormal} from "@/request/http";
+	import {bannerPage} from "@/api/banner";
 	export default {
 		name: "column",
 		data() {
 			return {
+				total:0,  // 总数据条数
+				totalsPage:0, // 总分页数
+				data:{  // 分页 相关信息
+					pageSize:10,
+					currentPage:1,
+				},
 				enter:{},// 登录信息
 				sex: 3, // 性别
 				options: [
@@ -108,25 +121,7 @@
 						label: '女'
 					},
 				],
-				tableData: [{
-					date: '2016-05-02',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1518 弄'
-				}, {
-					date: '2016-05-04',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1517 弄'
-				}, {
-					date: '2016-05-01',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1519 弄'
-				}, {
-					date: '2016-05-03',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1516 弄'
-				}],
-
-
+				tableData: [], // 列表数据
 				form: {
 					name: ''
 				}
@@ -140,24 +135,18 @@
 		},
 		methods: {
 			init(){
-				postNormal('/admin/user/find_page',{'sessionId':this.enter.sessionId},{
-					param:{
+				const param = {
 					  "loginNameLike": this.enter.loginName,
-					  "pageIndex": 1,
-					  "pageSize": 10,
+					  "pageIndex": this.data.currentPage,
+					  "pageSize": this.data.pageSize,
 					  "roleId": this.enter.roleId,
 					  "userNameLike":  this.enter.userName
 					}
-				}).then((res)=>{
+				bannerPage(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
-					// 登录信息存储到VUEX 再存储到本地
-					const enter = JSON.stringify(res.bussData)
-					localStorage.setItem("enter", enter);
-					this.toLink('/home/banner')
-					this.$message({
-						message: '登录成功！',
-						type: 'success'
-					});
+					this.tableData = res.bussData;
+					this.total = res.count;
+					this.totalsPage = res.pageCount;
 				})
 			},
 			toLink(i) {
@@ -165,10 +154,18 @@
 					path: i
 				});
 			},
-			handleEdit(index,row) {
+			handleEdit(index,row) {  // 详情
 				this.$router.push({
 					path: '/home/userDetail'
 				});
+			},
+			handleSizeChange(val) {
+				this.data.pageSize = val
+				this.init()
+			},
+			handleCurrentChange(val) {
+				this.data.currentPage = val
+				this.init()
 			}
 		}
 	};
