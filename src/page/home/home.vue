@@ -24,6 +24,7 @@ export default {
   	left
   },
   created() {
+		
   },
   mounted() {},
   methods: {

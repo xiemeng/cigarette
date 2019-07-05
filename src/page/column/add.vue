@@ -8,41 +8,41 @@
 				<ul class="wrap">
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">设备型号：</em>
-						<el-input v-model="name" placeholder="请输入"></el-input>
+						<el-input v-model="model" placeholder="请输入"></el-input>
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">烟弹类型：</em>
-						<el-select v-model="name" placeholder="请选择">
+						<el-select v-model="bombName" placeholder="请选择">
 							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">上市日期：</em>
-						<el-input v-model="name" placeholder="请输入"></el-input>
+						<el-input v-model="onDate" placeholder="请输入"></el-input>
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">支持烟型：</em>
 						<div>
-							<span class="typeBtn" v-for="item in 30">万宝路</span>
+							<span :style="{background:item.isChoose?'#fff':'#bbb'}" class="typeBtn" v-for="(item,index) in yanType" @click="choose(item,index)">{{item.name}}</span>
 						</div>
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">设备照片：</em>
-						<!-- <img src="../../assets/imgs/rightimg.png" /> -->
 						<el-upload
 						  class="avatar-uploader"
-						  action="https://jsonplaceholder.typicode.com/posts/"
+						  action="https://ecigarette.icebartech.com/api/base/h5/getCOSUploadUrl/{suffix}"
+						  :http-request="uploadSectionFile"
 						  :show-file-list="false"
 						  :on-success="handleAvatarSuccess"
 						  :before-upload="beforeAvatarUpload">
-						  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+						  <img v-if="imageKey" :src="imageKey" class="avatar">
 						  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 						</el-upload>
 					</li>
 				</ul>
 				<div class="footer">
-					<el-button plain>确定</el-button>
+					<el-button plain @click="submit">确定</el-button>
 				</div>
 				
 			</div>
@@ -51,6 +51,7 @@
 </template>
  
 <script>
+	import {columAdd,getOSSUploadUrl,columType} from '@/api/colum'
 	export default {
 		name: "columnAdd",
 		components: {
@@ -58,29 +59,62 @@
 		},
 		data() {
 			return {
-				imageUrl: '',
-				name:'',
+				yanType:[],
+				enter:{},
+				imageKey: '',  // 图片
+				typeIds:'',  // 支持的烟型 用,号隔开
+				model:'',// 设备型号
+				onDate:'',// 上市日期
+				bombName:'',// 烟弹类型
 				options: [{
-						value: 1,
-						label: '男'
+						value: 'kao',
+						label: '烤烟型'
 					},
 					{
-						value: 2,
-						label: '女'
+						value: 'you',
+						label: '油烟型'
 					},
 				]
 			};
 		},
 		created() {},
-		mounted() {},
+		mounted() {
+			this.enter = JSON.parse(localStorage.getItem("enter"));
+			this.init()
+		},
 		methods: {
+			init(){
+				const param = {
+					  "pageIndex": 1,
+					  "pageSize": 1000,
+				}
+				columType(param,this.enter.sessionId).then((res)=>{
+					console.log(res)
+					this.yanType = res.bussData;
+				})
+			},
+			choose(item,index){  // 选择烟型
+				if(this.yanType[index].isChoose){
+					delete this.yanType[index].isChoose
+				}else{
+					this.yanType[index].isChoose = 1;
+				}
+				this.$forceUpdate()
+			},
+			uploadSectionFile(params){  // 自定义上传类型
+				console.log(params)
+				getOSSUploadUrl().then((res)=>{
+					console.log(res)
+				})
+			},
 			handleAvatarSuccess(res, file) {
-				this.imageUrl = URL.createObjectURL(file.raw);
-			  },
-			  beforeAvatarUpload(file) {
+				console.log(res,file)
+				this.imageKey = URL.createObjectURL(file.raw);
+			},
+			beforeAvatarUpload(file) {
 				const isJPG = file.type === 'image/jpeg';
 				const isLt2M = file.size / 1024 / 1024 < 2;
-
+				
 				if (!isJPG) {
 				  this.$message.error('上传头像图片只能是 JPG 格式!');
 				}
@@ -88,7 +122,19 @@
 				  this.$message.error('上传头像图片大小不能超过 2MB!');
 				}
 				return isJPG && isLt2M;
-			  }
+			},
+			submit(){  // 提交
+				const param = {
+					  "bombName": "kao",
+					  "imageKey": "图片Key",
+					  "model": "我是一条广告",
+					  "onDate": "2019-10-11",
+					  "typeIds": "string"
+					}
+				columAdd(param,this.enter.sessionId).then((res)=>{
+					console.log(res)
+				})
+			}
 		}
 	};
 </script>

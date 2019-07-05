@@ -9,21 +9,23 @@
 				<div class="w-100 p-15">
 					<el-row :gutter="20">
 					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">用户名：</em><el-input placeholder="请输入" v-model="form.name"></el-input></div>
+					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">用户名：</em>
+						<el-input placeholder="请输入" v-model="userNameLike"></el-input></div>
 					  </el-col>
 					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">账户名：</em><el-input placeholder="请输入" v-model="form.name"></el-input></div>
+					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">账户名：</em>
+						<el-input placeholder="请输入" v-model="loginNameLike"></el-input></div>
 					  </el-col>
 					 <el-col :span="6">
-						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">性别：</em>
-							<el-select v-model="sex" placeholder="请选择">
-								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">角色：</em>
+							<el-select v-model="roleId " placeholder="请选择">
+								<el-option v-for="item in options" :key="item.id" :label="item.roleDesc" :value="item.id">
 								</el-option>
 							</el-select>
 						</div>
 					</el-col>
 					  <el-col :span="6">
-					  	<el-button>查询</el-button>
+					  	<el-button @click="search">查询</el-button>
 					  </el-col>
 					</el-row>
 				</div>
@@ -31,22 +33,22 @@
 				<el-table :data="tableData" class="w-100 p-15" stripe>
 					<el-table-column label="头像" width="180">
 						<template slot-scope="scope">
-							留言内容
+							<img :src="scope.row.avatorUrl || error" @error="errorImg" />
 						</template>
 					</el-table-column>
 					<el-table-column label="账户号" width="180">
 						<template slot-scope="scope">
-							{{ scope.row.name }}
+							{{ scope.row.loginName  }}
 						</template>
 					</el-table-column>
 					<el-table-column label="用户名" width="180">
 						<template slot-scope="scope">
-							{{ scope.row.name }}
+							{{ scope.row.userName }}
 						</template>
 					</el-table-column>
 					<el-table-column label="角色名称" width="180">
 						<template slot-scope="scope">
-							{{ scope.row.name }}
+							{{ scope.row.roleName }}
 						</template>
 					</el-table-column>
 					<el-table-column label="操作">
@@ -57,11 +59,13 @@
 					</el-table-column>
 				</el-table>
 				<div class="text-center p-t-30">
-				<el-pagination
-				  background
-				  layout="prev, pager, next"
-				  :total="1000">
-				</el-pagination>
+					<el-pagination 
+						@size-change="handleSizeChange" @current-change="handleCurrentChange" 
+						:current-page="data.currentPage" :page-sizes="[10, 20, 30, 40]" 
+						:page-size="data.pageSize" layout="total,slot, sizes, prev, pager, next, jumper" 
+						:total="total">
+					        <span>第{{data.currentPage}} / {{totalsPage}}页</span>
+					</el-pagination>
 				</div>
 
 				
@@ -70,6 +74,8 @@
 </template>
 
 <script>
+	const error = require('@/assets/imgs/rightimg.png')
+	import {meetPage,meetList} from '@/api/meeting'
 	export default {
 		name: "meetingList",
 		components: {
@@ -77,53 +83,70 @@
 		},
 		data() {
 			return {
-				sex: '', // 性别
-				options: [{
-						value: 1,
-						label: '男'
-					},
-					{
-						value: 2,
-						label: '女'
-					},
-				],
-				tableData: [{
-					date: '2016-05-02',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1518 弄'
-				}, {
-					date: '2016-05-04',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1517 弄'
-				}, {
-					date: '2016-05-01',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1519 弄'
-				}, {
-					date: '2016-05-03',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1516 弄'
-				}],
-				
-				
+				enter:{},
+				error:error,
+				total:0,  // 总数据条数
+				totalsPage:0, // 总分页数
+				data:{  // 分页 相关信息
+					pageSize:10,
+					currentPage:1,
+				},
+				roleId : '', // 角色id
+				userNameLike:'',// 用户名
+				loginNameLike:'',// 账户名
+				options: [],
+				tableData: [],
 				form:{
 					name:''
 				}
-				
 			};
 		},
 		created() {},
-		mounted() {},
+		mounted() {
+			this.enter = JSON.parse(localStorage.getItem("enter"));
+			this.init()
+			this.getList()
+		},
 		methods: {
-			toLink(i) {
-				this.$router.push({
-					path: i
-				});
+			search(){  // 查找
+				this.init()
+			},
+			init(){
+				const param = {
+					  "pageIndex": this.data.currentPage,
+					  "pageSize": this.data.pageSize,
+					}
+				if(this.roleId)param.roleId = this.roleId;
+				if(this.loginNameLike)param.loginNameLike = this.loginNameLike;
+				if(this.userNameLike)param.userNameLike = this.userNameLike;
+				meetPage(param,this.enter.sessionId).then((res)=>{
+					console.log(res)
+					this.tableData = res.bussData;
+					this.total = res.count;
+					this.totalsPage = res.pageCount;
+				})
+			},
+			getList(){  // 获取角色列表
+				meetList(this.enter.sessionId).then((res)=>{
+					console.log(res)
+					this.options = res.bussData;
+				})
 			},
 			addUser(){
 				this.$router.push({
 					path: '/meeting/meetingList/addUser'
 				});
+			},
+			errorImg($event){  // 图片错误加载的默认图
+				event.srcElement.src = error
+			},
+			handleSizeChange(val) {
+				this.data.pageSize = val
+				this.init()
+			},
+			handleCurrentChange(val) {
+				this.data.currentPage = val
+				this.init()
 			}
 		}
 	};

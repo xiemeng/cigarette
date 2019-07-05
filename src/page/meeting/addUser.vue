@@ -30,10 +30,10 @@
 						<em class="nowrap" style="line-height: 40px;">角色：</em>
 						<div>
 							<div v-for="(item,index) in userNum" class="userList">
-							    <el-select v-model="sex" placeholder="请选择">
-									<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-									</el-option>
-								</el-select>
+							    <el-select v-model="roleId " placeholder="请选择">
+							    	<el-option v-for="item in options" :key="item.id" :label="item.roleDesc" :value="item.id">
+							    	</el-option>
+							    </el-select>
 								<span v-if="index == 0" class="addNum" @click="addUserNum">+</span>
 								<span v-if="index != 0" class="addNum" @click="reduceNum">-</span>
 							</div>
@@ -42,7 +42,7 @@
 					</li>
 				</ul>
 				<div class="footer">
-					<el-button plain>确定</el-button>
+					<el-button plain @click="submit">确定</el-button>
 				</div>
 				
 			</div>
@@ -51,6 +51,7 @@
 </template>
  
 <script>
+	import {meetAdd,meetList} from '@/api/meeting'
 	export default {
 		name: "columnAdd",
 		components: {
@@ -60,26 +61,40 @@
 			return {
 				name:'',
 				userNum:1,//
-				options: [{
-						value: 1,
-						label: '男'
-					},
-					{
-						value: 2,
-						label: '女'
-					},
-				]
+				roleId:'',// 角色id
+				options: []
 			};
 		},
 		created() {},
-		mounted() {},
+		mounted() {
+			this.enter = JSON.parse(localStorage.getItem("enter"));
+			this.getList()
+		},
 		methods: {
 			addUserNum(){
 				this.userNum++;
 			},
 			reduceNum(){
 				this.userNum--;
-			}
+			},
+			submit(){  // 提交
+				const param = {
+					 "avatorKey": "avator.png",
+					  "loginName": "string",
+					  "password": "sdkgjskd353025734782",
+					  "roleId": 0,
+					  "userName": "string"
+				}
+				meetAdd(param,this.enter.sessionId).then((res)=>{
+					console.log(res)
+				})
+			},
+			getList(){  // 获取角色列表
+				meetList(this.enter.sessionId).then((res)=>{
+					console.log(res)
+					this.options = res.bussData;
+				})
+			},
 		}
 	};
 </script>

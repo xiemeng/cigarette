@@ -168,6 +168,8 @@
 			exportList(){  // 导出数据
 				messageExportList().then((res)=>{
 					console.log(res)
+					const filename = '烟型管理列表.xlsx'
+					this.fileDownload(res, filename)
 				})
 			},
 			handleSizeChange(val) {
@@ -177,6 +179,30 @@
 			handleCurrentChange(val) {
 				this.data.currentPage = val
 				this.init()
+			},
+			fileDownload(data, fileName) {
+			    const blob = new Blob([data], {
+			        type: 'application/octet-stream'
+			    })
+			   
+			    const filename = fileName || 'filename.xlsx'
+			    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+			        window.navigator.msSaveBlob(blob, filename)
+			    } else {
+			        var blobURL = window.URL.createObjectURL(blob)
+			        var tempLink = document.createElement('a')
+			        tempLink.style.display = 'none'
+			        tempLink.href = blobURL
+			        tempLink.setAttribute('download', filename)
+			        if (typeof tempLink.download === 'undefined') {
+			        tempLink.setAttribute('target', '_blank')
+			        }
+			        
+			        document.body.appendChild(tempLink)
+			        tempLink.click()
+			        document.body.removeChild(tempLink)
+			        window.URL.revokeObjectURL(blobURL)
+			    }
 			}
 		}
 	}

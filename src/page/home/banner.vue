@@ -2,7 +2,7 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-button class="right" size="mini" plain >导出数据</el-button>
+				<el-button class="right" size="mini" plain @click="exportExcel">导出数据</el-button>
 				<el-breadcrumb-item>用户管理</el-breadcrumb-item>
 			</el-breadcrumb>
 
@@ -22,53 +22,53 @@
 						</div>
 					</el-col>
 					<el-col :span="6">
-						<el-button>查询</el-button>
+						<el-button @click="search">查询</el-button>
 					</el-col>
 				</el-row>
 			</div>
 
 			<el-table 
 				:data="tableData" stripe  
-				:default-sort = "{prop: 'date', order: 'descending'}" 
+				:default-sort = "{prop: 'startTime', order: 'descending'}" 
 				class="w-100 p-15">
 				<el-table-column label="头像">
 					<template slot-scope="scope">
-						<img :src="scope.row.avatorUrl " />
+						<img :src="scope.row.headimgurl" @error="errorImg" />
 					</template>
 				</el-table-column>
 				<el-table-column label="微信名">
 					<template slot-scope="scope">
-						微信名
+						{{ scope.row.weixinUsername }}
 					</template>
 				</el-table-column>
 				<el-table-column label="年龄">
 					<template slot-scope="scope">
-						年龄
+						{{ scope.row.age }}
 					</template>
 				</el-table-column>
 				<el-table-column label="性别">
 					<template slot-scope="scope">
-						性别
+						{{ scope.row.sex ==1?'男':'女' }}
 					</template>
 				</el-table-column>
 				<el-table-column label="设备激活日期" sortable>
 					<template slot-scope="scope">
-						设备激活日期
+						{{ scope.row.startTime  }}
 					</template>
 				</el-table-column>
 				<el-table-column label="设备数">
 					<template slot-scope="scope">
-						设备激活日期
+						{{ scope.row.deviceNum  }}
 					</template>
 				</el-table-column>
 				<el-table-column label="设备型号">
 					<template slot-scope="scope">
-						{{ scope.row.name }}
+						{{ disposeDate(scope.row.deviceHistories) }}
 					</template>
 				</el-table-column>
 				<el-table-column label="最后一次使用设备" sortable>
 					<template slot-scope="scope">
-						{{ scope.row.name }}
+						{{ scope.row.lastUseTime+'('+scope.row.city+')' }}
 					</template>
 				</el-table-column>
 				<el-table-column label="操作">
@@ -93,7 +93,8 @@
 </template>
 
 <script>
-	import {bannerPage} from "@/api/banner";
+	const error = require('@/assets/imgs/rightimg.png')
+	import {bannerPage,bannerDetail,exportBannerExcel} from "@/api/banner";
 	export default {
 		name: "column",
 		data() {
@@ -135,17 +136,50 @@
 		methods: {
 			init(){
 				const param = {
-					  "nicknameLike": this.weixinName,
-					  "sex":this.sex,
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
 					}
+				if(this.weixinName){
+					param.nicknameLike = this.weixinName
+				}
+				if(this.sex){
+					param.sex = this.sex;
+				}
 				bannerPage(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
 					this.tableData = res.bussData;
 					this.total = res.count;
 					this.totalsPage = res.pageCount;
 				})
+			},
+			search(){  // 搜索
+				this.init()
+			},
+			exportExcel(){  // 导出数据
+				const param = {
+					  "pageIndex": this.data.currentPage,
+					  "pageSize": this.data.pageSize,
+					}
+				if(this.weixinName){
+					param.nicknameLike = this.weixinName
+				}
+				if(this.sex){
+					param.sex = this.sex;
+				}
+				exportBannerExcel(param,this.enter.sessionId).then((res)=>{
+					console.log(res)
+					const filename = '微信用户列表.xlsx'
+					this.fileDownload(res, filename)
+				}).catch((error)=>{
+					this.$message({
+						showClose: true,
+						message: error,
+						type: 'error'
+					})
+				})
+			},
+			errorImg($event){  // 图片错误加载的默认图
+				event.srcElement.src = error
 			},
 			toLink(i) {
 				this.$router.push({
@@ -154,7 +188,8 @@
 			},
 			handleEdit(index,row) {  // 详情
 				this.$router.push({
-					path: '/home/userDetail'
+					path: '/home/userDetail',
+					query:{id:row.id}
 				});
 			},
 			handleSizeChange(val) {
@@ -164,7 +199,37 @@
 			handleCurrentChange(val) {
 				this.data.currentPage = val
 				this.init()
-			}
+			},
+			disposeDate(date){  // 处理数据
+				let value = date.map((item)=>{
+					return item.model
+				})
+				return value.join(' ');
+			},
+			fileDownload(data, fileName) {
+	            const blob = new Blob([data], {
+	                type: 'application/octet-stream'
+	            })
+	           
+	            const filename = fileName || 'filename.xlsx'
+	            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+	                window.navigator.msSaveBlob(blob, filename)
+	            } else {
+	                var blobURL = window.URL.createObjectURL(blob)
+	                var tempLink = document.createElement('a')
+	                tempLink.style.display = 'none'
+	                tempLink.href = blobURL
+	                tempLink.setAttribute('download', filename)
+	                if (typeof tempLink.download === 'undefined') {
+	                tempLink.setAttribute('target', '_blank')
+	                }
+	                
+	                document.body.appendChild(tempLink)
+	                tempLink.click()
+	                document.body.removeChild(tempLink)
+	                window.URL.revokeObjectURL(blobURL)
+	            }
+	        }
 		}
 	};
 </script>

@@ -37,9 +37,9 @@ export function messageDelete(data,ID) {  // 烟型分页 修改
   return service({
     url: '/admin/ectype/delete?'+qs.stringify(data),
     method: 'post',
-	headers: {
-		'sessionId': ID
-	}
+		headers: {
+			'sessionId': ID
+		}
   })
 }
 
@@ -47,9 +47,6 @@ export function messageExportList() {  // 导出列表
   return service({
     url: '/admin/ectype/exportList',
     method: 'post',
-	headers: {
-		'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		'Content-Type':'application/json'
-	}
+		responseType: 'arraybuffer'
   })
 }
