@@ -140,14 +140,17 @@
 					})
 				})
 			},
-			goDetail() {  // 去详情
+			goDetail(item,row) {  // 去详情
+				console.log(item,row)
 				this.$router.push({
-					path: '/column/column/detail'
+					path: '/column/column/detail',
+					query:{id:row.id}
 				});
 			},
-			goAdd() {  // 去添加
+			goAdd(tips,date) {  // 去添加
+				console.log(tips,date)
 				this.$router.push({
-					path: '/column/column/add'
+					path: '/column/column/add',
 				});
 			},
 			handleSizeChange(val) {

@@ -60,3 +60,12 @@ html,body,#app{height: 100%;}
 .el-table{
 	font-size:12px ;
 }
+/*  日历相关 */
+.wh_content_item .wh_isToday {
+  background: #0078D7 !important;
+  border-radius: 0 !important;
+}
+.wh_content_item .wh_chose_day {
+  /* background: transparent !important; */
+  border-radius: 0 !important;
+}

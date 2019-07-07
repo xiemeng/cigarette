@@ -2,13 +2,14 @@
   <div>
     <div class="w-100 h-100 p-15">
       <el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-        <el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button>
+        <el-button size="mini" class="right" @click="exportExcel">导出数据</el-button>
         <el-breadcrumb-item>热力图</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="w-100 p-15 mainTop">
         是否在APP显示
         <el-switch
-          v-model="isApp"
+					@change="change"
+          v-model="isShowHot"
           active-color="#13ce66"
           inactive-color="#ccc">
         </el-switch>
@@ -22,8 +23,8 @@
               <span>地区</span><span>烟友数量</span><span>占比</span>
             </div>
             <ul class="listWrap">
-              <li class="list" v-for="item in 10">
-                <span>广东深圳</span><span>900个人</span><span>90%</span>
+              <li class="list" v-for="item in dataList">
+                <span>{{item.provinceName}}</span><span>{{item.num}}个人</span><span>{{item.percent}}</span>
               </li>
             </ul>
           </div>
@@ -34,13 +35,15 @@
 </template>
 
 <script>
-import {getWeixinUserLocationStatics} from '@/api/user';
+import {getWeixinUserLocationStatics,exportHotList,configDetail,configUpdate} from '@/api/user';
 export default {
   name: "message",
   components: {},
   data() {
     return {
-      isApp:false,// 是否在APP显示
+      isShowHot:false,// 是否在APP显示
+			dataList:[],// 列表
+			id:'',
     };
   },
   created() {},
@@ -50,14 +53,63 @@ export default {
     this.getMap()
   },
   methods: {
-    toLink(i) {
-      this.$router.push({
-        path: i
-      });
+		change(value){  // 开关状态改变
+			console.log(value)
+			let isShowHot = value?'y':'n';
+			const params = {
+				isShowHot:isShowHot,
+				id:this.id
+			}
+			configUpdate(params,this.enter.sessionId).then((res)=>{
+				console.log(res)
+			})
+		},
+    exportExcel(){  // 导出数据
+    	exportHotList(this.enter.sessionId).then((res)=>{
+    		console.log(res)
+    		const filename = '热力图列表.xlsx'
+    		this.fileDownload(res, filename)
+    	}).catch((error)=>{
+    		this.$message({
+    			showClose: true,
+    			message: error,
+    			type: 'error'
+    		})
+    	})
     },
+		fileDownload(data, fileName) {
+		    const blob = new Blob([data], {
+		        type: 'application/octet-stream'
+		    })
+		   
+		    const filename = fileName || 'filename.xlsx'
+		    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+		        window.navigator.msSaveBlob(blob, filename)
+		    } else {
+		        var blobURL = window.URL.createObjectURL(blob)
+		        var tempLink = document.createElement('a')
+		        tempLink.style.display = 'none'
+		        tempLink.href = blobURL
+		        tempLink.setAttribute('download', filename)
+		        if (typeof tempLink.download === 'undefined') {
+		        tempLink.setAttribute('target', '_blank')
+		        }
+		        
+		        document.body.appendChild(tempLink)
+		        tempLink.click()
+		        document.body.removeChild(tempLink)
+		        window.URL.revokeObjectURL(blobURL)
+		    }
+		},
 		init(){
 			getWeixinUserLocationStatics(this.enter.sessionId).then((res)=>{
 				console.log(res)
+				this.dataList = res.bussData;
+			})
+			configDetail(this.enter.sessionId).then((res)=>{
+				console.log(res)
+				this.id = res.bussData.id;
+				this.isShowHot  = res.bussData.isShowHot == 'y'?true:false;
 			})
 		},
 		getMap(){  // 绘制地图

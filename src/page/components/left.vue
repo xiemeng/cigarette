@@ -9,17 +9,17 @@
       background-color="#324157"
       text-color="#fff"
       active-text-color="#409EFF">
-      <el-submenu index="1">
+      <el-submenu :index="String(index+1)" v-for="(item,index) in routerList" :key="index">
         <template slot="title">
-          <i class="el-icon-s-home"></i>
-          <span>用户管理</span>
+          <i :class="item.menuIcon"></i>
+          <span>{{item.menuName}}</span>
         </template>
-        <el-menu-item-group>
-          <el-menu-item index="/home/banner">用户管理</el-menu-item>
+        <el-menu-item-group v-for="(item2,index) in item.chilrenMenu" :key="index">
+          <el-menu-item :index="item2.href">{{item2.name}}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       
-      <el-submenu index="2">
+      <!-- <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span>设备管理</span>
@@ -60,7 +60,7 @@
           <el-menu-item index="/meeting/meetingList">用户管理</el-menu-item>
 					<el-menu-item index="/meeting/meetingAdd">角色管理</el-menu-item>
         </el-menu-item-group>
-      </el-submenu>
+      </el-submenu> -->
     </el-menu>
 			
 			
@@ -69,15 +69,57 @@
 </template>
 
 <script>
+const enter = JSON.parse(localStorage.getItem("enter"));
+console.log(enter.menus);
 export default {
   name: "top",
   data() {
     return {
-    	url:''
+    	url:'',
+			routerList:enter.menus
     };
   },
   created() {
-  	
+  	this.routerList.forEach((item)=>{
+  			switch(item.menuName) {
+  			 case '用户管理':
+						item.menuIcon = 'el-icon-s-home'
+  			    item.chilrenMenu = [
+  						{name:'用户管理',href:'/home/banner'}
+  					]
+  			    break;
+  			 case '设备管理':
+						item.menuIcon = 'el-icon-menu'
+  			    item.chilrenMenu = [
+  			    	{name:'设备管理',href:'/column/column'}
+  			    ]
+  			    break;
+				case '烟型管理':
+						item.menuIcon = 'el-icon-s-comment'
+				   item.chilrenMenu = [
+				   	{name:'烟型管理',href:'/message/message'}
+				   ]
+				   break;
+				case '数据分析':
+						item.menuIcon = 'el-icon-s-custom'
+				   item.chilrenMenu = [
+				   	{name:'热力图',href:'/user/shenheList'},
+						{name:'排行榜',href:'/user/danweiList'},
+						{name:'时间表',href:'/user/zhuanjiashenheList'}
+				   ]
+				   break;
+				case '管理员设置':
+						item.menuIcon = 'el-icon-s-order'
+				   item.chilrenMenu = [
+				   	{name:'用户管理',href:'/meeting/meetingList'},
+						{name:'角色管理',href:'/meeting/meetingAdd'}
+				   ]
+				   break;
+  			 default:
+  			    console.log('执行了这里')
+  			} 
+  	})
+		console.log(this.routerList)
   },
   mounted() {
   	let href = window.location.href;
@@ -94,70 +136,6 @@ export default {
 					this.$router.push({
 						path: key
 					});
-//       	switch(key){
-//       		
-//       		//首页管理==============================
-//       		case '/home/banner':
-//       		this.$router.push({
-// 		        path: '/home/banner'
-// 		      });
-//       		break;
-//       		//栏目管理==============================
-//       		case '/column/column':
-//       		this.$router.push({
-// 		        path: '/column/column'
-// 		      });
-//       		break;
-//       		
-//       		//烟型管理==============================
-//       		case '/message/message':
-//       		this.$router.push({
-// 		        path: '/message/message'
-// 		      });
-//       		break;
-// 
-//       		//用户管理==============================
-//       		
-//       		case '/user/shenheList':
-//       		this.$router.push({
-// 		        path: '/user/shenheList'
-// 		      });
-//       		break;
-//       		case '/user/danweiList':
-//       		this.$router.push({
-// 		        path: '/user/danweiList'
-// 		      });
-//       		break;
-//       		case '/user/zhuanjiaList':
-//       		this.$router.push({
-// 		        path: '/user/zhuanjiaList'
-// 		      });
-//       		break;
-//       		case '/user/zhuanjiashenheList':
-//       		this.$router.push({
-// 		        path: '/user/zhuanjiashenheList'
-// 		      });
-//       		break;
-//       		case '/user/userList':
-//       		this.$router.push({
-// 		        path: '/user/userList'
-// 		      });
-//       		break;
-//       		
-//       		
-//       		//管理员设置==============================
-//       		case '/meeting/meetingList':
-//       		this.$router.push({
-// 		        path: '/meeting/meetingList'
-//           });
-//           break;
-//           case '/meeting/meetingAdd':
-//       		this.$router.push({
-// 		        path: '/meeting/meetingAdd'
-// 		      });
-//       		break;
-//       	}
-// 				return
       }
   }
 };

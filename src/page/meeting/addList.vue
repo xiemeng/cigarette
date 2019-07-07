@@ -2,32 +2,28 @@
 	<div class="columAdd">
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-breadcrumb-item>角色管理》新增</el-breadcrumb-item>
+				<el-breadcrumb-item>角色管理》{{tips == 'add'?'新增':'编辑'}}</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="w-100 p-15">
 				<ul class="wrap">
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">角色名称：</em>
-						<el-input v-model="name" placeholder="请输入"></el-input>
+						<el-input v-model="roleName" placeholder="请输入"></el-input>
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">角色描述：</em>
-						<el-input v-model="name" placeholder="请输入"></el-input>
+						<el-input v-model="roleDesc" placeholder="请输入"></el-input>
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">权限：</em>
 						<div>
-							<div><el-checkbox v-model="checked">所有权限</el-checkbox></div>
-							<div><el-checkbox v-model="checked">用户管理</el-checkbox></div>
-							<div><el-checkbox v-model="checked">烟型管理</el-checkbox></div>
-							<div><el-checkbox v-model="checked">设备管理</el-checkbox></div>
-							<div><el-checkbox v-model="checked">数据分析</el-checkbox></div>
+							<div v-for="(item,index) in menuList"><el-checkbox v-model="menuIds[index]">{{item.menuName}}</el-checkbox></div>
 						</div>
 					</li>
 					
 				</ul>
 				<div class="footer">
-					<el-button plain>确定</el-button>
+					<el-button plain @click="submit">确定</el-button>
 				</div>
 				
 			</div>
@@ -36,6 +32,7 @@
 </template>
  
 <script>
+	import {meetuserInsert,meetuserUpdate,meetuserDetail,menuList} from '@/api/meeting'
 	export default {
 		name: "columnAdd",
 		components: {
@@ -43,28 +40,115 @@
 		},
 		data() {
 			return {
-				name:'',
-				userNum:1,//
-				options: [{
-						value: 1,
-						label: '男'
-					},
-					{
-						value: 2,
-						label: '女'
-					},
-				]
+				tips:'',// 
+				roleName:'',  //角色名称
+				roleDesc:'',// 角色描述
+				menuList:[],// 菜单栏
+				menuIds:[
+					false,false,false,false,false
+				],// 角色权限
+				menuIdsTrue:[],// 角色全限
 			};
 		},
-		created() {},
-		mounted() {},
+		created() {
+			this.enter = JSON.parse(localStorage.getItem("enter"));
+			this.tips = this.$router.currentRoute.query.tips;
+			if(!this.tips)this.init()
+			this.getList()
+		},
+		mounted() {
+			
+		},
 		methods: {
-			addUserNum(){
-				this.userNum++;
+			init(){
+				const param = {
+					 "id": this.$router.currentRoute.query.id,
+					}
+				meetuserDetail(param,this.enter.sessionId).then((res)=>{
+					console.log(res)
+					this.roleName = res.bussData.roleName;
+					this.roleDesc = res.bussData.roleDesc;
+					this.menuIdsTrue = res.bussData.menuIds;
+					this.menuIdsTrue.forEach((item)=>{
+						this.menuIds[item] = true;
+					})
+				})
+				
 			},
-			reduceNum(){
-				this.userNum--;
-			}
+			getList(){
+				menuList(this.enter.sessionId).then((res)=>{
+					console.log(res)
+					this.menuList = res.bussData;
+				})
+			},
+			submit(){  // 提交
+				if(!this.roleName){
+					this.$message({
+					  message: '请输入角色名',
+					  type: 'warning'
+					});
+					return
+				}
+				if(!this.roleDesc){
+					this.$message({
+					  message: '请输入角色描述',
+					  type: 'warning'
+					});
+					return
+				}
+				if(this.menuIds.length<=0){
+					this.$message({
+					  message: '请选择角色权限',
+					  type: 'warning'
+					});
+					return
+				}
+				for(let i = 0;i<this.menuIds.length;i++){
+					if(this.menuIds[i]){
+						this.menuIdsTrue.push(i+1)
+					}
+				}
+				if(this.tips){  // 新增
+					this.addName()
+				}else{
+					this.upDateName()
+				}
+				
+			},
+			addName(){  // 新增
+				
+				const param = {
+					  "menuIds": this.menuIdsTrue,
+					  "roleDesc":this.roleDesc,
+					  "roleName": this.roleName
+					}
+				meetuserInsert(param,this.enter.sessionId).then((res)=>{
+					if(res.code)return;
+					console.log(res);
+					this.$message({
+					  message: '添加成功',
+					  type: 'success'
+					});
+					this.$router.push({path:'/meeting/meetingAdd'})
+				})
+			},
+			upDateName(){  // 编辑
+				const param = {
+					  "id": this.$router.currentRoute.query.id,
+					  "menuIds": this.menuIdsTrue,
+					  "roleDesc":this.roleDesc,
+					  "roleName": this.roleName
+					}
+				meetuserUpdate(param,this.enter.sessionId).then((res)=>{
+					console.log(res)
+					if(res.code)return;
+					this.$message({
+					  message: '修改成功',
+					  type: 'success'
+					});
+					this.$router.push({path:'/meeting/meetingAdd'})
+				})
+			},
 		}
 	};
 </script>

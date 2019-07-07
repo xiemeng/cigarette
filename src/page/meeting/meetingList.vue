@@ -2,7 +2,7 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<el-button class="right elbut" size="mini" plain @click="addUser">新增</el-button>
+					<el-button class="right elbut" size="mini" plain @click="addUser('add')">新增</el-button>
 					<el-breadcrumb-item>用户管理</el-breadcrumb-item>
 				</el-breadcrumb>
 				
@@ -19,7 +19,7 @@
 					 <el-col :span="6">
 						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">角色：</em>
 							<el-select v-model="roleId " placeholder="请选择">
-								<el-option v-for="item in options" :key="item.id" :label="item.roleDesc" :value="item.id">
+								<el-option v-for="item in options" :key="item.id" :label="item.roleName" :value="item.id">
 								</el-option>
 							</el-select>
 						</div>
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-	const error = require('@/assets/imgs/rightimg.png')
+	const error = require('@/assets/imgs/people.png')
 	import {meetPage,meetList} from '@/api/meeting'
 	export default {
 		name: "meetingList",
@@ -132,10 +132,19 @@
 					this.options = res.bussData;
 				})
 			},
-			addUser(){
-				this.$router.push({
-					path: '/meeting/meetingList/addUser'
-				});
+			addUser(tips,date){
+				if(tips == 'add'){  // 新增
+					this.$router.push({
+						path: '/meeting/meetingList/addUser',
+						query:{tips:'add'}
+					});
+				}else{
+					this.$router.push({
+						path: '/meeting/meetingList/addUser',
+						query:{id:date.id}
+					});
+				}
+				
 			},
 			errorImg($event){  // 图片错误加载的默认图
 				event.srcElement.src = error

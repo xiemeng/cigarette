@@ -31,8 +31,7 @@
 						<em class="nowrap" style="line-height: 40px;">设备照片：</em>
 						<el-upload
 						  class="avatar-uploader"
-						  action="https://ecigarette.icebartech.com/api/base/h5/getCOSUploadUrl/{suffix}"
-						  :http-request="uploadSectionFile"
+						  action="https://file.icebartech.com/icebartech-ecigarette/190707062743-20.jpeg?Expires=1562453863&OSSAccessKeyId=LTAI6bL6dileKQHr&Signature=mpWYf0Vh9%2BnSiURmtnBs0R07W04%3D"
 						  :show-file-list="false"
 						  :on-success="handleAvatarSuccess"
 						  :before-upload="beforeAvatarUpload">

@@ -1,6 +1,7 @@
 import service from '@/request/http.js'
 import qs from 'qs'
 export function bannerPage(data,ID) {  // 微信用户列表
+			
   return service({
     url: '/admin/weixin/find_page',
     method: 'post',

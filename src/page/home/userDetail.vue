@@ -8,7 +8,7 @@
 			<div class="w-100 p-15 user-detail-wrap">
 				<ul>
 					<li class="list">
-						<span>微信ID</span><span>{{allDate.openId}}</span>
+						<span>微信ID</span><span>{{allDate.id}}</span>
 					</li>
 					<li class="list">
 						<span>微信名</span><span>{{allDate.weixinUsername}}</span>
@@ -23,19 +23,14 @@
 						<span>设备数</span><span>{{allDate.deviceNum}}</span>
 					</li>
 					<li class="list">
-						<span>烟弹类型</span><span>内容</span>
+						<span>烟弹类型</span><span>{{getType(allDate.deviceHistories)}}</span>
 					</li>
 					<li class="list">
 						<span>口数</span><span>{{disposeDate(allDate.deviceHistories)}}</span>
 					</li>
-					<li class="list">
-						<span>使用日期</span>
-						<Calendar
-						  :markDateMore=markDate
-						></Calendar>
-					</li>
+					
 				</ul>
-				<ul>
+				<ul class="right">
 					<li class="list">
 						<span>头像</span>
 						<img :src="allDate.headimgurl" @error="errorImg"/>
@@ -57,6 +52,16 @@
 					</li>
 				</ul>
 			</div>
+			<div class="p-15 last">
+				<span class="date">使用日期</span>
+				<div v-for="(item,index) in allDate.deviceHistories" class="chilren">
+					<span>设备1：{{item.model}}</span>
+					<Calendar
+					  :markDateMore=markDate
+					></Calendar>
+				</div>
+				
+			</div>
 		</div>
 	</div>
 </template>
@@ -68,7 +73,7 @@
   :futureDayHide='1525104000' //某个日期以后的不允许点击  时间戳10位
   :sundayStart="true" //默认是周一开始 当是true的时候 是周日开始 -->
 <script>
-	const error = require('@/assets/imgs/rightImg.png')
+	var error2 = require('@/assets/imgs/people.png')
 	import Calendar from 'vue-calendar-component';
 	import {bannerDetail} from "@/api/banner";
 	export default {
@@ -81,8 +86,8 @@
 				enter:{},
 				allDate:{},// 总数据
 				markDate:[
-					{date:'2019/6/1',className:"red"}, // 红：表示当天使用了
-					{date:'2019/6/13',className:"yellow"}, // 黄：当天未使用
+					{date:'2019/7/1',className:"red"}, // 红：表示当天使用了
+					{date:'2019/7/13',className:"yellow"}, // 黄：当天未使用
 				],
 				date:'',// 日期
 			};
@@ -106,7 +111,16 @@
 				})
 			},
 			errorImg($event){  // 图片错误加载的默认图
-				event.srcElement.src = error
+				event.srcElement.src = error2
+			},
+			getType(date){
+				console.log(date)
+				if(!date)return
+				let value = date.map((item)=>{
+					return item.cigarette.bombName == 'kao'?'烤烟型':'油烟型'
+				})
+				
+				return value.join('  ');
 			},
 			disposeDate(date){  // 处理数据
 				console.log(date)
@@ -123,6 +137,7 @@
 <style lang="less" scoped>
 	.user-detail-wrap{
 		display: flex;
+		padding-bottom: 0;
 		ul{
 			flex: 1;
 		}
@@ -133,11 +148,34 @@
 			vertical-align: top;
 			font-size: 14px;
 			padding-right: 30px;
-			width: 150px;
+			width: 110px;
 			display: inline-block;
 		}
 		span:nth-child(2){
 			color:#757575;
+		}
+	}
+	.right .list{
+		span:nth-child(1){
+			width: 150px;
+		}
+	}
+	.last{
+		padding-top: 0;
+		display: flex;
+		.date{
+			vertical-align: top;
+			font-size: 14px;
+			width: 110px;
+			padding-right: 30px;
+			display: inline-block;
+		}
+		.wh_container{
+			margin: 0;
+			margin-top: 20px;
+		}
+		.chilren{
+			flex: 1;
 		}
 	}
 	

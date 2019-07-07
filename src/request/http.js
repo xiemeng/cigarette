@@ -4,14 +4,22 @@ import axios from 'axios'
 import qs from 'qs'
 import Toast from 'vant/lib/toast'
 import 'vant/lib/toast/style'
+import { Loading,Message } from 'element-ui';
+let loadingInstance;
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url:process.env.BASE_API
   timeout: 20000 // 请求超时时间
 })
-
+// 请求拦截器
 service.interceptors.response.use(
   response => {
+		loadingInstance =  Loading.service({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
     switch (response.status) {
       case 100:
         Toast('100 - 继续。');
@@ -152,11 +160,22 @@ service.interceptors.response.use(
 )
 // 响应拦截器
 service.interceptors.response.use(function (response) {
-	if(response.status == 200 && response.data.code == 200){
-		return response.data.data;
-	}
-    // 对响应数据做点什么
-  return response.data
+		loadingInstance.close();
+		if(!response.data.code){
+			return response.data
+		}
+		if(response.status == 200 && response.data.code == 200){
+			
+			return response.data.data;
+		}
+		if(response.data.code != 200){
+			Message({
+				message:response.data.data.errMsg,
+				type: 'error'
+			})
+			return false
+		}
+		
   }, function (error) {
     // 对响应错误做点什么
     return Promise.reject(error);

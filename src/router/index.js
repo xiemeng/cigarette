@@ -6,9 +6,10 @@ import Layout from '@/page/components/index'
 Vue.use(Router)
 
 import login from '@/page/login/login'
-
-export default new Router({
-  routes: [
+const enter = JSON.parse(localStorage.getItem("enter"));
+const banner = 
+console.log(enter.menus);
+const roterList = [
     // 缺省==============================
     {
       path: '*',
@@ -30,8 +31,6 @@ export default new Router({
       }
     },
     // 登录注册==============================
-    
-    // 首页管理==============================
     {
       path: '/',
       name: 'login',
@@ -58,6 +57,7 @@ export default new Router({
         }
       ]
     },
+		 // 首页管理==============================
     {
       path: '/home/banner',
       // name: 'banner',
@@ -241,4 +241,7 @@ export default new Router({
       ]
     }
   ]
+export default new Router({
+  routes: roterList
 })
+

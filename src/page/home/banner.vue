@@ -93,7 +93,7 @@
 </template>
 
 <script>
-	const error = require('@/assets/imgs/rightimg.png')
+	var error1 = require('@/assets/imgs/people.png')
 	import {bannerPage,bannerDetail,exportBannerExcel} from "@/api/banner";
 	export default {
 		name: "column",
@@ -131,7 +131,8 @@
 		created() {},
 		mounted() {
 			this.enter = JSON.parse(localStorage.getItem("enter"));
-			this.init()
+			this.init();
+			
 		},
 		methods: {
 			init(){
@@ -179,7 +180,7 @@
 				})
 			},
 			errorImg($event){  // 图片错误加载的默认图
-				event.srcElement.src = error
+				event.srcElement.src = error1
 			},
 			toLink(i) {
 				this.$router.push({

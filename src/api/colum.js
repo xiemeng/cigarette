@@ -12,6 +12,16 @@ export function columPage(data,ID) {  // 设备分页
   })
 }
 
+export function columDetail(data,ID) {  // 设备详情
+  return service({
+    url: '/admin/cigarette/find_detail?'+qs.stringify(data),
+    method: 'post',
+	headers: {
+		'sessionId': ID
+	}
+  })
+}
+
 export function columAdd(data,ID) {  // 新增
   return service({
     url: '/admin/cigarette/insert',
@@ -34,14 +44,13 @@ export function columType(data,ID) {  // 后台烟型接口
   })
 }
 
-export function getOSSUploadUrl(data) {  // 文件上传接口
+export function getOSSUploadUrl() {  // 文件上传接口
   return service({
-    url: '/base/h5/getCOSUploadUrl/{suffix}',
+    url: '/base/admin/getOSSUploadUrl/jpg',
     method: 'get',
-	params:data,
-	headers: {
-		'contentType': 'application/x-img'
-	}
+		params: {
+			'contentType': 'image/jpeg'
+		}
   })
 }
 
@@ -49,10 +58,10 @@ export function exportList(ID) {  // 导出列表
 	return service({
       url: '/admin/cigarette/exportList',
       method: 'post',
-		responseType: 'arraybuffer',
-		headers: {
-			'sessionId': ID,
-		}
+			responseType: 'arraybuffer',
+			headers: {
+				'sessionId': ID,
+			}
     })
 }
 
