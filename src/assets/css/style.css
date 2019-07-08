@@ -23,6 +23,14 @@ html,body,#app{height: 100%;}
 
 .b-f0{border: 1px solid #f0f0f0;;}
 .b-b-f0{border-bottom: 1px solid #f0f0f0;;}
+/* 按钮样式 */
+.elbut {
+	color: #fff;
+	background-color: #FFC14E;
+}
+.el-table{
+	font-size:12px ;
+}
 
 /* 给日历加标签 红：使用天 蓝：当天 黄：当天未使用 */
 .wh_content_all{
@@ -43,6 +51,17 @@ html,body,#app{height: 100%;}
 .wh_content_item, .wh_content_item_tag{
 	color: #000000 !important;
 }
+.wh_content_item .wh_isToday {
+  background: #0078D7 !important;
+  border-radius: 0 !important;
+}
+.wh_content_item .wh_chose_day {
+  /* background: transparent !important; */
+  border-radius: 0 !important;
+}
+.wh_item_date{
+	background: #EADC0E;
+}
 .red{
 	background-color: #D92B2B;
 }
@@ -52,20 +71,5 @@ html,body,#app{height: 100%;}
 .yellow{
 	background-color: #EADC0E;
 }
-/* 按钮样式 */
-.elbut {
-	color: #fff;
-	background-color: #FFC14E;
-}
-.el-table{
-	font-size:12px ;
-}
-/*  日历相关 */
-.wh_content_item .wh_isToday {
-  background: #0078D7 !important;
-  border-radius: 0 !important;
-}
-.wh_content_item .wh_chose_day {
-  /* background: transparent !important; */
-  border-radius: 0 !important;
-}
+
+

@@ -2,7 +2,7 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<el-button size="mini" class="right" @click="goexportList">导出数据</el-button>
+					<!-- <el-button size="mini" class="right" @click="goexportList">导出数据</el-button> -->
 					<el-button class="elbut elbut2 right" size="mini" @click="goAdd('add')">新增</el-button>
 					<el-breadcrumb-item>设备管理</el-breadcrumb-item>
 				</el-breadcrumb>
@@ -117,6 +117,33 @@
 					path: i
 				});
 			},
+			handleDelete(tips,row){ // 删除
+				this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+				  confirmButtonText: '确定',
+				  cancelButtonText: '取消',
+				  type: 'warning',
+				  center: true
+				}).then(() => {
+					const param = {
+					 "id": row.id
+					}
+// 					meetuserDelete(param,this.enter.sessionId).then((res)=>{
+// 						console.log(res);
+// 						if(!res)return
+// 						this.$message({
+// 							type: 'success',
+// 							message: '删除成功!'
+// 						});
+// 						this.init()
+// 					})
+				  
+				}).catch(() => {
+				  this.$message({
+					type: 'info',
+					message: '已取消删除'
+				  });
+				});
+			},
 			goexportList(){  // 导出数据
 				const param = {
 					  "pageIndex": this.data.currentPage,
@@ -149,9 +176,17 @@
 			},
 			goAdd(tips,date) {  // 去添加
 				console.log(tips,date)
-				this.$router.push({
-					path: '/column/column/add',
-				});
+				if(tips == 'add'){  // 新增
+					this.$router.push({
+						path: '/column/column/add',
+						query:{tips:'add'}
+					});
+				}else{
+					this.$router.push({
+						path: '/column/column/add',
+						query:{id:date.id}
+					});
+				}
 			},
 			handleSizeChange(val) {
 				this.data.pageSize = val

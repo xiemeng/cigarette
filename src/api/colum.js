@@ -22,9 +22,20 @@ export function columDetail(data,ID) {  // 设备详情
   })
 }
 
-export function columAdd(data,ID) {  // 新增
+export function columAdd(data,ID) {  // 设备新增
   return service({
     url: '/admin/cigarette/insert',
+    method: 'post',
+    data:data,
+	headers: {
+		'sessionId': ID
+	}
+  })
+}
+
+export function columUpdate(data,ID) {  // 设备修改
+  return service({
+    url: '/admin/cigarette/update',
     method: 'post',
     data:data,
 	headers: {

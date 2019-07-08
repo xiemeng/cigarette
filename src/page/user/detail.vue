@@ -2,7 +2,7 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-button size="mini" class="right" type="primary" @click="exportExcel">导出数据</el-button>
+				<!-- <el-button size="mini" class="right" type="primary" @click="exportExcel">导出数据</el-button> -->
 				<el-breadcrumb-item>烟友排行》详情</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="w-100 p-15 user-detail-wrap">
@@ -58,7 +58,7 @@
 					<span>设备1：{{item.model}}</span>
 					<Calendar
 					  v-on:changeMonth="changeDate"
-					  :markDateMore=markDate
+					  :markDateMore=item.markDate
 					></Calendar>
 				</div>
 				
@@ -74,7 +74,8 @@
   :futureDayHide='1525104000' //某个日期以后的不允许点击  时间戳10位
   :sundayStart="true" //默认是周一开始 当是true的时候 是周日开始 -->
 <script>
-	var error3 = require('@/assets/imgs/people.png')
+	var error3 = require('@/assets/imgs/people.png');
+	import {formatDate} from '@/assets/js/common';
 	import Calendar from 'vue-calendar-component';
 	import {deviceDetail,exportDetail,getMouthNumByPage} from "@/api/user";
 	export default {
@@ -84,16 +85,24 @@
 		},
 		data() {
 			return {
+				startTime:'',// 开始时间 2019-01-02
+				endTime:'',// 结束时间
 				enter:{},
 				allDate:{},// 总数据
 				markDate:[
-					{date:'2019/7/1',className:"red"}, // 红：表示当天使用了
-					{date:'2019/7/13',className:"yellow"}, // 黄：当天未使用
+					// {date:'2019/7/1',className:"red"}, // 红：表示当天使用了
+					// {date:'2019/7/13',className:"yellow"}, // 黄：当天未使用
 				],
 				date:'',// 日期
 			};
 		},
-		created() {},
+		created() {
+			var date=new Date;
+			this.startTime = formatDate(date).start;
+			this.endTime = formatDate(date).end;
+			console.log(formatDate(date))
+			
+		},
 		mounted() {
 			this.enter = JSON.parse(localStorage.getItem("enter"));
 			this.init();
@@ -113,8 +122,7 @@
 				})
 			},
 			changeDate(data) {
-				var formatDate = new Date(data).valueOf()
-			  console.log(formatDate); //跳到了本月
+			  console.log(data); //跳到了本月
 			},
 			init(){
 				const param = {
@@ -127,18 +135,28 @@
 						var formatDate = new Date().valueOf()
 						const param2 = {
 							"deviceId": item.id,
-							"gmtCreatedGE": '2019-07-01',  // 开始时间
-							"gmtCreatedLE": '2019-07-30',  // 结束时间
+							"gmtCreatedGE": this.startTime,  // 开始时间
+							"gmtCreatedLE": this.endTime,  // 结束时间
 							"weixinUserId": item.weixinUserId
 						}
-						this.chooseYear(param2)
+						let markDate = [];
+						getMouthNumByPage(param2,this.enter.sessionId).then((res)=>{
+							if(res.bussData.length>0){
+								for(let i = 0;i<res.bussData.length;i++){
+									markDate.push({
+										date:res.bussData[i].gmtCreated.split(' ')[0],
+										className:"red"
+									})
+									this.$set(this.allDate.deviceHistories[i], 'markDate',markDate)
+								}
+							}
+						})
 					})
+					
 				})
 			},
 			chooseYear(param2){  // 选择年月的接口
-				getMouthNumByPage(param2,this.enter.sessionId).then((res)=>{
-					console.log(res)
-				})
+				
 			},
 			errorImg($event){  // 图片错误加载的默认图
 				event.srcElement.src = error3

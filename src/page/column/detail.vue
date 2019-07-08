@@ -110,6 +110,9 @@
 		span:nth-child(2){
 			color:#757575;
 		}
+		img{
+			width: 222px;height: 133px;
+		}
 	}
 	
 </style>

@@ -2,7 +2,7 @@
 	<div class="columAdd">
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-breadcrumb-item>设备管理》新增</el-breadcrumb-item>
+				<el-breadcrumb-item>设备管理》{{tips == 'add'?'新增':'编辑'}}</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="w-100 p-15">
 				<ul class="wrap">
@@ -19,7 +19,11 @@
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">上市日期：</em>
-						<el-input v-model="onDate" placeholder="请输入"></el-input>
+						<el-date-picker
+						  v-model="onDate"
+						  type="date"
+						  placeholder="选择日期">
+						</el-date-picker>
 					</li>
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">支持烟型：</em>
@@ -52,7 +56,7 @@
  
 <script>
 	import service from '@/request/http.js'
-	import {columAdd,getOSSUploadUrl,columType} from '@/api/colum'
+	import {columAdd,getOSSUploadUrl,columType,columUpdate,columDetail} from '@/api/colum'
 	export default {
 		name: "columnAdd",
 		components: {
@@ -64,6 +68,7 @@
 				fileKey:'',// 图片key
 				downloadUrl:'',// 图片下载链接
 				yanType:[],
+				tips:'',//
 				enter:{},
 				imageKey: '',  // 图片
 				typeIds:'',  // 支持的烟型 用,号隔开
@@ -81,7 +86,9 @@
 				]
 			};
 		},
-		created() {},
+		created() {
+			this.tips = this.$router.currentRoute.query.tips
+		},
 		mounted() {
 			this.enter = JSON.parse(localStorage.getItem("enter"));
 			this.init()
@@ -93,9 +100,37 @@
 					  "pageSize": 1000,
 				}
 				columType(param,this.enter.sessionId).then((res)=>{
-					console.log(res)
+					
 					this.yanType = res.bussData;
+					if(!this.tips){
+						const param2 = {
+							  id:this.$router.currentRoute.query.id
+							}
+						columDetail(param2,this.enter.sessionId).then((res)=>{
+							console.log(res)
+							
+							this.bombName = res.bussData.bombName;
+							this.fileKey = res.bussData.imageKey;
+							this.imageKey = res.bussData.imageUrl;
+							this.model = res.bussData.model;
+							this.onDate = res.bussData.onDate;
+							this.typeIds = res.bussData.typeIds;
+							if(this.yanType.length>0 && this.typeIds){
+								let typeIds = this.typeIds.split(',');
+								this.yanType.forEach((item)=>{
+									typeIds.forEach((item2)=>{
+										if(item.id == item2){
+											item.isChoose = 1;
+										}
+									})
+								})
+							}
+							console.log(this.imageKey)
+						})
+					}
 				})
+				
+				
 			},
 			choose(item,index){  // 选择烟型
 				if(this.yanType[index].isChoose){
@@ -103,6 +138,7 @@
 				}else{
 					this.yanType[index].isChoose = 1;
 				}
+				
 				this.$forceUpdate()
 			},
 			rewriteUpload(content) {  // 自定义请求头
@@ -117,7 +153,6 @@
 			},
 			handleAvatarSuccess(res, file) {
 				console.log(res,file)
-				// this.imageKey = URL.createObjectURL(file.raw);
 			},
 			//上传前,一些装备工作
 			beforeAvatarUpload(file) {
@@ -140,15 +175,89 @@
 			  })
 			},
 			submit(){  // 提交
+				if(!this.model){
+					this.$message({
+					  message: '请输入设备型号',
+					  type: 'warning'
+					});
+					return
+				}
+				if(!this.bombName ){
+					this.$message({
+					  message: '请选择烟弹类型',
+					  type: 'warning'
+					});
+					return
+				}
+				if(!this.onDate){
+					this.$message({
+					  message: '请选择上市日期',
+					  type: 'warning'
+					});
+					return
+				}
+				let arr = this.yanType.filter((item)=>{
+					return item.isChoose
+				})
+				console.log(arr)
+				if(arr){
+					arr = arr.map((item)=>{
+						return item.id
+					})
+					this.typeIds = arr.join(',')
+				}
+				console.log(this.typeIds)
+				if(!this.typeIds){
+					this.$message({
+					  message: '请选择支持烟型',
+					  type: 'warning'
+					});
+					return
+				}
+				if(!this.fileKey){
+					this.$message({
+					  message: '请上传图片',
+					  type: 'warning'
+					});
+					return
+				}
+				if(this.tips){  // 新增
+					this.addName()
+				}else{
+					this.upDateName()
+				}
+				
+			},
+			addName(){  // 新增
 				const param = {
-					  "bombName": "kao",
-					  "imageKey": "图片Key",
-					  "model": "我是一条广告",
-					  "onDate": "2019-10-11",
-					  "typeIds": "string"
+					  "bombName": this.bombName,
+					  "imageKey": this.fileKey,
+					  "model": this.model,
+					  "onDate": this.onDate,
+					  "typeIds": this.typeIds
 					}
 				columAdd(param,this.enter.sessionId).then((res)=>{
+					if(!res)return
+					this.$router.push({path:'/column/column'})
 					console.log(res)
+				})
+			},
+			upDateName(){  // 编辑
+				const param = {
+					"id": this.$router.currentRoute.query.id,
+					"bombName": this.bombName,
+					"imageKey": this.fileKey,
+					"model": this.model,
+					"onDate": this.onDate,
+					"typeIds": this.typeIds
+				}
+				columUpdate(param,this.enter.sessionId).then((res)=>{
+					console.log(res.bussData.uploadUrl)
+					this.$message({
+					  message: '设备更改成功',
+					  type: 'success'
+					});
+					this.$router.push({path:'/column/column'})
 				})
 			}
 		}
@@ -202,5 +311,7 @@
 		  display: block;
 		}
 	}
-	
+	.el-input{
+		width: 220px;
+	}
 </style>

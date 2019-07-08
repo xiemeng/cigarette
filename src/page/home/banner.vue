@@ -2,7 +2,7 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-button class="right" size="mini" plain @click="exportExcel">导出数据</el-button>
+				<!-- <el-button class="right" size="mini" plain @click="exportExcel">导出数据</el-button> -->
 				<el-breadcrumb-item>用户管理</el-breadcrumb-item>
 			</el-breadcrumb>
 
@@ -190,7 +190,7 @@
 			handleEdit(index,row) {  // 详情
 				this.$router.push({
 					path: '/home/userDetail',
-					query:{id:row.id}
+					query:{weixinUserId:row.id}
 				});
 			},
 			handleSizeChange(val) {
