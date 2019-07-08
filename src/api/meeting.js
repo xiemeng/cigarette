@@ -44,6 +44,16 @@ export function meetDetail(data,ID) {  // 用户详情
   })
 }
 
+export function meetDelete(data,ID) {  // 用户删除
+  return service({
+    url: '/admin/user/delete?'+qs.stringify(data),
+    method: 'post',
+		headers: {
+			'sessionId': ID
+		}
+  })
+}
+
 export function meetList(ID) {  // 获取角色列表
   return service({
     url: '/admin/role/find_list',

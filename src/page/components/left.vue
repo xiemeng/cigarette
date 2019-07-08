@@ -70,7 +70,6 @@
 
 <script>
 const enter = JSON.parse(localStorage.getItem("enter"));
-console.log(enter.menus);
 export default {
   name: "top",
   data() {
@@ -119,7 +118,6 @@ export default {
   			    console.log('执行了这里')
   			} 
   	})
-		console.log(this.routerList)
   },
   mounted() {
   	let href = window.location.href;

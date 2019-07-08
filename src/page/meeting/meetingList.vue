@@ -8,13 +8,13 @@
 				
 				<div class="w-100 p-15">
 					<el-row :gutter="20">
+					   <el-col :span="6">
+					   	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">账户名：</em>
+					   						<el-input placeholder="请输入" v-model="loginNameLike"></el-input></div>
+					   </el-col>
 					  <el-col :span="6">
 					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">用户名：</em>
 						<el-input placeholder="请输入" v-model="userNameLike"></el-input></div>
-					  </el-col>
-					  <el-col :span="6">
-					  	<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">账户名：</em>
-						<el-input placeholder="请输入" v-model="loginNameLike"></el-input></div>
 					  </el-col>
 					 <el-col :span="6">
 						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">角色：</em>
@@ -75,7 +75,7 @@
 
 <script>
 	const error = require('@/assets/imgs/people.png')
-	import {meetPage,meetList} from '@/api/meeting'
+	import {meetPage,meetList,meetDelete} from '@/api/meeting'
 	export default {
 		name: "meetingList",
 		components: {
@@ -148,6 +148,33 @@
 			},
 			errorImg($event){  // 图片错误加载的默认图
 				event.srcElement.src = error
+			},
+			handleDelete(index,row){  // 删除
+				this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+				  confirmButtonText: '确定',
+				  cancelButtonText: '取消',
+				  type: 'warning',
+				  center: true
+				}).then(() => {
+					const param = {
+					 "id": row.id
+					}
+					meetDelete(param,this.enter.sessionId).then((res)=>{
+						console.log(res);
+						if(!res)return
+						this.$message({
+							type: 'success',
+							message: '删除成功!'
+						});
+						this.init()
+					})
+				  
+				}).catch(() => {
+				  this.$message({
+					type: 'info',
+					message: '已取消删除'
+				  });
+				});
 			},
 			handleSizeChange(val) {
 				this.data.pageSize = val

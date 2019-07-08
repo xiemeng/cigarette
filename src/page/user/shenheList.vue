@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import ajax from '@/request/jsonp'
 import {getWeixinUserLocationStatics,exportHotList,configDetail,configUpdate} from '@/api/user';
 export default {
   name: "message",
@@ -44,13 +45,13 @@ export default {
       isShowHot:false,// 是否在APP显示
 			dataList:[],// 列表
 			id:'',
+			points:[],// 热力图的点
     };
   },
   created() {},
   mounted() {
 		this.enter = JSON.parse(localStorage.getItem("enter"));
-		this.init()
-    this.getMap()
+		this.init();
   },
   methods: {
 		change(value){  // 开关状态改变
@@ -81,7 +82,6 @@ export default {
 		    const blob = new Blob([data], {
 		        type: 'application/octet-stream'
 		    })
-		   
 		    const filename = fileName || 'filename.xlsx'
 		    if (typeof window.navigator.msSaveBlob !== 'undefined') {
 		        window.navigator.msSaveBlob(blob, filename)
@@ -102,21 +102,52 @@ export default {
 		    }
 		},
 		init(){
-			getWeixinUserLocationStatics(this.enter.sessionId).then((res)=>{
-				console.log(res)
-				this.dataList = res.bussData;
-			})
 			configDetail(this.enter.sessionId).then((res)=>{
 				console.log(res)
 				this.id = res.bussData.id;
 				this.isShowHot  = res.bussData.isShowHot == 'y'?true:false;
 			})
+			getWeixinUserLocationStatics(this.enter.sessionId).then((res)=>{
+				console.log(res)
+				const _this = this;
+				this.dataList = res.bussData;
+				async function getLat(){
+						const latList = res.bussData.forEach((item)=>{  // 发送get请求来获取城市的经纬度
+									ajax({   
+										url: 'http://api.map.baidu.com/geocoding/v3/',    // 请求地址
+										jsonp: 'showLocation',  // 采用jsonp请求，且回调函数名为"showLocation"，可以设置为合法的字符串   http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding
+										data: {
+											address:item.provinceName,
+											output:'json',
+											ak:'964TlhHOSrcfFwQhGuIMH1CEdo1Kt0ID',
+										},   // 传输数据
+										success:function(res){   // 请求成功的回调函数
+											console.log(res)
+											_this.points.push({
+												lng: res.result.location.lng,
+												lat: res.result.location.lat,
+												count: item.percent
+											})
+											_this.getMap()
+										},
+										error: function(error) {}   // 请求失败的回调函数
+									});
+								})
+						return 111
+				}
+				getLat().then((res)=>{
+					console.log(res)
+					
+				})
+				
+			})
 		},
 		getMap(){  // 绘制地图
 			var map = new BMap.Map("container"); // 创建地图实例
 			
-			var point = new BMap.Point(116.418261, 39.921984);
-			map.centerAndZoom(point, 6); // 初始化地图，设置中心点坐标和地图级别
+			var point = new BMap.Point(116.418261, 39.921984);  // 北京
+			var point = new BMap.Point(114.30, 30.60);  // 武汉
+			map.centerAndZoom(point, 5); // 初始化地图，设置中心点坐标和地图级别
 			map.enableScrollWheelZoom(); // 允许滚轮缩放
 			
 			var points = [  // 设置热力图的点
@@ -147,7 +178,8 @@ export default {
 					heatmapOverlay.show();
 			},1000)
 			map.addOverlay(heatmapOverlay);
-			heatmapOverlay.setDataSet({ data: points, max: 100 });
+			console.log(this.points)
+			heatmapOverlay.setDataSet({ data: this.points, max: 100 });
 			//判断浏览区是否支持canvas
 			function isSupportCanvas() {
 				var elem = document.createElement("canvas");

@@ -6,9 +6,7 @@ import Layout from '@/page/components/index'
 Vue.use(Router)
 
 import login from '@/page/login/login'
-const enter = JSON.parse(localStorage.getItem("enter"));
-const banner = 
-console.log(enter.menus);
+
 const roterList = [
     // 缺省==============================
     {
