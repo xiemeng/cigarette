@@ -44,12 +44,12 @@ export function columType(data,ID) {  // 后台烟型接口
   })
 }
 
-export function getOSSUploadUrl() {  // 文件上传接口
+export function getOSSUploadUrl(suffix,contentType) {  // 文件上传接口
   return service({
-    url: '/base/admin/getOSSUploadUrl/jpg',
+    url: '/base/admin/getOSSUploadUrl/'+suffix,
     method: 'get',
 		params: {
-			'contentType': 'image/jpeg'
+			'contentType': contentType
 		}
   })
 }

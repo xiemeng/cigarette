@@ -30,8 +30,9 @@
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">设备照片：</em>
 						<el-upload
+							action
 						  class="avatar-uploader"
-						  action="https://file.icebartech.com/icebartech-ecigarette/190707062743-20.jpeg?Expires=1562453863&OSSAccessKeyId=LTAI6bL6dileKQHr&Signature=mpWYf0Vh9%2BnSiURmtnBs0R07W04%3D"
+						  :http-request="rewriteUpload"
 						  :show-file-list="false"
 						  :on-success="handleAvatarSuccess"
 						  :before-upload="beforeAvatarUpload">
@@ -50,6 +51,7 @@
 </template>
  
 <script>
+	import service from '@/request/http.js'
 	import {columAdd,getOSSUploadUrl,columType} from '@/api/colum'
 	export default {
 		name: "columnAdd",
@@ -58,6 +60,9 @@
 		},
 		data() {
 			return {
+				uploadUrl:'',// 上传图片链接
+				fileKey:'',// 图片key
+				downloadUrl:'',// 图片下载链接
 				yanType:[],
 				enter:{},
 				imageKey: '',  // 图片
@@ -100,27 +105,39 @@
 				}
 				this.$forceUpdate()
 			},
-			uploadSectionFile(params){  // 自定义上传类型
-				console.log(params)
-				getOSSUploadUrl().then((res)=>{
-					console.log(res)
-				})
+			rewriteUpload(content) {  // 自定义请求头
+				console.log(content)
+			  service.put(this.uploadUrl, content.file, {
+			    headers: {
+			      'Content-Type': content.file.type,
+			    }
+			  }).then(() => {
+			    this.imageKey = this.downloadUrl; //显示图片
+			  })
 			},
 			handleAvatarSuccess(res, file) {
 				console.log(res,file)
-				this.imageKey = URL.createObjectURL(file.raw);
+				// this.imageKey = URL.createObjectURL(file.raw);
 			},
+			//上传前,一些装备工作
 			beforeAvatarUpload(file) {
-				const isJPG = file.type === 'image/jpeg';
-				const isLt2M = file.size / 1024 / 1024 < 2;
-				
-				if (!isJPG) {
-				  this.$message.error('上传头像图片只能是 JPG 格式!');
-				}
-				if (!isLt2M) {
-				  this.$message.error('上传头像图片大小不能超过 2MB!');
-				}
-				return isJPG && isLt2M;
+			  console.log(file)
+			  const isLt2M = file.size / 1024 / 1024 < 2;
+			  if (!isLt2M) {
+			    this.$message.error('上传头像图片大小不能超过 2MB!');
+			    return false;
+			  }
+			  
+			  return new Promise((resolve, reject) => {
+			    console.log(file.name.split('.')[1],file.type);
+				getOSSUploadUrl(file.name.split('.')[1],file.type).then((res)=>{
+					console.log(res)
+					this.uploadUrl = res.bussData.uploadUrl
+					this.fileKey = res.bussData.fileKey
+					this.downloadUrl = res.bussData.downloadUrl
+					resolve(res)
+				})
+			  })
 			},
 			submit(){  // 提交
 				const param = {

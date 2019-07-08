@@ -56,8 +56,6 @@
 </template>
  
 <script>
-	var md5 = require('md5');
-	let Base64 = require('js-base64').Base64;
 	import service from '@/request/http.js'
 	import {meetAdd,meetList,meetUpdate,meetDetail} from '@/api/meeting'
 	import {getOSSUploadUrl} from '@/api/colum'
@@ -138,42 +136,23 @@
 			onFileChange (e) {
 			  var files = e.target.files || e.dataTransfer.files;
 			  if (!files.length) return
-			  this.createImage(files);
-			  console.log(e)
-			  console.log(files)
+			  this.createImage(files[0]);
 			},
 			createImage (file) {
-			  var vm = this
-			  var reader = null
-			  var leng = file.length
-			  for (var i = 0; i < leng; i++) {
-				reader = new window.FileReader();
-				reader.readAsDataURL(file[i])
-				reader.onload = function (e) {
-				  vm.images = e.target.result;
-				  this.submiImg(vm.images)
-				}.bind(this)
-			  }
+			  getOSSUploadUrl(file.name.split('.')[1],file.type).then((res)=>{
+			  	console.log(res)
+			  	this.avatorKey = res.bussData.fileKey;
+			  	service.put(res.bussData.uploadUrl, file, {
+			  	  headers: {
+			  	    'Content-Type': file.type,
+			  	  }
+			  	}).then(() => {
+			  	  this.images = res.bussData.downloadUrl; //显示图片
+			  	})
+			  })
 			},
 			reduceNum(){
 				this.userNum--;
-			},
-			submiImg(file){ // 图片上传
-				let file2 = file.split(',');
-				getOSSUploadUrl().then((res)=>{
-					console.log(res)
-					this.avatorKey = res.bussData.fileKey;
-					service({
-						url: res.bussData.uploadUrl,
-						method: 'put',
-						data:{
-							image:file
-						},
-						headers: {
-							'Content-Type': 'image/jpeg'
-						}
-					})
-				})
 			},
 			submit(){  // 提交
 				if(!this.avatorKey){
@@ -236,18 +215,21 @@
 					console.log(res)
 					this.options = res.bussData;
 				})
-				const params = {
-					id:this.$router.currentRoute.query.id,
+				if(!this.tips){
+					const params = {
+						id:this.$router.currentRoute.query.id,
+					}
+					meetDetail(params,this.enter.sessionId).then((res)=>{
+						console.log(res)
+						this.avatorKey = res.bussData.avatorKey;
+						this.images = res.bussData.avatorUrl;
+						this.loginName = res.bussData.loginName;
+						// this.password = res.bussData.password;
+						this.roleId = res.bussData.roleId;
+						this.userName = res.bussData.userName;
+					})
 				}
-				meetDetail(params,this.enter.sessionId).then((res)=>{
-					console.log(res)
-					this.avatorKey = res.bussData.avatorKey;
-					this.images = res.bussData.avatorUrl;
-					this.loginName = res.bussData.loginName;
-					// this.password = res.bussData.password;
-					this.roleId = res.bussData.roleId;
-					this.userName = res.bussData.userName;
-				})
+				
 			},
 		}
 	};
