@@ -52,7 +52,7 @@
 						<template slot-scope="scope">
 							<el-button class="elbut" size="mini" plain @click="goDetail(scope.$index, scope.row)">详情</el-button>
 							<el-button class="elbut" size="mini" plain @click="goAdd(scope.$index, scope.row)">编辑</el-button>
-							<el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+							<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-	import {columPage,exportList} from '@/api/colum'
+	import {columPage,exportList,columDelete} from '@/api/colum'
 	export default {
 		name: "column",
 		components: {
@@ -127,15 +127,15 @@
 					const param = {
 					 "id": row.id
 					}
-// 					meetuserDelete(param,this.enter.sessionId).then((res)=>{
-// 						console.log(res);
-// 						if(!res)return
-// 						this.$message({
-// 							type: 'success',
-// 							message: '删除成功!'
-// 						});
-// 						this.init()
-// 					})
+					columDelete(param,this.enter.sessionId).then((res)=>{
+						console.log(res);
+						if(!res)return
+						this.$message({
+							type: 'success',
+							message: '删除成功!'
+						});
+						this.init()
+					})
 				  
 				}).catch(() => {
 				  this.$message({

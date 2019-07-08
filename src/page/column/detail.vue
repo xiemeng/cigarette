@@ -2,7 +2,7 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button>
+				<!-- <el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button> -->
 				<el-breadcrumb-item>设备管理》详情</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="w-100 p-15 user-detail-wrap">
