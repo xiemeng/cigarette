@@ -50,10 +50,11 @@
 				isShowTime:false,// 是否在APP显示
 				dataList:[],// 列表
 				id:'',
-				value1: '',
-				weekNum:' ',// 第几周
+				value1: 1546303921000,
+				weekNum:4,// 第几周
 				sex: 3, // 性别
-				options: []
+				options: [],
+				seriesDate:[0,0,0,0],// 数据
 
 			};
 		},
@@ -62,25 +63,27 @@
 			this.enter = JSON.parse(localStorage.getItem("enter"));
 			this.init()
 			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('main'));
-			// 绘制图表
-			myChart.setOption({
-				tooltip: {},
-				xAxis: {
-					name: '时间',
-					data: ['第一周', '第二周', '第三周', '第四周']
-				},
-				yAxis: {
-					name: '口数',
-				},
-				series: [{
-					name: '销量',
-					type: 'line',
-					data: [5, 20, 36, 10]
-				}]
-			});
+			this.getWeekTime()
 		},
 		methods: {
+			getEcharts(){  // 绘制图表
+				var myChart = echarts.init(document.getElementById('main'));
+				myChart.setOption({
+					tooltip: {},
+					xAxis: {
+						name: '时间',
+						data: [`第${this.weekNum-3}周`, `第${this.weekNum-2}周`, `第${this.weekNum-1}周`, `第${this.weekNum}周`]
+					},
+					yAxis: {
+						name: '口数',
+					},
+					series: [{
+						name: '销量',
+						type: 'line',
+						data: this.seriesDate
+					}]
+				});
+			},
 			change(value){  // 开关状态改变
 				console.log(value)
 				let isShowTime = value?'y':'n';
@@ -90,16 +93,33 @@
 				}
 				configUpdate(params,this.enter.sessionId).then((res)=>{
 					console.log(res)
+					
 				})
 			},
-			init(){
+			getWeekTime(){
 				const params = {
 					"begin": this.beginTime,
 					"end": this.endTime
 				}
 				getMouthNumByWeeks(params,this.enter.sessionId).then((res)=>{
 					console.log(res)
+					if(res.bussData.length>0){
+						let arr = [this.weekNum-3,this.weekNum-2,this.weekNum-1,this.weekNum]
+						res.bussData.forEach((item)=>{
+							for(let i = 0;i<4;i++){
+								if(item.week.split('-')[1] == arr[i]){
+									this.seriesDate[i] = item.num
+								}
+							}
+							console.log(item.week.split('-')[1])
+						})
+					}else{
+						this.seriesDate = [0,0,0,0]
+					}
+					this.getEcharts()
 				})
+			},
+			init(){
 				configDetail(this.enter.sessionId).then((res)=>{
 					console.log(res)
 					this.id = res.bussData.id;
@@ -155,6 +175,14 @@
 					let str = document.querySelector("#getWeek").value.split(' ');
 					let weekNum = str[1];
 					this.weekNum = Number(weekNum)+3;
+					this.beginTime = this.years+'-'+weekNum;
+					console.log(String(this.weekNum).length)
+					if(this.weekNum.length<=1){
+						this.endTime = this.years+'-0'+this.weekNum;
+					}else{
+						this.endTime = this.years+'-'+this.weekNum;
+					}
+					this.getWeekTime()
 					console.log(weekNum)
 				})
 				
