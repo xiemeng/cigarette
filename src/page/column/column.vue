@@ -104,6 +104,7 @@
 				const param = {
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
+					  "isVisible":'y'
 					}
 				columPage(param,this.enter.sessionId).then((res)=>{
 					console.log(res)

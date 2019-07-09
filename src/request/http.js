@@ -1,4 +1,3 @@
-import {M_BASE_URL} from './baseUrl.js'
 import Vue from 'vue'
 import axios from 'axios'
 import qs from 'qs'

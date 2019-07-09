@@ -70,7 +70,8 @@
 			init(){
 				const param = {
 				  "pageIndex": this.data.currentPage,
-				  "pageSize": this.data.pageSize
+				  "pageSize": this.data.pageSize,
+				  "isVisible":'y'
 				}
 				messagePage(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
