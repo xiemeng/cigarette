@@ -53,7 +53,7 @@
 				</el-table-column>
 				<el-table-column label="设备激活日期" sortable>
 					<template slot-scope="scope">
-						{{ scope.row.startTime  }}
+						{{ scope.row.startTime+'('+scope.row.intervalDays+'天)'}}
 					</template>
 				</el-table-column>
 				<el-table-column label="设备数">
