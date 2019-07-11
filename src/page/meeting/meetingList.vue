@@ -188,5 +188,7 @@
 	};
 </script>
 <style scoped>
-
+	img{
+		width: 100px;
+	}
 </style>
