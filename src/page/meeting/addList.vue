@@ -96,18 +96,19 @@
 					});
 					return
 				}
-				if(this.menuIds.length<=0){
+				for(let i = 0;i<this.menuIds.length;i++){
+					if(this.menuIds[i]){
+						this.menuIdsTrue.push(i+1)
+					}
+				}
+				if(this.menuIdsTrue.length<=0){
 					this.$message({
 					  message: '请选择角色权限',
 					  type: 'warning'
 					});
 					return
 				}
-				for(let i = 0;i<this.menuIds.length;i++){
-					if(this.menuIds[i]){
-						this.menuIdsTrue.push(i+1)
-					}
-				}
+				console.log(this.menuIdsTrue)
 				if(this.tips){  // 新增
 					this.addName()
 				}else{

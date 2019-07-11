@@ -2,7 +2,7 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<!-- <el-button size="mini" class="right" @click="goexportList">导出数据</el-button> -->
+					<el-button size="mini" class="right" @click="goexportList">导出数据</el-button>
 					<el-button class="elbut elbut2 right" size="mini" @click="goAdd('add')">新增</el-button>
 					<el-breadcrumb-item>设备管理</el-breadcrumb-item>
 				</el-breadcrumb>
@@ -40,12 +40,12 @@
 					</el-table-column>
 					<el-table-column label="当月吸烟支数">
 						<template slot-scope="scope">
-							{{ scope.row.monthUseNum }}
+							{{ scope.row.monthUseNum }}支
 						</template>
 					</el-table-column>
 					<el-table-column label="当月平均每支口数">
 						<template slot-scope="scope">
-							{{ getNums(scope.row.monthMouthNum,scope.row.monthUseNum) }}
+							{{ getNums(scope.row.monthMouthNum,scope.row.monthUseNum) }}口
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" width="240">
@@ -104,6 +104,7 @@
 				const param = {
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
+					  "isVisible":'y'
 					}
 				columPage(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
@@ -198,10 +199,10 @@
 			},
 			getNums(val1,val2){  // 计算，处理数据
 				if(val1 == 0 || val2 == 0){
-					return '0%';
+					return '0';
 				}
 				let num = (val1/val2).toFixed(2);
-				return num+'%';
+				return num;
 			},
 			disposeDate(date){  // 处理数据
 				let value = date.map((item)=>{

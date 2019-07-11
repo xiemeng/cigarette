@@ -98,6 +98,7 @@
 				const param = {
 					  "pageIndex": 1,
 					  "pageSize": 1000,
+					  "isVisible":'y'
 				}
 				columType(param,this.enter.sessionId).then((res)=>{
 					

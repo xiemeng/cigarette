@@ -31,22 +31,22 @@
 				</div>
 				
 				<el-table :data="tableData" class="w-100 p-15" stripe>
-					<el-table-column label="头像" width="180">
+					<el-table-column label="头像" width="240">
 						<template slot-scope="scope">
 							<img :src="scope.row.avatorUrl || error" @error="errorImg" />
 						</template>
 					</el-table-column>
-					<el-table-column label="账户号" width="180">
+					<el-table-column label="账户号" width="240">
 						<template slot-scope="scope">
 							{{ scope.row.loginName  }}
 						</template>
 					</el-table-column>
-					<el-table-column label="用户名" width="180">
+					<el-table-column label="用户名" width="240">
 						<template slot-scope="scope">
 							{{ scope.row.userName }}
 						</template>
 					</el-table-column>
-					<el-table-column label="角色名称" width="180">
+					<el-table-column label="角色名称" width="240">
 						<template slot-scope="scope">
 							{{ scope.row.roleName }}
 						</template>
@@ -130,6 +130,10 @@
 				meetList(this.enter.sessionId).then((res)=>{
 					console.log(res)
 					this.options = res.bussData;
+					this.options.unshift({
+						roleName:'全部',
+						id:0,
+					})
 				})
 			},
 			addUser(tips,date){
@@ -188,5 +192,7 @@
 	};
 </script>
 <style scoped>
-
+	img{
+		width: 100px;
+	}
 </style>

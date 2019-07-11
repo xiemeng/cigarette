@@ -114,7 +114,7 @@ export default {
 				async function getLat(){
 						const latList = res.bussData.forEach((item)=>{  // 发送get请求来获取城市的经纬度
 									ajax({   
-										url: 'http://api.map.baidu.com/geocoding/v3/',    // 请求地址
+										url: 'https://api.map.baidu.com/geocoding/v3/',    // 请求地址
 										jsonp: 'showLocation',  // 采用jsonp请求，且回调函数名为"showLocation"，可以设置为合法的字符串   http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding
 										data: {
 											address:item.provinceName,

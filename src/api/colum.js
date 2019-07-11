@@ -22,16 +22,6 @@ export function columDetail(data,ID) {  // 设备详情
   })
 }
 
-export function columDelete(data,ID) {  // 设备删除
-  return service({
-    url: '/admin/cigarette/delete?'+qs.stringify(data),
-    method: 'post',
-	headers: {
-		'sessionId': ID
-	}
-  })
-}
-
 export function columAdd(data,ID) {  // 设备新增
   return service({
     url: '/admin/cigarette/insert',
@@ -48,6 +38,16 @@ export function columUpdate(data,ID) {  // 设备修改
     url: '/admin/cigarette/update',
     method: 'post',
     data:data,
+	headers: {
+		'sessionId': ID
+	}
+  })
+}
+
+export function columDelete(data,ID) {  // 设备删除
+  return service({
+    url: '/admin/cigarette/delete?'+qs.stringify(data),
+    method: 'post',
 	headers: {
 		'sessionId': ID
 	}
@@ -78,6 +78,17 @@ export function getOSSUploadUrl(suffix,contentType) {  // 文件上传接口
 export function exportList(ID) {  // 导出列表
 	return service({
       url: '/admin/cigarette/exportList',
+      method: 'post',
+			responseType: 'arraybuffer',
+			headers: {
+				'sessionId': ID,
+			}
+    })
+}
+
+export function exportDetail(data,ID) {  // 导出详情
+	return service({
+      url: '/admin/cigarette/exportDetail?'+qs.stringify(data),
       method: 'post',
 			responseType: 'arraybuffer',
 			headers: {

@@ -88,9 +88,9 @@ export function exportRankList(data,ID) {  // 导出排行榜
   })
 }
 
-export function exportDetail(ID) {  // 导出用户详情
+export function exportDetail(data,ID) {  // 导出用户详情
   return service({
-    url: '/admin/weixin/exportDetail',
+    url: '/admin/weixin/exportDetail?'+qs.stringify(data),
     method: 'post',
 		responseType: 'arraybuffer',
 		headers: {

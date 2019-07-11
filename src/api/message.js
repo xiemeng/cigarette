@@ -43,10 +43,13 @@ export function messageDelete(data,ID) {  // 烟型分页 修改
   })
 }
 
-export function messageExportList() {  // 导出列表
+export function messageExportList(ID) {  // 导出列表
   return service({
     url: '/admin/ectype/exportList',
     method: 'post',
-		responseType: 'arraybuffer'
+		responseType: 'arraybuffer',
+		headers: {
+			'sessionId': ID
+		}
   })
 }

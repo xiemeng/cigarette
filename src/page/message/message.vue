@@ -70,7 +70,8 @@
 			init(){
 				const param = {
 				  "pageIndex": this.data.currentPage,
-				  "pageSize": this.data.pageSize
+				  "pageSize": this.data.pageSize,
+				  "isVisible":'y'
 				}
 				messagePage(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
@@ -166,7 +167,7 @@
 				})
 			},
 			exportList(){  // 导出数据
-				messageExportList().then((res)=>{
+				messageExportList(this.enter.sessionId).then((res)=>{
 					console.log(res)
 					const filename = '烟型管理列表.xlsx'
 					this.fileDownload(res, filename)

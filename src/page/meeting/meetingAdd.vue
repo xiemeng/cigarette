@@ -11,7 +11,7 @@
 					  <el-col :span="6">
 						<div class="flex w-100"><em class="nowrap" style="line-height: 40px;">角色：</em>
 							<el-select v-model="loginNameLike" placeholder="请选择">
-								<el-option v-for="item in options" :key="item.roleName" :label="item.roleName" :value="item.roleName">
+								<el-option v-for="(item,index) in options" :key="index" :label="item.roleName" :value="item.roleName">
 								</el-option>
 							</el-select>
 						</div>
@@ -23,17 +23,17 @@
 				</div>
 				
 				<el-table :data="tableData" class="w-100 p-15" stripe>
-					<el-table-column label="角色" width="180">
+					<el-table-column label="角色" width="280">
 						<template slot-scope="scope">
 							{{ scope.row.roleName   }}
 						</template>
 					</el-table-column>
-					<el-table-column label="角色描述" width="180">
+					<el-table-column label="角色描述" width="280">
 						<template slot-scope="scope">
 							{{ scope.row.roleDesc  }}
 						</template>
 					</el-table-column>
-					<el-table-column label="拥有权限" width="180">
+					<el-table-column label="拥有权限" width="380">
 						<template slot-scope="scope">
 							{{ scope.row.topMenuName  }}
 						</template>

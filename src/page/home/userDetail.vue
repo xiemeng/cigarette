@@ -14,13 +14,13 @@
 						<span>微信名</span><span>{{allDate.weixinUsername}}</span>
 					</li>
 					<li class="list">
-						<span>性别/年龄</span><span>{{allDate.sex ==1?'男':'女'+'/'+allDate.age}}</span>
+						<span>性别/年龄</span><span>{{allDate.sex ==1?'男':'女'}}{{'/'+allDate.age}}</span>
 					</li>
 					<li class="list">
 						<span>联系方式</span><span>{{allDate.mobile}}</span>
 					</li>
 					<li class="list">
-						<span>设备数</span><span>{{allDate.deviceNum}}</span>
+						<span>设备数</span><span>{{allDate.deviceNum}}</span><span>{{disposeDate2(allDate.deviceHistories)}}</span>
 					</li>
 					<li class="list">
 						<span>烟弹类型</span><span>{{getType(allDate.deviceHistories)}}</span>
@@ -109,7 +109,10 @@
 		},
 		methods: {
 			exportExcel(){  // 导出数据
-				exportDetail(this.enter.sessionId).then((res)=>{
+				const param = {
+					id:this.$router.currentRoute.query.weixinUserId
+				}
+				exportDetail(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
 					const filename = '微信用户详情.xlsx'
 					this.fileDownload(res, filename)
@@ -175,6 +178,13 @@
 				})
 				return value.join('  ');
 			},
+			disposeDate2(date){
+				if(!date)return
+				let value = date.map((item)=>{
+					return item.model
+				})
+				return value.join('  ');
+			},
 			fileDownload(data, fileName) {
 			        const blob = new Blob([data], {
 			            type: 'application/octet-stream'
@@ -221,6 +231,11 @@
 		}
 		span:nth-child(2){
 			color:#757575;
+		}
+		span:nth-child(3){
+			color:#757575;
+			display: block;
+			margin-left: 110px;
 		}
 	}
 	.right .list{

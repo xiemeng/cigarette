@@ -43,7 +43,7 @@ const roterList = [
       // name: 'home',
       component: Layout,
       meta: {
-        title: '用户管理',
+        title: '嗨趣后台管理系统',
         index: 0
       },
       children: [
@@ -51,7 +51,7 @@ const roterList = [
           path: '/',
           name: 'homeIndex',
           component: () => import('@/page/home/home'),
-          meta: { title: '用户管理', icon: 'form' }
+          meta: { title: '嗨趣后台管理系统', icon: 'form' }
         }
       ]
     },
@@ -61,7 +61,7 @@ const roterList = [
       // name: 'banner',
       component: Layout,
       meta: {
-        title: '用户管理',
+        title: '嗨趣后台管理系统',
         index: 1
       },
       children: [
@@ -69,7 +69,7 @@ const roterList = [
           path: '/',
           name: 'homeNanner',
           component: () => import('@/page/home/banner'),
-          meta: { title: '用户管理', icon: 'form' }
+          meta: { title: '嗨趣后台管理系统', icon: 'form' }
         }
       ]
     },

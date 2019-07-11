@@ -15,7 +15,7 @@ export default {
   name: "login",
   data() {
     return {
-    	username:'dengyh',
+    	username:'xiemeng2',
     	password:'123456'
     };
   },
