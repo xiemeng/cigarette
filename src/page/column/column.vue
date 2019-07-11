@@ -2,7 +2,7 @@
 	<div>
 			<div class="w-100 h-100 p-15">
 				<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-					<!-- <el-button size="mini" class="right" @click="goexportList">导出数据</el-button> -->
+					<el-button size="mini" class="right" @click="goexportList">导出数据</el-button>
 					<el-button class="elbut elbut2 right" size="mini" @click="goAdd('add')">新增</el-button>
 					<el-breadcrumb-item>设备管理</el-breadcrumb-item>
 				</el-breadcrumb>
@@ -52,7 +52,7 @@
 						<template slot-scope="scope">
 							<el-button class="elbut" size="mini" plain @click="goDetail(scope.$index, scope.row)">详情</el-button>
 							<el-button class="elbut" size="mini" plain @click="goAdd(scope.$index, scope.row)">编辑</el-button>
-							<el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+							<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-	import {columPage,exportList} from '@/api/colum'
+	import {columPage,exportList,columDelete} from '@/api/colum'
 	export default {
 		name: "column",
 		components: {
@@ -128,15 +128,15 @@
 					const param = {
 					 "id": row.id
 					}
-// 					meetuserDelete(param,this.enter.sessionId).then((res)=>{
-// 						console.log(res);
-// 						if(!res)return
-// 						this.$message({
-// 							type: 'success',
-// 							message: '删除成功!'
-// 						});
-// 						this.init()
-// 					})
+					columDelete(param,this.enter.sessionId).then((res)=>{
+						console.log(res);
+						if(!res)return
+						this.$message({
+							type: 'success',
+							message: '删除成功!'
+						});
+						this.init()
+					})
 				  
 				}).catch(() => {
 				  this.$message({

@@ -44,6 +44,16 @@ export function columUpdate(data,ID) {  // 设备修改
   })
 }
 
+export function columDelete(data,ID) {  // 设备删除
+  return service({
+    url: '/admin/cigarette/delete?'+qs.stringify(data),
+    method: 'post',
+	headers: {
+		'sessionId': ID
+	}
+  })
+}
+
 export function columType(data,ID) {  // 后台烟型接口
   return service({
     url: '/admin/ectype/find_page',
