@@ -2,7 +2,7 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<!-- <el-button size="mini" class="right" type="primary" @click="exportExcel">导出数据</el-button> -->
+				<el-button size="mini" class="right" type="primary" @click="exportExcel">导出数据</el-button>
 				<el-breadcrumb-item>烟友排行》详情</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="w-100 p-15 user-detail-wrap">
@@ -109,7 +109,10 @@
 		},
 		methods: {
 			exportExcel(){  // 导出数据
-				exportDetail(this.enter.sessionId).then((res)=>{
+				const param = {
+					id:this.$router.currentRoute.query.weixinUserId
+				}
+				exportDetail(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
 					const filename = '微信用户详情.xlsx'
 					this.fileDownload(res, filename)

@@ -2,7 +2,7 @@
 	<div>
 		<div class="w-100 h-100 p-15">
 			<el-breadcrumb separator="/" separator-class="el-icon-arrow-right" class="p-15 b-b-f0">
-				<el-button size="mini" class="right" @click="toLink('columnAdd')">导出数据</el-button>
+				<el-button size="mini" class="right" @click="exportExcel">导出数据</el-button>
 				<el-breadcrumb-item>设备管理》详情</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="w-100 p-15 user-detail-wrap">
@@ -47,7 +47,7 @@
 </template>
  
 <script>
-	import {columDetail} from '@/api/colum'
+	import {columDetail,exportDetail} from '@/api/colum'
 	export default {
 		name: "columnDetail",
 		components: {
@@ -73,6 +73,46 @@
 					console.log(res)
 					this.allDate = res.bussData
 				})
+			},
+			exportExcel(){
+				const param = {
+					id:this.$router.currentRoute.query.id
+				}
+				exportDetail(param,this.enter.sessionId).then((res)=>{
+					console.log(res)
+					const filename = '设备详情.xlsx'
+					this.fileDownload(res, filename)
+				}).catch((error)=>{
+					this.$message({
+						showClose: true,
+						message: error,
+						type: 'error'
+					})
+				})
+			},
+			fileDownload(data, fileName) {
+			        const blob = new Blob([data], {
+			            type: 'application/octet-stream'
+			        })
+			       
+			        const filename = fileName || 'filename.xlsx'
+			        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+			            window.navigator.msSaveBlob(blob, filename)
+			        } else {
+			            var blobURL = window.URL.createObjectURL(blob)
+			            var tempLink = document.createElement('a')
+			            tempLink.style.display = 'none'
+			            tempLink.href = blobURL
+			            tempLink.setAttribute('download', filename)
+			            if (typeof tempLink.download === 'undefined') {
+			            tempLink.setAttribute('target', '_blank')
+			            }
+			            
+			            document.body.appendChild(tempLink)
+			            tempLink.click()
+			            document.body.removeChild(tempLink)
+			            window.URL.revokeObjectURL(blobURL)
+			        }
 			},
 			getNums(val1,val2){  // 计算，处理数据
 				if(val1 == 0 || val2 == 0){

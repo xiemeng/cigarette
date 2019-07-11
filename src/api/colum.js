@@ -76,3 +76,14 @@ export function exportList(ID) {  // 导出列表
     })
 }
 
+export function exportDetail(data,ID) {  // 导出详情
+	return service({
+      url: '/admin/cigarette/exportDetail?'+qs.stringify(data),
+      method: 'post',
+			responseType: 'arraybuffer',
+			headers: {
+				'sessionId': ID,
+			}
+    })
+}
+

@@ -109,7 +109,10 @@
 		},
 		methods: {
 			exportExcel(){  // 导出数据
-				exportDetail(this.enter.sessionId).then((res)=>{
+				const param = {
+					id:this.$router.currentRoute.query.weixinUserId
+				}
+				exportDetail(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
 					const filename = '微信用户详情.xlsx'
 					this.fileDownload(res, filename)
