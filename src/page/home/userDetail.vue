@@ -36,7 +36,7 @@
 						<img :src="allDate.headimgurl" @error="errorImg"/>
 					</li>
 					<li class="list">
-						<span>设备激活日期</span><span>{{allDate.startTime }}</span>
+						<span>设备激活日期</span><span>{{ allDate.startTime+'('+allDate.intervalDays+'天)'}}</span>
 					</li>
 					<li class="list">
 						<span>最后一次使用设备</span><span>{{allDate.lastUseTime }}</span>

@@ -1,6 +1,6 @@
 <template>
 	<div class="b-dedede auto r-3 white rel" style="width: 347px;height:345px;margin-top: 10%;">
-		<div class="abs w-100 blue c-white loginafter" style="height: 45px;line-height: 45px; top: 30px;left: -15px; text-indent: 15px;">深圳市真空协会后台管理</div>
+		<div class="abs w-100 blue c-white loginafter" style="height: 45px;line-height: 45px; top: 30px;left: -15px; text-indent: 15px;">多美达电子烟后台</div>
 		<div class="p-lr-30" style="padding-top: 100px;">
 			<el-input class="m-t-15" placeholder="请输入账号" v-model="username" clearable></el-input>
 			<el-input class="m-t-15" placeholder="请输入账号" v-model="password" show-password></el-input>
