@@ -143,7 +143,6 @@
 				if(this.weixinName){
 					param.nicknameLike = this.weixinName
 				}
-				console.log(this.weixinName)
 				if(this.sex){
 					param.sex = this.sex;
 				}
@@ -236,5 +235,7 @@
 	};
 </script>
 <style scoped>
-	
+	img{
+		width: 70px;height: 70px;
+	}
 </style>
