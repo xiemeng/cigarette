@@ -38,7 +38,7 @@
 				</el-table-column>
 				<el-table-column label="微信名">
 					<template slot-scope="scope">
-						{{ scope.row.weixinUsername }}
+						{{ scope.row.nickname }}
 					</template>
 				</el-table-column>
 				<el-table-column label="年龄">
@@ -143,6 +143,7 @@
 				if(this.weixinName){
 					param.nicknameLike = this.weixinName
 				}
+				console.log(this.weixinName)
 				if(this.sex){
 					param.sex = this.sex;
 				}

@@ -113,25 +113,27 @@ export default {
 				this.dataList = res.bussData;
 				async function getLat(){
 						const latList = res.bussData.forEach((item)=>{  // 发送get请求来获取城市的经纬度
-									ajax({   
-										url: 'https://api.map.baidu.com/geocoding/v3/',    // 请求地址
-										jsonp: 'showLocation',  // 采用jsonp请求，且回调函数名为"showLocation"，可以设置为合法的字符串   http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding
-										data: {
-											address:item.provinceName,
-											output:'json',
-											ak:'964TlhHOSrcfFwQhGuIMH1CEdo1Kt0ID',
-										},   // 传输数据
-										success:function(res){   // 请求成功的回调函数
-											console.log(res)
-											_this.points.push({
-												lng: res.result.location.lng,
-												lat: res.result.location.lat,
-												count: item.percent
-											})
-											_this.getMap()
-										},
-										error: function(error) {}   // 请求失败的回调函数
-									});
+									if(item.provinceName){
+										ajax({   
+											url: 'https://api.map.baidu.com/geocoding/v3/',    // 请求地址
+											jsonp: 'showLocation',  // 采用jsonp请求，且回调函数名为"showLocation"，可以设置为合法的字符串   http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding
+											data: {
+												address:item.provinceName,
+												output:'json',
+												ak:'964TlhHOSrcfFwQhGuIMH1CEdo1Kt0ID',
+											},   // 传输数据
+											success:function(res){   // 请求成功的回调函数
+												console.log(res)
+												_this.points.push({
+													lng: res.result.location.lng,
+													lat: res.result.location.lat,
+													count: item.percent
+												})
+												_this.getMap()
+											},
+											error: function(error) {}   // 请求失败的回调函数
+										});
+									}
 								})
 						return 111
 				}

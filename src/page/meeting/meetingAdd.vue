@@ -145,7 +145,7 @@
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
 					}
-				if(this.loginNameLike)param.loginNameLike = this.loginNameLike;
+				if(this.loginNameLike)param.roleNameLike = this.loginNameLike;
 				meetuserPage(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
 					this.tableData = res.bussData;

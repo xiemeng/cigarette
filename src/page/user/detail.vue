@@ -11,7 +11,7 @@
 						<span>微信ID</span><span>{{allDate.id}}</span>
 					</li>
 					<li class="list">
-						<span>微信名</span><span>{{allDate.weixinUsername}}</span>
+						<span>微信名</span><span>{{allDate.nickname}}</span>
 					</li>
 					<li class="list">
 						<span>性别/年龄</span><span>{{allDate.sex ==1?'男':'女'}}{{'/'+allDate.age}}</span>
