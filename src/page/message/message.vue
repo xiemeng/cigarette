@@ -13,6 +13,11 @@
 							{{scope.$index+1}}
 						</template>
 					</el-table-column>
+					<el-table-column label="命令" width="180">
+						<template slot-scope="scope">
+							{{scope.$index+1}}
+						</template>
+					</el-table-column>
 					<el-table-column label="烟型" width="180">
 						<template slot-scope="scope">
 							{{ scope.row.name }}
@@ -38,6 +43,21 @@
 
 				
 			</div>
+			
+			<el-dialog title="新增" :visible.sync="dialogFormVisible">
+			  <el-form :model="form">
+				<el-form-item label="命令" :label-width="formLabelWidth">
+				  <el-input v-model="form.name" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="烟型" :label-width="formLabelWidth">
+				  <el-input v-model="form.name" autocomplete="off"></el-input>
+				</el-form-item>
+			  </el-form>
+			  <div slot="footer" class="dialog-footer">
+				<el-button @click="dialogFormVisible = false">取 消</el-button>
+				<el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+			  </div>
+			</el-dialog>
 	</div>
 </template>
 
@@ -50,6 +70,7 @@
 		},
 		data() {
 			return {
+				dialogFormVisible:false,// 测试用
 				total:0,  // 总数据条数
 				totalsPage:0, // 总分页数
 				data:{  // 分页 相关信息
@@ -57,7 +78,18 @@
 					currentPage:1,
 				},
 				enter:{},//
-				tableData: []
+				tableData: [],
+				form: {
+				  name: '',
+				  region: '',
+				  date1: '',
+				  date2: '',
+				  delivery: false,
+				  type: [],
+				  resource: '',
+				  desc: ''
+				},
+				formLabelWidth: '40px'
 				
 			};
 		},
@@ -118,26 +150,27 @@
 					str = date.name;
 				}
 				console.log(date)
-				this.$prompt('烟型', text, {
-					  confirmButtonText: '确定',
-					  cancelButtonText: '取消',
-					  inputValue:str,
-					  closeOnClickModal:false
-					}).then(({ value }) => {
-					  if(value){
-						if(tips == 'add'){
-							this.addType(date,value);  // 新增
-						}else{
-							this.undate(date,value);  //  编辑
-						}
-					  }else{
-						this.$message({
-							type: 'error',
-							message: '请输入烟型'
-						});
-					  }
-					  
-					}).catch(() => {})
+				this.dialogFormVisible = true;
+				// this.$prompt('烟型', text, {
+				// 	  confirmButtonText: '确定',
+				// 	  cancelButtonText: '取消',
+				// 	  inputValue:str,
+				// 	  closeOnClickModal:false
+				// 	}).then(({ value }) => {
+				// 	  if(value){
+				// 		if(tips == 'add'){
+				// 			this.addType(date,value);  // 新增
+				// 		}else{
+				// 			this.undate(date,value);  //  编辑
+				// 		}
+				// 	  }else{
+				// 		this.$message({
+				// 			type: 'error',
+				// 			message: '请输入烟型'
+				// 		});
+				// 	  }
+				// 	  
+				// 	}).catch(() => {})
 			},
 			addType(date,value){  // 增加
 				const param = {
