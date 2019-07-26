@@ -15,7 +15,7 @@
 					</el-table-column>
 					<el-table-column label="命令" width="180">
 						<template slot-scope="scope">
-							{{scope.$index+1}}
+							{{scope.row.command}}
 						</template>
 					</el-table-column>
 					<el-table-column label="烟型" width="180">
@@ -44,10 +44,10 @@
 				
 			</div>
 			
-			<el-dialog title="新增" :visible.sync="dialogFormVisible">
+			<el-dialog :title="title" :visible.sync="dialogFormVisible">
 			  <el-form :model="form">
 				<el-form-item label="命令" :label-width="formLabelWidth">
-				  <el-input v-model="form.name" autocomplete="off"></el-input>
+				  <el-input v-model="form.command" autocomplete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="烟型" :label-width="formLabelWidth">
 				  <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -55,7 +55,7 @@
 			  </el-form>
 			  <div slot="footer" class="dialog-footer">
 				<el-button @click="dialogFormVisible = false">取 消</el-button>
-				<el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+				<el-button type="primary" @click="chooseis">确 定</el-button>
 			  </div>
 			</el-dialog>
 	</div>
@@ -80,16 +80,12 @@
 				enter:{},//
 				tableData: [],
 				form: {
-				  name: '',
-				  region: '',
-				  date1: '',
-				  date2: '',
-				  delivery: false,
-				  type: [],
-				  resource: '',
-				  desc: ''
+				  command: '',// 命令
+				  name:'',// 烟型
+				  id:'',// 唯一标识
 				},
-				formLabelWidth: '40px'
+				title:'新增',// 标题
+				formLabelWidth: '40px',
 				
 			};
 		},
@@ -145,54 +141,64 @@
 			},
 			goAdd (tips,date) {  // 编辑新增
 				const text = tips == 'add'?'新增':'编辑';
+				this.title = text;
 				let str = '';
 				if(date){
-					str = date.name;
+					this.form.name = date.name;
+					this.form.command = date.command;
+					this.form.id = date.id;
+				}else{
+					this.form.name = '';
+					this.form.command = '';
 				}
-				console.log(date)
 				this.dialogFormVisible = true;
-				// this.$prompt('烟型', text, {
-				// 	  confirmButtonText: '确定',
-				// 	  cancelButtonText: '取消',
-				// 	  inputValue:str,
-				// 	  closeOnClickModal:false
-				// 	}).then(({ value }) => {
-				// 	  if(value){
-				// 		if(tips == 'add'){
-				// 			this.addType(date,value);  // 新增
-				// 		}else{
-				// 			this.undate(date,value);  //  编辑
-				// 		}
-				// 	  }else{
-				// 		this.$message({
-				// 			type: 'error',
-				// 			message: '请输入烟型'
-				// 		});
-				// 	  }
-				// 	  
-				// 	}).catch(() => {})
 			},
-			addType(date,value){  // 增加
+			chooseis(tips){  // 确定
+				if(this.form.command == ''){
+					this.$message({
+					  message: '请填写命令',
+					  type: 'warning'
+					});
+					return
+				}
+				if(this.form.name == ''){
+					this.$message({
+					  message: '请填写烟型',
+					  type: 'warning'
+					});
+					return
+				}
+				if(this.title == '新增'){
+					this.addType();  // 新增
+				}else{
+					this.undate();  //  编辑
+				}
+			},
+			addType(date){  // 增加
 				const param = {
-				 "name": value
+				 "name": this.form.name,
+				 "command":this.form.command,
 				}
 				messageInsert(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
-					this.init()
+					this.init();
+					this.dialogFormVisible = false;
 					this.$message({
 						type: 'success',
-						message: '您新增的烟型是: ' + value
+						message: '您新增的烟型是: ' + this.form.name
 					});
 				})
 			},
-			undate(date,value){  // 修改
+			undate(date){  // 修改
 				const param = {
-				 "name": value,
-				 "id":date.id
+				 "name": this.form.name,
+				 "command":this.form.command,
+				 "id":this.form.id
 				}
 				messageUpdate(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
-					this.init()
+					this.init();
+					this.dialogFormVisible = false;
 					this.$message({
 						type: 'success',
 						message: '修改成功'
