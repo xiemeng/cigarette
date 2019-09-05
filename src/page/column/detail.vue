@@ -118,7 +118,8 @@
 				if(val1 == 0 || val2 == 0){
 					return 0;
 				}
-				let num = (val1/val2).toFixed(2);
+				let num = (val1/val2).toFixed(4);
+				console.log(num)
 				return num;
 			},
 			disposeDate(date){  // 处理数据
