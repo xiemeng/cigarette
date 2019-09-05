@@ -125,6 +125,13 @@
 					}
 					messageDelete(param,this.enter.sessionId).then((res)=>{
 						console.log(res);
+						if(res && res.bussData == false){
+							this.$message({
+								type: 'warning',
+								message: '该烟型被引用，不能删除!'
+							});
+							return 
+						}
 						this.$message({
 							type: 'success',
 							message: '删除成功!'
