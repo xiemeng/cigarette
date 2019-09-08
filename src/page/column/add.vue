@@ -28,7 +28,7 @@
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">支持烟型：</em>
 						<div>
-							<span :style="{background:item.isChoose?'#fff':'#bbb'}" class="typeBtn" v-for="(item,index) in yanType" @click="choose(item,index)">{{item.name}}</span>
+							<span :style="{background:item.isChoose?'#90ee90':'#fff'}" class="typeBtn" v-for="(item,index) in yanType" @click="choose(item,index)">{{item.name}}</span>
 						</div>
 					</li>
 					<li class="flex">

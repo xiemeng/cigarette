@@ -202,10 +202,18 @@
 				this.init()
 			},
 			disposeDate(date){  // 处理数据
-				let value = date.map((item)=>{
+				if(!date)return
+				let obj = {}
+				let value = date.filter((item)=>{
+					if(!obj[item.model]){
+						obj[item.model] = 1
+						return item.model
+					}
+					return false
+				}).map((item) => {
 					return item.model
 				})
-				return value.join(' ');
+				return value.join('  ');
 			},
 			fileDownload(data, fileName) {
 	            const blob = new Blob([data], {

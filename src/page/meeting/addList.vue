@@ -17,7 +17,9 @@
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">权限：</em>
 						<div>
-							<div v-for="(item,index) in menuList"><el-checkbox v-model="menuIds[index]">{{item.menuName}}</el-checkbox></div>
+							<div v-for="(item,index) in menuList">
+								<el-checkbox v-model="menuIds[index]">{{item.menuName}}</el-checkbox>
+							</div>
 						</div>
 					</li>
 					
@@ -68,10 +70,11 @@
 					console.log(res)
 					this.roleName = res.bussData.roleName;
 					this.roleDesc = res.bussData.roleDesc;
-					this.menuIdsTrue = res.bussData.menuIds;
-					this.menuIdsTrue.forEach((item)=>{
-						this.menuIds[item] = true;
+					// this.menuIdsTrue = res.bussData.menuIds;
+					res.bussData.menuIds.forEach((item)=>{
+						this.menuIds[item-1] = true;
 					})
+					console.log(this.menuIdsTrue)
 				})
 				
 			},
@@ -99,6 +102,7 @@
 				for(let i = 0;i<this.menuIds.length;i++){
 					if(this.menuIds[i]){
 						this.menuIdsTrue.push(i+1)
+						// this.menuIdsTrue[i] = i+1
 					}
 				}
 				if(this.menuIdsTrue.length<=0){
@@ -108,7 +112,9 @@
 					});
 					return
 				}
+				// this.menuIdsTrue.length = 5
 				console.log(this.menuIdsTrue)
+				console.log(this.menuIds)
 				if(this.tips){  // 新增
 					this.addName()
 				}else{

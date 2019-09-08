@@ -10,6 +10,6 @@ export const formatDate = function(needTime){
 	      var s = time.getSeconds();  
 		return {
 			start:add0(y)+'-'+add0(m)+'-01',
-			end:add0(y)+'-'+add0(m)+'-31'
+			end:add0(y)+'-'+add0(m)+'-30'
 		}
 }

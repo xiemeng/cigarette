@@ -23,22 +23,22 @@
 							{{scope.$index+1}}
 						</template>
 					</el-table-column>
-					<el-table-column label="昵称" width="180">
+					<el-table-column label="昵称" width="140">
 						<template slot-scope="scope">
 							{{ scope.row.nickname }}
 						</template>
 					</el-table-column>
-					<el-table-column label="设备" width="180">
+					<el-table-column label="设备" width="140">
 						<template slot-scope="scope">
 							{{ scope.row.model }}
 						</template>
 					</el-table-column>
-					<el-table-column label="当月吸烟口数" width="180" sortable>
+					<el-table-column label="当月吸烟口数" width="140" sortable>
 						<template slot-scope="scope">
 							{{ scope.row.monthMouth  }}
 						</template>
 					</el-table-column>
-					<el-table-column label="当月活跃天数" width="180" sortable>
+					<el-table-column label="当月活跃天数" width="140" sortable>
 						<template slot-scope="scope">
 							{{ scope.row.monthDays  }}
 						</template>
