@@ -31,27 +31,27 @@
 				</div>
 				
 				<el-table :data="tableData" class="w-100 p-15" stripe>
-					<el-table-column label="头像" width="240">
+					<el-table-column label="头像">
 						<template slot-scope="scope">
 							<img :src="scope.row.avatorUrl || error" @error="errorImg" />
 						</template>
 					</el-table-column>
-					<el-table-column label="账户号" width="240">
+					<el-table-column label="账户号">
 						<template slot-scope="scope">
 							{{ scope.row.loginName  }}
 						</template>
 					</el-table-column>
-					<el-table-column label="用户名" width="240">
+					<el-table-column label="用户名">
 						<template slot-scope="scope">
 							{{ scope.row.userName }}
 						</template>
 					</el-table-column>
-					<el-table-column label="角色名称" width="240">
+					<el-table-column label="角色名称">
 						<template slot-scope="scope">
 							{{ scope.row.roleName }}
 						</template>
 					</el-table-column>
-					<el-table-column label="操作">
+					<el-table-column label="操作" width="180">
 						<template slot-scope="scope">
 							<el-button class="elbut" size="mini" plain @click="addUser(scope.$index, scope.row)">编辑</el-button>
 							<el-button size="mini" plain type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
