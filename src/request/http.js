@@ -10,9 +10,11 @@ const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url:process.env.BASE_API
   timeout: 20000 // 请求超时时间
 })
+
 // 请求拦截器
 service.interceptors.response.use(
   response => {
+		console.log(1111111111111111)
 		loadingInstance =  Loading.service({
 				lock: true,
 				text: 'Loading',
