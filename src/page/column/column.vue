@@ -35,7 +35,7 @@
 					</el-table-column>
 					<el-table-column label="当月使用人/全部激活比" width="200">
 						<template slot-scope="scope">
-							{{ getNums(scope.row.monthPeopleNum,scope.row.allPeopleNum) }}
+							{{ getNums(scope.row.monthPeopleNum,scope.row.allPeopleNum) *100 }}%
 						</template>
 					</el-table-column>
 					<el-table-column label="当月吸烟支数">

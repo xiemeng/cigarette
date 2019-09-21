@@ -52,15 +52,18 @@
 					</li>
 				</ul>
 			</div>
-			<div class="p-15 last">
+			<div class="p-15 last clear">
 				<span class="date">使用日期</span>
-				<div v-for="(item,index) in allDate.deviceHistories" class="chilren">
-					<span>设备1：{{item.model}}</span>
-					<Calendar
-					  v-on:changeMonth="changeDate"
-					  :markDateMore=item.markDate
-					></Calendar>
+				<div class="left clear">
+					<div v-for="(item,index) in deviceHistories2" class="chilren">
+						<span>设备{{index+1}}：{{item.model + ' ' + item.uuid}}</span>
+						<Calendar
+						  v-on:changeMonth="changeDate"
+						  :markDateMore=item.markDate
+						></Calendar>
+					</div>
 				</div>
+				
 				
 			</div>
 		</div>
@@ -89,6 +92,7 @@
 				endTime:'',// 结束时间
 				enter:{},
 				allDate:{},// 总数据
+				deviceHistories2:[],// 设备数组
 				markDate:[
 					// {date:'2019/7/1',className:"red"}, // 红：表示当天使用了
 					// {date:'2019/7/13',className:"yellow"}, // 黄：当天未使用
@@ -144,7 +148,7 @@
 						}
 						let markDate = [];
 						getMouthNumByPage(param2,this.enter.sessionId).then((res)=>{
-							if(res.bussData.length>0){
+							if(res && res.bussData.length>0){
 								for(let i = 0;i<res.bussData.length;i++){
 									markDate.push({
 										date:res.bussData[i].gmtCreated.split(' ')[0],
@@ -155,7 +159,9 @@
 							}
 						})
 					})
-					
+					console.log(this.allDate.deviceHistories)
+					this.deviceHistories2 = this.allDate.deviceHistories
+					// this.deviceHistories2 = this.disposeDate3(this.allDate.deviceHistories)
 				})
 			},
 			chooseYear(param2){  // 选择年月的接口
@@ -166,24 +172,65 @@
 			},
 			getType(date){
 				if(!date)return
-				let value = date.map((item)=>{
+				let obj = {}
+				let value = date.filter((item)=>{
+					if(!obj[item.cigarette.bombName]){
+						obj[item.cigarette.bombName] = 1
+						return item.cigarette.bombName
+					}
+					return false
+				}).map((item) => {
 					return item.cigarette.bombName == 'kao'?'烤烟型':'油烟型'
 				})
 				return value.join('  ');
 			},
 			disposeDate(date){  // 处理数据
 				if(!date)return
-				let value = date.map((item)=>{
-					return item.model+'-'+item.allMouth+'口'
+				let obj = {}
+				let value = date.filter((item)=>{
+					if(!obj[item.model]){
+						obj[item.model] = 1
+						return item.model
+					}else{
+						obj[item.model] ++
+					}
+					return false
+				}).map((item) => {
+					for(let key in obj){
+						if(item.model == key){
+							return item.model+'-'+obj[item.model]+'口'
+						}
+					}
 				})
 				return value.join('  ');
 			},
 			disposeDate2(date){
 				if(!date)return
-				let value = date.map((item)=>{
+				let obj = {}
+				let value = date.filter((item)=>{
+					if(!obj[item.model]){
+						obj[item.model] = 1
+						return item.model
+					}
+					return false
+				}).map((item) => {
 					return item.model
 				})
 				return value.join('  ');
+			},
+			disposeDate3(date){
+				
+				if(!date)return
+				let obj = {}
+				let value = date.filter((item)=>{
+					if(!obj[item.model]){
+						obj[item.model] = 1
+						return item.model
+					}
+					return false
+				})
+				console.log(value)
+				return value
 			},
 			fileDownload(data, fileName) {
 			        const blob = new Blob([data], {
@@ -245,21 +292,29 @@
 	}
 	.last{
 		padding-top: 0;
-		display: flex;
 		.date{
 			vertical-align: top;
 			font-size: 14px;
 			width: 110px;
+			float: left;
 			padding-right: 30px;
-			display: inline-block;
 		}
 		.wh_container{
 			margin: 0;
 			margin-top: 20px;
 		}
+		.left{
+			float: left;
+			margin-left: 100px;
+			position: relative;
+			top: -22px;
+		}
 		.chilren{
-			flex: 1;
+			float: left;
+			margin-right: 20px;
+			margin-bottom: 20px;
 		}
 	}
-	
+	.clear:after { content:''; display:block; clear:both; }
+	.clear { zoom:1; }
 </style>

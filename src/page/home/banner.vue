@@ -51,7 +51,7 @@
 						{{ scope.row.sex ==1?'男':'女' }}
 					</template>
 				</el-table-column>
-				<el-table-column label="设备激活日期" sortable>
+				<el-table-column prop="intervalDays" label="设备激活日期" sortable>
 					<template slot-scope="scope">
 						{{ scope.row.startTime+'('+scope.row.intervalDays+'天)'}}
 					</template>
@@ -66,7 +66,7 @@
 						{{ disposeDate(scope.row.deviceHistories) }}
 					</template>
 				</el-table-column>
-				<el-table-column label="最后一次使用设备" sortable>
+				<el-table-column prop="lastUseTime" label="最后一次使用设备" sortable>
 					<template slot-scope="scope">
 						{{ scope.row.lastUseTime+'('+scope.row.city+')' }}
 					</template>
@@ -139,6 +139,10 @@
 				const param = {
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
+					  "lastUseTimeASC": true,
+					  "lastUseTimeDESC": true,
+					   "startTimeASC": true,
+					   "startTimeDESC": true
 					}
 				if(this.weixinName){
 					param.nicknameLike = this.weixinName

@@ -16,8 +16,7 @@
 					</el-switch>
 				</div>
 				
-				<el-table :data="tableData" class="w-100 p-15" stripe 
-					:default-sort = "{prop: 'monthMouth', order: 'descending'}">
+				<el-table :data="tableData" class="w-100 p-15">
 					<el-table-column label="排名" width="180">
 						<template slot-scope="scope">
 							{{scope.$index+1}}
@@ -33,15 +32,11 @@
 							{{ scope.row.model }}
 						</template>
 					</el-table-column>
-					<el-table-column label="当月吸烟口数" width="140" sortable>
-						<template slot-scope="scope">
-							{{ scope.row.monthMouth  }}
-						</template>
+					<el-table-column prop="monthMouth" label="当月吸烟口数" width="140" sortable>
+						
 					</el-table-column>
-					<el-table-column label="当月活跃天数" width="140" sortable>
-						<template slot-scope="scope">
-							{{ scope.row.monthDays  }}
-						</template>
+					<el-table-column prop="monthDays" label="当月活跃天数" width="140" sortable>
+						
 					</el-table-column>
 					<el-table-column label="设备激活日期" width="180">
 						<template slot-scope="scope">

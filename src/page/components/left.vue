@@ -1,6 +1,6 @@
 <template>
 	<div class="c-white fix top-0 left-0 h-100 z-9 over-y-scorll scorll" style="width: 200px;background: #324157;">
-		<div class="w-100 over-x-hide" style="margin-top: 70px;">
+		<div class="w-100" style="margin-top: 70px;">
 			<el-menu :default-active='url' class="el-menu-vertical-demo" style="border: 0;" @select="toNav" background-color="#324157"
 			 text-color="#fff" active-text-color="#409EFF">
 				<el-submenu :index="String(index+1)" v-for="(item,index) in routerList" :key="index">

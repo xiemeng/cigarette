@@ -14,7 +14,6 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.response.use(
   response => {
-		console.log(1111111111111111)
 		loadingInstance =  Loading.service({
 				lock: true,
 				text: 'Loading',

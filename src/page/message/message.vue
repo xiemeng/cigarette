@@ -258,4 +258,8 @@
 	.elbut{
 		margin-right: 20px;
 	}
+	.right {
+		position: relative;
+		z-index: 999;
+	}
 </style>

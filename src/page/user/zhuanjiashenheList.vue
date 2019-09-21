@@ -50,7 +50,7 @@
 				isShowTime:false,// 是否在APP显示
 				dataList:[],// 列表
 				id:'',
-				value1: 1546303921000,
+				value1: new Date, // 1546303921000
 				weekNum:4,// 第几周
 				sex: 3, // 性别
 				options: [],
@@ -60,12 +60,26 @@
 		},
 		created() {},
 		mounted() {
+			this.weekNum = this.getWeekOfYear() + 4;
 			this.enter = JSON.parse(localStorage.getItem("enter"));
 			this.init()
 			// 基于准备好的dom，初始化echarts实例
 			this.getWeekTime()
 		},
 		methods: {
+			getWeekOfYear () {
+				var today = new Date();
+				  var firstDay = new Date(today.getFullYear(),0, 1);
+				  var dayOfWeek = firstDay.getDay(); 
+				  var spendDay= 1;
+				  if (dayOfWeek !=0) {
+				    spendDay=7-dayOfWeek+1;
+				  }
+				  firstDay = new Date(today.getFullYear(),0, 1+spendDay);
+				  var d =Math.ceil((today.valueOf()- firstDay.valueOf())/ 86400000);
+				  var result =Math.ceil(d/7);
+				  return result+1;
+			},
 			getEcharts(){  // 绘制图表
 				var myChart = echarts.init(document.getElementById('main'));
 				myChart.setOption({
