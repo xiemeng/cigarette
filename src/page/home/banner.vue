@@ -29,7 +29,7 @@
 
 			<el-table 
 				:data="tableData" stripe  
-				:default-sort = "{prop: 'startTime', order: 'descending'}" 
+				@sort-change='sortChange'
 				class="w-100 p-15">
 				<el-table-column label="头像">
 					<template slot-scope="scope">
@@ -51,7 +51,7 @@
 						{{ scope.row.sex ==1?'男':'女' }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="intervalDays" label="设备激活日期" sortable>
+				<el-table-column prop="intervalDays" label="设备激活日期" sortable='custom'>
 					<template slot-scope="scope">
 						{{ scope.row.startTime+'('+scope.row.intervalDays+'天)'}}
 					</template>
@@ -66,7 +66,7 @@
 						{{ disposeDate(scope.row.deviceHistories) }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="lastUseTime" label="最后一次使用设备" sortable>
+				<el-table-column prop="lastUseTime" label="最后一次使用设备" sortable='custom'>
 					<template slot-scope="scope">
 						{{ scope.row.lastUseTime+'('+scope.row.city+')' }}
 					</template>
@@ -124,8 +124,11 @@
 				tableData: [], // 列表数据
 				form: {
 					name: ''
-				}
-
+				},
+				lastUseTimeASC:true,// 为true则为降序排列，最后使用时间 ,
+				lastUseTimeDESC :false,//  为true则为升序排列，最后使用时间 ,
+				startTimeASC:false, // true则为升序排列，激活时间 ,
+				startTimeDESC:false,// 为true则为降序排列，激活时间
 			};
 		},
 		created() {},
@@ -139,10 +142,10 @@
 				const param = {
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
-					  "lastUseTimeASC": true,
-					  "lastUseTimeDESC": true,
-					   "startTimeASC": true,
-					   "startTimeDESC": true
+					  "lastUseTimeASC": this.lastUseTimeASC,
+					  "lastUseTimeDESC": this.lastUseTimeDESC,
+					   "startTimeASC": this.startTimeASC,
+					   "startTimeDESC": this.startTimeDESC
 					}
 				if(this.weixinName){
 					param.nicknameLike = this.weixinName
@@ -159,6 +162,37 @@
 			},
 			search(){  // 搜索
 				this.init()
+			},
+			sortChange ({column, prop, order} ) {
+				if(!order)return
+				if(prop === 'lastUseTime'){
+					if(order === 'descending'){
+						this.lastUseTimeASC = true;
+						this.lastUseTimeDESC = false;
+						this.startTimeASC = false;
+						this.startTimeDESC = false;
+					}else{
+						this.lastUseTimeASC = false;
+						this.lastUseTimeDESC = true;
+						this.startTimeASC = false;
+						this.startTimeDESC = false;
+					}
+				}
+				if(prop === 'intervalDays'){
+					if(order === 'descending'){
+						this.lastUseTimeASC = false;
+						this.lastUseTimeDESC = false;
+						this.startTimeASC = true;
+						this.startTimeDESC = false;
+					}else{
+						this.lastUseTimeASC = false;
+						this.lastUseTimeDESC = false;
+						this.startTimeASC = false;
+						this.startTimeDESC = true;
+					}
+				}
+				this.init();
+				console.log(column, prop, order )
 			},
 			exportExcel(){  // 导出数据
 				const param = {

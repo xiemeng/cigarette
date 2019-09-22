@@ -16,7 +16,7 @@
 					</el-switch>
 				</div>
 				
-				<el-table :data="tableData" class="w-100 p-15">
+				<el-table :data="tableData" class="w-100 p-15" @sort-change='sortChange'>
 					<el-table-column label="排名" width="180">
 						<template slot-scope="scope">
 							{{scope.$index+1}}
@@ -32,10 +32,10 @@
 							{{ scope.row.model }}
 						</template>
 					</el-table-column>
-					<el-table-column prop="monthMouth" label="当月吸烟口数" width="140" sortable>
+					<el-table-column prop="monthMouth" label="当月吸烟口数" width="140" sortable="custom">
 						
 					</el-table-column>
-					<el-table-column prop="monthDays" label="当月活跃天数" width="140" sortable>
+					<el-table-column prop="monthDays" label="当月活跃天数" width="140" sortable="custom">
 						
 					</el-table-column>
 					<el-table-column label="设备激活日期" width="180">
@@ -80,6 +80,10 @@
 				isShowRank:false,// 是否在APP显示
 				id:'',
 				tableData: [],
+				"monthDaysASC": false,
+				"monthDaysDESC": true, // 当月活跃天数，大
+				"monthMouthASC": false,
+				"monthMouthDESC": false,
 			};
 		},
 		created() {},
@@ -99,6 +103,37 @@
 				configUpdate(params,this.enter.sessionId).then((res)=>{
 					console.log(res)
 				})
+			},
+			sortChange ({column, prop, order} ) {
+				if(!order)return
+				if(prop === 'monthDays'){
+					if(order === 'descending'){  // 下
+						this.monthDaysASC = true;
+						this.monthDaysDESC = false;
+						this.monthMouthASC = false;
+						this.monthMouthDESC = false;
+					}else{
+						this.monthDaysASC = false;
+						this.monthDaysDESC = true;
+						this.monthMouthASC = false;
+						this.monthMouthDESC = false;
+					}
+				}
+				if(prop === 'monthMouth'){
+					if(order === 'descending'){
+						this.monthDaysASC = false;
+						this.monthDaysDESC = false;
+						this.monthMouthASC = true;
+						this.monthMouthDESC = false;
+					}else{
+						this.monthDaysASC = false;
+						this.monthDaysDESC = false;
+						this.monthMouthASC = false;
+						this.monthMouthDESC = true;
+					}
+				}
+				this.init();
+				console.log(column, prop, order )
 			},
 			exportExcel(){  // 导出数据
 				const param = {
@@ -156,10 +191,10 @@
 				const param = {
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
-					  "monthDaysASC": true,
-					  "monthDaysDESC": true,
-					  "monthMouthASC": true,
-					  "monthMouthDESC": true,
+					  "monthDaysASC": this.monthDaysASC,
+					  "monthDaysDESC": this.monthDaysDESC,
+					  "monthMouthASC": this.monthMouthASC,
+					  "monthMouthDESC": this.monthMouthDESC,
 					}
 				deviceOrder(param,this.enter.sessionId).then((res)=>{
 					console.log(res)

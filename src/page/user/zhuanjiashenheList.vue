@@ -13,8 +13,12 @@
 			</div>
 			<div class="w-100 p-15 mainMiddle">
 				<div class="flex w-100 list"><em class="nowrap" style="line-height: 40px;">年份：</em>
-					<span class="el-input1">{{years}}</span>
-					<!-- <el-input disabled  placeholder="年份" v-model="years"></el-input> -->
+					 <el-date-picker
+					      v-model="years"
+						  @change="changeYear"
+					      type="year"
+					      placeholder="选择年">
+					</el-date-picker>
 				</div>
 				<div class="flex w-100">
 					<em class="nowrap" style="line-height: 40px;">年周：</em>
@@ -46,11 +50,11 @@
 			return {
 				beginTime:'2019-04',  // 开始时间
 				endTime:'2019-01', // 结束时间
-				years:new Date().getFullYear(),// 年份
+				years:new Date(),// 年份
 				isShowTime:false,// 是否在APP显示
 				dataList:[],// 列表
 				id:'',
-				value1: new Date, // 1546303921000
+				value1: new Date-1814400000, // 1546303921000
 				weekNum:4,// 第几周
 				sex: 3, // 性别
 				options: [],
@@ -60,7 +64,7 @@
 		},
 		created() {},
 		mounted() {
-			this.weekNum = this.getWeekOfYear() + 4;
+			this.weekNum = this.getWeekOfYear();
 			this.enter = JSON.parse(localStorage.getItem("enter"));
 			this.init()
 			// 基于准备好的dom，初始化echarts实例
@@ -97,6 +101,11 @@
 						data: this.seriesDate
 					}]
 				});
+			},
+			changeYear (value) {
+				this.value1 = value
+				this.getWeek()
+				console.log(value)
 			},
 			change(value){  // 开关状态改变
 				console.log(value)
@@ -184,7 +193,10 @@
 				this.toLink('/user/danweiList/detail')
 			},
 			change2(value){  // 改变时间
-				this.years = this.value1.getFullYear();
+				this.years = this.value1;
+				this.getWeek()
+			},
+			getWeek () {
 				this.$nextTick(()=>{
 					let str = document.querySelector("#getWeek").value.split(' ');
 					let weekNum = str[1];
@@ -199,7 +211,6 @@
 					this.getWeekTime()
 					console.log(weekNum)
 				})
-				
 			}
 		}
 	};
