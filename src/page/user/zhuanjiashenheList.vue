@@ -48,8 +48,8 @@
 		name: "message",
 		data() {
 			return {
-				beginTime:'2019-04',  // 开始时间
-				endTime:'2019-01', // 结束时间
+				beginTime:'',  // 开始时间
+				endTime:'', // 结束时间
 				years:new Date(),// 年份
 				isShowTime:false,// 是否在APP显示
 				dataList:[],// 列表
@@ -65,15 +65,18 @@
 		created() {},
 		mounted() {
 			this.weekNum = this.getWeekOfYear();
+			this.getWeek()
+			console.log(this.weekNum)
 			this.enter = JSON.parse(localStorage.getItem("enter"));
 			this.init()
 			// 基于准备好的dom，初始化echarts实例
-			this.getWeekTime()
+			
 		},
 		methods: {
 			getWeekOfYear () {
 				var today = new Date();
 				  var firstDay = new Date(today.getFullYear(),0, 1);
+					console.log(firstDay)
 				  var dayOfWeek = firstDay.getDay(); 
 				  var spendDay= 1;
 				  if (dayOfWeek !=0) {
@@ -94,6 +97,8 @@
 					},
 					yAxis: {
 						name: '口数',
+						type: 'value',
+						minInterval: 1
 					},
 					series: [{
 						name: '销量',
@@ -201,12 +206,13 @@
 					let str = document.querySelector("#getWeek").value.split(' ');
 					let weekNum = str[1];
 					this.weekNum = Number(weekNum)+3;
-					this.beginTime = this.years+'-'+weekNum;
-					console.log(String(this.weekNum).length)
+					let year = this.years.getFullYear()
+					this.beginTime = year+'-'+weekNum;
+					console.log(year)
 					if(this.weekNum.length<=1){
-						this.endTime = this.years+'-0'+this.weekNum;
+						this.endTime = year+'-0'+this.weekNum;
 					}else{
-						this.endTime = this.years+'-'+this.weekNum;
+						this.endTime = year+'-'+this.weekNum;
 					}
 					this.getWeekTime()
 					console.log(weekNum)

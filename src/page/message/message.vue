@@ -37,7 +37,7 @@
 						:current-page="data.currentPage" :page-sizes="[10, 20, 30, 40]" 
 						:page-size="data.pageSize" layout="total,slot, sizes, prev, pager, next, jumper" 
 						:total="total">
-					        <span>第{{data.currentPage}} / {{totalsPage}}页</span>
+					        <span>第{{currentPage}} / {{totalsPage}}页</span>
 					</el-pagination>
 				</div>
 
@@ -67,6 +67,17 @@
 		name: "message",
 		components: {
 			
+		},
+		computed:{
+			currentPage () {
+				let currentPage = 0;
+				if(this.totalsPage == 0){
+					currentPage = 0
+				}else{
+					currentPage = this.data.currentPage
+				}
+				return currentPage
+			}
 		},
 		data() {
 			return {
