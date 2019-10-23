@@ -57,7 +57,7 @@ export function getMouthNumByPage(data,ID) {  // 获取抽烟记录
 
 export function deviceOrder(data,ID) {  // 排行榜
   return service({
-    url: '/admin/device/find_page_order',
+    url: '/admin/weixin/find_page',
     method: 'post',
 		data:data,
 		headers: {

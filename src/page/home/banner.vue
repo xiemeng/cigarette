@@ -207,7 +207,11 @@
 			exportExcel(){  // 导出数据
 				const param = {
 					  "pageIndex": this.data.currentPage,
-					  "pageSize": this.data.pageSize,
+					  "pageSize": 9999,
+					  "lastUseTimeASC": this.lastUseTimeASC,
+					  "lastUseTimeDESC": this.lastUseTimeDESC,
+					  "startTimeASC": this.startTimeASC,
+					   "startTimeDESC": this.startTimeDESC
 					}
 				if(this.weixinName){
 					param.nicknameLike = this.weixinName

@@ -26,7 +26,7 @@
 						<span>烟弹类型</span><span>{{getType(allDate.deviceHistories)}}</span>
 					</li>
 					<li class="list">
-						<span>口数</span><span>{{disposeDate(allDate.deviceHistories)}}</span>
+						<span>口数</span><pre>{{disposeDate(allDate.deviceHistories)}}</pre>
 					</li>
 					
 				</ul>
@@ -45,7 +45,7 @@
 						<span>当月活跃天数</span><span>{{allDate.monthActivieDay}}天</span>
 					</li>
 					<li class="list">
-						<span>当月吸烟支数</span><span>{{allDate.monthUseNum }}支</span>
+						<span>当月吸烟设备数</span><span>{{allDate.deviceNum }}</span>
 					</li>
 					<li class="list">
 						<span>当月吸烟口数</span><span>{{allDate.monthMouthNum}}口</span>
@@ -55,11 +55,11 @@
 			<div class="p-15 last clear">
 				<span class="date">使用日期</span>
 				<div class="left clear">
-					<div v-for="(item,index) in deviceHistories2" class="chilren">
+					<div v-for="(item,index) in deviceHistories2" class="chilren" @click.catch="chooseDate(index)">
 						<span>设备{{index+1}}：{{item.model + ' ' + item.uuid}}</span>
 						<Calendar
 						  v-on:changeMonth="changeDate"
-						  :markDateMore=item.markDate
+						  :markDateMore="item.markDate"
 						></Calendar>
 					</div>
 				</div>
@@ -98,6 +98,7 @@
 					// {date:'2019/7/13',className:"yellow"}, // 黄：当天未使用
 				],
 				date:'',// 日期
+				index:0,// 日期下标
 			};
 		},
 		created() {
@@ -128,8 +129,48 @@
 					})
 				})
 			},
-			changeDate(data) {
-			  console.log(data); //跳到了本月
+			changeDate(date) {
+				setTimeout(() => {
+					let arr = date.split('/')
+					if(arr[1]<10){
+						arr[1] = '0' + arr[1]
+					}
+					console.log(arr)
+					let data = '-30'
+					if(arr[1] == '02'){
+						data = '-28'
+					}
+					arr.length = 2;
+					let str = arr.join('-')
+					let startTime = str+'-01'
+					let endTime = str+data
+					console.log(formatDate(date),date)
+					const param2 = {
+						"deviceId": this.allDate.deviceHistories[this.index].id,
+						"gmtCreatedGE": startTime,  // 开始时间
+						"gmtCreatedLE": endTime,  // 结束时间
+						"weixinUserId": this.allDate.deviceHistories[this.index].weixinUserId
+					}
+					let markDate = [];
+					
+					getMouthNumByPage(param2,this.enter.sessionId).then((res)=>{
+						if(res && res.bussData.length>0){
+							for(let i = 0;i<res.bussData.length;i++){
+								markDate.push({
+									date:res.bussData[i].gmtCreated.split(' ')[0],
+									className:"red"
+								})
+								
+							}
+							this.$set(this.allDate.deviceHistories[this.index], 'markDate',markDate)
+						}
+					})
+					console.log(str);
+				})
+			},
+			chooseDate (index) {
+				this.index = index
+				 console.log(index); //跳到了本月
 			},
 			init(){
 				const param = {
@@ -138,7 +179,7 @@
 				deviceDetail(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
 					this.allDate = res.bussData;
-					this.allDate.deviceHistories.forEach((item)=>{
+					this.allDate.deviceHistories.forEach((item,index)=>{
 						var formatDate = new Date().valueOf()
 						const param2 = {
 							"deviceId": item.id,
@@ -154,18 +195,16 @@
 										date:res.bussData[i].gmtCreated.split(' ')[0],
 										className:"red"
 									})
-									this.$set(this.allDate.deviceHistories[i], 'markDate',markDate)
+									
 								}
+								this.$set(this.allDate.deviceHistories[index], 'markDate',markDate)
 							}
 						})
 					})
 					console.log(this.allDate.deviceHistories)
 					this.deviceHistories2 = this.allDate.deviceHistories
-					// this.deviceHistories2 = this.disposeDate3(this.allDate.deviceHistories)
+					
 				})
-			},
-			chooseYear(param2){  // 选择年月的接口
-				
 			},
 			errorImg($event){  // 图片错误加载的默认图
 				event.srcElement.src = error3
@@ -188,21 +227,31 @@
 				if(!date)return
 				let obj = {}
 				let value = date.filter((item)=>{
-					if(!obj[item.model]){
-						obj[item.model] = 1
-						return item.model
-					}else{
-						obj[item.model] ++
-					}
-					return false
-				}).map((item) => {
+					obj[item.model] = item.allMouth
+					return true
+					// if(!obj[item.model] && obj[item.model] != 0){  // 
+					// 	obj[item.model] = item.allMouth
+					// 	return true
+					// }else{
+					// 	obj[item.model] += item.allMouth
+					// }
+					// return false
+				})
+				let value2 = value.map((item) => {
 					for(let key in obj){
 						if(item.model == key){
-							return item.model+'-'+obj[item.model]+'口'
+							return item.model+ ' ' + item.uuid +' - '+item.allMouth+'口'
 						}
 					}
 				})
-				return value.join('  ');
+				let str = ''
+				if(value2 && value2.length>0){
+					value2.map(item => {
+						str += `${item}\n`
+					})
+					
+				}
+				return str;
 			},
 			disposeDate2(date){
 				if(!date)return
@@ -269,6 +318,9 @@
 	}
 	.list{
 		padding-bottom: 32px;
+		pre{
+			display: inline-block;
+		}
 		span:nth-child(1){
 			vertical-align: top;
 			font-size: 14px;
@@ -310,6 +362,7 @@
 			top: -22px;
 		}
 		.chilren{
+			min-height: 390px;
 			float: left;
 			margin-right: 20px;
 			margin-bottom: 20px;

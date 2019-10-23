@@ -24,7 +24,7 @@
             </div>
             <ul class="listWrap">
               <li class="list" v-for="item in dataList">
-                <span>{{item.provinceName}}</span><span>{{item.num}}个人</span><span>{{item.percent}}</span>
+                <span>{{item.cityName || item.provinceName}}</span><span>{{item.num}}个人</span><span>{{item.percent}}</span>
               </li>
             </ul>
           </div>

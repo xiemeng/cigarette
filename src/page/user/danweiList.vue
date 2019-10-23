@@ -29,13 +29,14 @@
 					</el-table-column>
 					<el-table-column label="设备" width="140">
 						<template slot-scope="scope">
-							{{ scope.row.model }}
+							<!-- {{ scope.row.deviceHistories }} -->
+							{{disposeDate2(scope.row.deviceHistories)}}
 						</template>
 					</el-table-column>
-					<el-table-column prop="monthMouth" label="当月吸烟口数" width="140" sortable="custom">
+					<el-table-column prop="monthMouthNum" label="当月吸烟口数" width="140" sortable="custom">
 						
 					</el-table-column>
-					<el-table-column prop="monthDays" label="当月活跃天数" width="140" sortable="custom">
+					<el-table-column prop="monthActivieDay" label="当月活跃天数" width="140" sortable="custom">
 						
 					</el-table-column>
 					<el-table-column label="设备激活日期" width="180">
@@ -80,10 +81,10 @@
 				isShowRank:false,// 是否在APP显示
 				id:'',
 				tableData: [],
-				"monthDaysASC": false,
-				"monthDaysDESC": true, // 当月活跃天数，大
-				"monthMouthASC": false,
-				"monthMouthDESC": false,
+				"monthActivieDayASC": false,
+				"monthActivieDayDESC": true, // 当月活跃天数，大
+				"monthMouthNumASC": false,
+				"monthMouthNumDESC": false,
 			};
 		},
 		created() {},
@@ -104,32 +105,46 @@
 					console.log(res)
 				})
 			},
+			disposeDate2(date){
+				if(!date)return
+				let obj = {}
+				let value = date.filter((item)=>{
+					if(!obj[item.model]){
+						obj[item.model] = 1
+						return item.model
+					}
+					return false
+				}).map((item) => {
+					return item.model
+				})
+				return value.join('  ');
+			},
 			sortChange ({column, prop, order} ) {
 				if(!order)return
-				if(prop === 'monthDays'){
+				if(prop === 'monthActivieDay'){
 					if(order === 'descending'){  // 下
-						this.monthDaysASC = true;
-						this.monthDaysDESC = false;
-						this.monthMouthASC = false;
-						this.monthMouthDESC = false;
+						this.monthActivieDayASC = true;
+						this.monthActivieDayDESC = false;
+						this.monthMouthNumASC = false;
+						this.monthMouthNumDESC = false;
 					}else{
-						this.monthDaysASC = false;
-						this.monthDaysDESC = true;
-						this.monthMouthASC = false;
-						this.monthMouthDESC = false;
+						this.monthActivieDayASC = false;
+						this.monthActivieDayDESC = true;
+						this.monthMouthNumASC = false;
+						this.monthMouthNumDESC = false;
 					}
 				}
-				if(prop === 'monthMouth'){
+				if(prop === 'monthMouthNum'){
 					if(order === 'descending'){
-						this.monthDaysASC = false;
-						this.monthDaysDESC = false;
-						this.monthMouthASC = true;
-						this.monthMouthDESC = false;
+						this.monthActivieDayASC = false;
+						this.monthActivieDayDESC = false;
+						this.monthMouthNumASC = true;
+						this.monthMouthNumDESC = false;
 					}else{
-						this.monthDaysASC = false;
-						this.monthDaysDESC = false;
-						this.monthMouthASC = false;
-						this.monthMouthDESC = true;
+						this.monthActivieDayASC = false;
+						this.monthActivieDayDESC = false;
+						this.monthMouthNumASC = false;
+						this.monthMouthNumDESC = true;
 					}
 				}
 				this.init();
@@ -138,11 +153,11 @@
 			exportExcel(){  // 导出数据
 				const param = {
 				  "pageIndex": this.data.currentPage,
-				  "pageSize": this.data.pageSize,
-				  "monthDaysASC": true,
-				  "monthDaysDESC": true,
-				  "monthMouthASC": true,
-				  "monthMouthDESC": true,
+				  "pageSize": 9999,
+				  "monthActivieDayASC": true,
+				  "monthActivieDayDESC": true,
+				  "monthMouthNumASC": true,
+				  "monthMouthNumDESC": true,
 				}
 				exportRankList(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
@@ -191,10 +206,10 @@
 				const param = {
 					  "pageIndex": this.data.currentPage,
 					  "pageSize": this.data.pageSize,
-					  "monthDaysASC": this.monthDaysASC,
-					  "monthDaysDESC": this.monthDaysDESC,
-					  "monthMouthASC": this.monthMouthASC,
-					  "monthMouthDESC": this.monthMouthDESC,
+					  "monthActivieDayASC": this.monthActivieDayASC,
+					  "monthActivieDayDESC": this.monthActivieDayDESC,
+					  "monthMouthNumASC": this.monthMouthNumASC,
+					  "monthMouthNumDESC": this.monthMouthNumDESC,
 					}
 				deviceOrder(param,this.enter.sessionId).then((res)=>{
 					console.log(res)
@@ -205,8 +220,8 @@
 			},
 			godanDetail(tips,row){
 				this.$router.push({
-					path: '/user/danweiList/detail',
-					query:{weixinUserId:row.weixinUserId}
+					path: '/home/userDetail',
+					query:{weixinUserId:row.id}
 				});
 			},
 			handleSizeChange(val) {

@@ -45,7 +45,7 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<div class="text-center p-t-30">
+				<div class="text-center p-t-30" v-if="totalsPage">
 					<el-pagination 
 						@size-change="handleSizeChange" @current-change="handleCurrentChange" 
 						:current-page="data.currentPage" :page-sizes="[10, 20, 30, 40]" 

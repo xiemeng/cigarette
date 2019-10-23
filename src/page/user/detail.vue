@@ -8,7 +8,7 @@
 			<div class="w-100 p-15 user-detail-wrap">
 				<ul>
 					<li class="list">
-						<span>微信ID</span><span>{{allDate.id}}</span>
+						<span>用户ID</span><span>{{allDate.id}}</span>
 					</li>
 					<li class="list">
 						<span>微信名</span><span>{{allDate.nickname}}</span>
@@ -45,7 +45,7 @@
 						<span>当月活跃天数</span><span>{{allDate.monthActivieDay}}天</span>
 					</li>
 					<li class="list">
-						<span>当月吸烟支数</span><span>{{allDate.monthUseNum }}支</span>
+						<span>当月吸烟设备数</span><span>{{allDate.monthUseNum }}</span>
 					</li>
 					<li class="list">
 						<span>当月吸烟口数</span><span>{{allDate.monthMouthNum}}口</span>
@@ -189,10 +189,10 @@
 				let obj = {}
 				let value = date.filter((item)=>{
 					if(!obj[item.model]){
-						obj[item.model] = 1
+						obj[item.model] = item.allMouth
 						return item.model
 					}else{
-						obj[item.model] ++
+						obj[item.model] += item.allMouth
 					}
 					return false
 				}).map((item) => {
@@ -202,6 +202,7 @@
 						}
 					}
 				})
+				console.log(value,111111111111)
 				return value.join('  ');
 			},
 			disposeDate2(date){

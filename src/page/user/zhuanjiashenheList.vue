@@ -131,6 +131,7 @@
 				}
 				getMouthNumByWeeks(params,this.enter.sessionId).then((res)=>{
 					console.log(res)
+					this.seriesDate = [0,0,0,0]
 					if(res.bussData.length>0){
 						let arr = [this.weekNum-3,this.weekNum-2,this.weekNum-1,this.weekNum]
 						res.bussData.forEach((item)=>{
@@ -144,6 +145,7 @@
 					}else{
 						this.seriesDate = [0,0,0,0]
 					}
+					console.log(this.seriesDate)
 					this.getEcharts()
 				})
 			},
