@@ -32,6 +32,12 @@
 						</div>
 					</li>
 					<li class="flex">
+						<em class="nowrap" style="line-height: 40px;">默认烟型：</em>
+						<div>
+							<span :style="{background:item.isDefault?'#1e98ea':'#fff'}" class="typeBtn" v-for="(item,index) in yanType" @click="choose2(item,index)">{{item.name}}</span>
+						</div>
+					</li>
+					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">设备照片：</em>
 						<el-upload
 							action
@@ -44,8 +50,44 @@
 						  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 						</el-upload>
 					</li>
+					<li class="flex">
+						<em class="nowrap" style="line-height: 40px;">商城链接：</em>
+						<el-input v-model="imageLink" placeholder="请输入"></el-input>
+					</li>
+					<li class="flex">
+						<em class="nowrap" style="line-height: 40px;">支持功能：</em>
+						<el-switch
+						  v-model="facility"
+						  inactive-text="设备防丢">
+						</el-switch>
+						<el-switch
+						  v-model="choice"
+						  inactive-text="口味选择">
+						</el-switch>
+						<el-switch
+						  v-model="facilityShow"
+						  inactive-text="设备显示">
+						</el-switch>
+						<el-switch
+						  v-model="eyeToEye"
+						  inactive-text="心有灵犀">
+						</el-switch>
+						<el-switch
+						  v-model="recording"
+						  inactive-text="录音">
+						</el-switch>
+						<el-switch
+						  v-model="childLock"
+						  inactive-text="儿童锁">
+						</el-switch>
+						<el-switch
+						  v-model="recreation"
+						  inactive-text="娱乐">
+						</el-switch>
+					</li>
 				</ul>
 				<div class="footer">
+					<el-button plain @click="concle">取消</el-button>
 					<el-button plain @click="submit">确定</el-button>
 				</div>
 				
@@ -64,12 +106,20 @@
 		},
 		data() {
 			return {
+				childLock:false,
+				choice:false,
+				facility:false,
+				recording:false,
+				recreation:false,
+				eyeToEye:false,
+				facilityShow:false,
 				uploadUrl:'',// 上传图片链接
 				fileKey:'',// 图片key
 				downloadUrl:'',// 图片下载链接
 				yanType:[],
 				tips:'',//
 				enter:{},
+				imageLink:'',// 商城链接
 				imageKey: '',  // 图片
 				typeIds:'',  // 支持的烟型 用,号隔开
 				model:'',// 设备型号
@@ -126,9 +176,10 @@
 									})
 								})
 							}
-							console.log(this.imageKey)
+							
 						})
 					}
+					console.log(this.yanType)
 				})
 				
 				
@@ -139,7 +190,16 @@
 				}else{
 					this.yanType[index].isChoose = 1;
 				}
-				
+				this.$forceUpdate()
+			},
+			choose2 (item,index) {
+				this.yanType.forEach((item,index2) => {
+					if(index2 == index){
+						this.yanType[index2].isDefault = true
+					}else{
+						this.yanType[index2].isDefault = false
+					}
+				})
 				this.$forceUpdate()
 			},
 			rewriteUpload(content) {  // 自定义请求头
@@ -175,6 +235,9 @@
 				})
 			  })
 			},
+			concle () {
+				this.$router.go(-1)
+			},
 			submit(){  // 提交
 				if(!this.model){
 					this.$message({
@@ -197,15 +260,32 @@
 					});
 					return
 				}
+				if(!this.imageLink){
+					this.$message({
+					  message: '请选择填写商城链接',
+					  type: 'warning'
+					});
+					return
+				}
 				let arr = this.yanType.filter((item)=>{
 					return item.isChoose
 				})
-				console.log(arr)
+				let arr2 = this.yanType.filter((item)=>{
+					return item.isDefault
+				})
+				console.log(arr,arr2)
 				if(arr){
 					arr = arr.map((item)=>{
 						return item.id
 					})
 					this.typeIds = arr.join(',')
+				}
+				if(arr2 && arr2.length<=0){
+					this.$message({
+					  message: '请选择一个默认烟型',
+					  type: 'warning'
+					});
+					return
 				}
 				console.log(this.typeIds)
 				if(!this.typeIds){
@@ -235,7 +315,15 @@
 					  "imageKey": this.fileKey,
 					  "model": this.model,
 					  "onDate": this.onDate,
-					  "typeIds": this.typeIds
+					  "typeIds": this.typeIds,
+					  childLock:this.childLock,
+					  imageLink:this.imageLink,
+					  choice:this.choice,
+					  facility:this.facility,
+					  recording:this.recording,
+					  recreation:this.recreation,
+					  eyeToEye:this.eyeToEye,
+					  facilityShow:this.facilityShow,
 					}
 				columAdd(param,this.enter.sessionId).then((res)=>{
 					if(!res)return
@@ -250,7 +338,15 @@
 					"imageKey": this.fileKey,
 					"model": this.model,
 					"onDate": this.onDate,
-					"typeIds": this.typeIds
+					"typeIds": this.typeIds,
+					imageLink:this.imageLink,
+					childLock:this.childLock,
+					choice:this.choice,
+					facility:this.facility,
+					recording:this.recording,
+					recreation:this.recreation,
+					eyeToEye:this.eyeToEye,
+					facilityShow:this.facilityShow,
 				}
 				columUpdate(param,this.enter.sessionId).then((res)=>{
 					console.log(res.bussData.uploadUrl)
@@ -268,11 +364,14 @@
 	.columAdd{
 		padding-bottom:50px;
 		.wrap{
-				max-width: 500px;
+				// max-width: 500px;
 				li{
 					margin-top: 40px;
 					em{
 						margin-right: 30px;
+					}
+					.el-switch{
+						margin-right: 20px;margin-top: 10px;
 					}
 				}
 			}

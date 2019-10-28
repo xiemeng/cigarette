@@ -103,7 +103,7 @@ export default {
 		},
 		init(){
 			configDetail(this.enter.sessionId).then((res)=>{
-				console.log(res)
+				console.log(this.enter.sessionId)
 				this.id = res.bussData.id;
 				this.isShowHot  = res.bussData.isShowHot == 'y'?true:false;
 			})

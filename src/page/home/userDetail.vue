@@ -8,7 +8,7 @@
 			<div class="w-100 p-15 user-detail-wrap">
 				<ul>
 					<li class="list">
-						<span>微信ID</span><span>{{allDate.id}}</span>
+						<span>用户ID</span><span>{{allDate.id}}</span>
 					</li>
 					<li class="list">
 						<span>微信名</span><span>{{allDate.nickname}}</span>
