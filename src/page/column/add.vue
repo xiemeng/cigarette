@@ -159,7 +159,15 @@
 							}
 						columDetail(param2,this.enter.sessionId).then((res)=>{
 							console.log(res)
-							
+							this.childLock = res.bussData.childLock == 'Y'?true:false;
+							this.imageLink = res.bussData.imageLink,
+							this.choice = res.bussData.choice == 'Y'?true:false;
+							this.facility = res.bussData.facility == 'Y'?true:false;
+							this.recording = res.bussData.recording == 'Y'?true:false;
+							this.recreation = res.bussData.recreation == 'Y'?true:false;
+							this.eyeToEye = res.bussData.eyeToEye == 'Y'?true:false;
+							this.facilityShow = res.bussData.facilityShow == 'Y'?true:false;
+							console.log(this.imageLink)
 							this.bombName = res.bussData.bombName;
 							this.fileKey = res.bussData.imageKey;
 							this.imageKey = res.bussData.imageUrl;
@@ -316,14 +324,14 @@
 					  "model": this.model,
 					  "onDate": this.onDate,
 					  "typeIds": this.typeIds,
-					  childLock:this.childLock,
+					  childLock:this.childLock?'Y':'N',
 					  imageLink:this.imageLink,
-					  choice:this.choice,
-					  facility:this.facility,
-					  recording:this.recording,
-					  recreation:this.recreation,
-					  eyeToEye:this.eyeToEye,
-					  facilityShow:this.facilityShow,
+					  choice:this.choice?'Y':'N',
+					  facility:this.facility?'Y':'N',
+					  recording:this.recording?'Y':'N',
+					  recreation:this.recreation?'Y':'N',
+					  eyeToEye:this.eyeToEye?'Y':'N',
+					  facilityShow:this.facilityShow?'Y':'N',
 					}
 				columAdd(param,this.enter.sessionId).then((res)=>{
 					if(!res)return
@@ -339,14 +347,14 @@
 					"model": this.model,
 					"onDate": this.onDate,
 					"typeIds": this.typeIds,
+					childLock:this.childLock?'Y':'N',
 					imageLink:this.imageLink,
-					childLock:this.childLock,
-					choice:this.choice,
-					facility:this.facility,
-					recording:this.recording,
-					recreation:this.recreation,
-					eyeToEye:this.eyeToEye,
-					facilityShow:this.facilityShow,
+					choice:this.choice?'Y':'N',
+					facility:this.facility?'Y':'N',
+					recording:this.recording?'Y':'N',
+					recreation:this.recreation?'Y':'N',
+					eyeToEye:this.eyeToEye?'Y':'N',
+					facilityShow:this.facilityShow?'Y':'N',
 				}
 				columUpdate(param,this.enter.sessionId).then((res)=>{
 					console.log(res.bussData.uploadUrl)
