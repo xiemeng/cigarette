@@ -26,7 +26,7 @@
 						<span>该型号当月平均每支口数</span><span>{{ getNums(allDate.monthMouthNum,allDate.monthUseNum) }}</span>
 					</li>
 					<li class="list">
-						<span>该型号总共吸烟支数</span><span>{{allDate.allMouthNum}}</span>
+						<span>该型号总共吸烟口数</span><span>{{allDate.allMouthNum}}</span>
 					</li>
 					<li class="list">
 						<span>该型号总平均每支口数</span><span>{{ getNums(allDate.allMouthNum,allDate.allUseNum) }}</span>

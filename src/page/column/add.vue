@@ -34,7 +34,7 @@
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">默认烟型：</em>
 						<div>
-							<span :style="{background:item.isDefault?'#1e98ea':'#fff'}" class="typeBtn" v-for="(item,index) in yanType" @click="choose2(item,index)">{{item.name}}</span>
+							<span :style="{background:item.isDefault?'#1e98ea':'#fff'}" :class="{'isChoose':item.isChoose}" class="typeBtn" v-for="(item,index) in yanType" @click="choose2(item,index)">{{item.name}}</span>
 						</div>
 					</li>
 					<li class="flex">
@@ -106,13 +106,13 @@
 		},
 		data() {
 			return {
-				childLock:false,
-				choice:false,
-				facility:false,
-				recording:false,
-				recreation:false,
-				eyeToEye:false,
-				facilityShow:false,
+				childLock:true,
+				choice:true,
+				facility:true,
+				recording:true,
+				recreation:true,
+				eyeToEye:true,
+				facilityShow:true,
 				uploadUrl:'',// 上传图片链接
 				fileKey:'',// 图片key
 				downloadUrl:'',// 图片下载链接
@@ -122,6 +122,7 @@
 				imageLink:'',// 商城链接
 				imageKey: '',  // 图片
 				typeIds:'',  // 支持的烟型 用,号隔开
+				typeId:'',// 默认烟型
 				model:'',// 设备型号
 				onDate:'',// 上市日期
 				bombName:'',// 烟弹类型
@@ -167,13 +168,15 @@
 							this.recreation = res.bussData.recreation == 'Y'?true:false;
 							this.eyeToEye = res.bussData.eyeToEye == 'Y'?true:false;
 							this.facilityShow = res.bussData.facilityShow == 'Y'?true:false;
-							console.log(this.imageLink)
+							
 							this.bombName = res.bussData.bombName;
 							this.fileKey = res.bussData.imageKey;
 							this.imageKey = res.bussData.imageUrl;
 							this.model = res.bussData.model;
 							this.onDate = res.bussData.onDate;
+							this.typeId = res.bussData.typeId;
 							this.typeIds = res.bussData.typeIds;
+							console.log(this.typeId)
 							if(this.yanType.length>0 && this.typeIds){
 								let typeIds = this.typeIds.split(',');
 								this.yanType.forEach((item)=>{
@@ -182,6 +185,9 @@
 											item.isChoose = 1;
 										}
 									})
+									if(this.typeId && item.id == this.typeId){
+										item.isDefault = true
+									}
 								})
 							}
 							
@@ -201,8 +207,11 @@
 				this.$forceUpdate()
 			},
 			choose2 (item,index) {
+				if(item.isChoose)return
+				
 				this.yanType.forEach((item,index2) => {
 					if(index2 == index){
+						this.typeId = item.id
 						this.yanType[index2].isDefault = true
 					}else{
 						this.yanType[index2].isDefault = false
@@ -324,6 +333,7 @@
 					  "model": this.model,
 					  "onDate": this.onDate,
 					  "typeIds": this.typeIds,
+					  typeId:this.typeId,
 					  childLock:this.childLock?'Y':'N',
 					  imageLink:this.imageLink,
 					  choice:this.choice?'Y':'N',
@@ -347,6 +357,7 @@
 					"model": this.model,
 					"onDate": this.onDate,
 					"typeIds": this.typeIds,
+					typeId:this.typeId,
 					childLock:this.childLock?'Y':'N',
 					imageLink:this.imageLink,
 					choice:this.choice?'Y':'N',
@@ -380,6 +391,11 @@
 					}
 					.el-switch{
 						margin-right: 20px;margin-top: 10px;
+					}
+					span{
+						&.isChoose{
+							background-color: #ccc !important;
+						}
 					}
 				}
 			}
