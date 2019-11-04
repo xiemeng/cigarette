@@ -13,7 +13,7 @@ export function getWeixinUserLocationStatics(ID) {  // 获取热力图信息
 export function exportHotList(ID) {  // 导出热力图
   return service({
     url: '/admin/weixin/exportHotList',
-    method: 'post',
+    method: 'get',
 		responseType: 'arraybuffer',
 		headers: {
 			'sessionId': ID,
@@ -35,8 +35,8 @@ export function getMouthNumByWeeks(data,ID) {  // 时间表
 export function exportWeekList(data,ID) {  // 导出时间图
   return service({
     url: '/admin/smoke/exportWeekList',
-    method: 'post',
-		data:data,
+    method: 'get',
+		params:data,
 		responseType: 'arraybuffer',
 		headers: {
 			'sessionId': ID,
@@ -79,8 +79,8 @@ export function deviceDetail(data,ID) {  // 排行榜详情
 export function exportRankList(data,ID) {  // 导出排行榜
   return service({
     url: '/admin/device/exportRankList',
-    method: 'post',
-		data:data,
+    method: 'get',
+		params:data,
 		responseType: 'arraybuffer',
 		headers: {
 			'sessionId': ID,
@@ -91,7 +91,7 @@ export function exportRankList(data,ID) {  // 导出排行榜
 export function exportDetail(data,ID) {  // 导出用户详情
   return service({
     url: '/admin/weixin/exportDetail?'+qs.stringify(data),
-    method: 'post',
+    method: 'get',
 		responseType: 'arraybuffer',
 		headers: {
 			'sessionId': ID,

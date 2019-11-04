@@ -25,8 +25,8 @@ export function bannerDetail(data,ID) {  // 详情
 export function exportBannerExcel(data,ID) {  // 导出用户列表
   return service({
     url: '/admin/weixin/exportList',
-    method: 'post',
-		data:data,
+    method: 'get',
+		params:data,
 		responseType: 'arraybuffer',
 		headers: {
 			'sessionId': ID,

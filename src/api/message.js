@@ -46,7 +46,7 @@ export function messageDelete(data,ID) {  // 烟型分页 修改
 export function messageExportList(ID) {  // 导出列表
   return service({
     url: '/admin/ectype/exportList',
-    method: 'post',
+    method: 'get',
 		responseType: 'arraybuffer',
 		headers: {
 			'sessionId': ID

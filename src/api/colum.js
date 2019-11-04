@@ -78,7 +78,7 @@ export function getOSSUploadUrl(suffix,contentType) {  // 文件上传接口
 export function exportList(ID) {  // 导出列表
 	return service({
       url: '/admin/cigarette/exportList',
-      method: 'post',
+      method: 'get',
 			responseType: 'arraybuffer',
 			headers: {
 				'sessionId': ID,
@@ -89,7 +89,7 @@ export function exportList(ID) {  // 导出列表
 export function exportDetail(data,ID) {  // 导出详情
 	return service({
       url: '/admin/cigarette/exportDetail?'+qs.stringify(data),
-      method: 'post',
+      method: 'get',
 			responseType: 'arraybuffer',
 			headers: {
 				'sessionId': ID,

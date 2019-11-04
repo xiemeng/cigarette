@@ -34,7 +34,7 @@
 					<li class="flex">
 						<em class="nowrap" style="line-height: 40px;">默认烟型：</em>
 						<div>
-							<span :style="{background:item.isDefault?'#1e98ea':'#fff'}" :class="{'isChoose':item.isChoose}" class="typeBtn" v-for="(item,index) in yanType" @click="choose2(item,index)">{{item.name}}</span>
+							<span :style="{background:item.isDefault?'#1e98ea':'#fff'}" :class="{'isChoose':!item.isChoose}" class="typeBtn" v-for="(item,index) in yanType" @click="choose2(item,index)">{{item.name}}</span>
 						</div>
 					</li>
 					<li class="flex">
@@ -207,7 +207,7 @@
 				this.$forceUpdate()
 			},
 			choose2 (item,index) {
-				if(item.isChoose)return
+				if(!item.isChoose)return
 				
 				this.yanType.forEach((item,index2) => {
 					if(index2 == index){
